@@ -1,0 +1,872 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "85a9137013429c72b8c4d307f489faba",
+    "content-hash": "0a83435d16476d029b8cffb531c4d932",
+    "packages": [
+        {
+            "name": "composer/installers",
+            "version": "v1.0.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "6213d900e92647831f7a406d5c530ea1f3d4360e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/6213d900e92647831f7a406d5c530ea1f3d4360e",
+                "reference": "6213d900e92647831f7a406d5c530ea1f3d4360e",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0"
+            },
+            "replace": {
+                "roundcube/plugin-installer": "*",
+                "shama/baton": "*"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Composer\\Installers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "http://composer.github.com/installers/",
+            "keywords": [
+                "Craft",
+                "Dolibarr",
+                "Hurad",
+                "MODX Evo",
+                "OXID",
+                "SMF",
+                "Thelia",
+                "WolfCMS",
+                "agl",
+                "aimeos",
+                "annotatecms",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "elgg",
+                "fuelphp",
+                "grav",
+                "installer",
+                "joomla",
+                "kohana",
+                "laravel",
+                "lithium",
+                "magento",
+                "mako",
+                "mediawiki",
+                "modulework",
+                "moodle",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "puppet",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "symfony",
+                "typo3",
+                "wordpress",
+                "zend",
+                "zikula"
+            ],
+            "time": "2016-01-27 12:54:22"
+        },
+        {
+            "name": "wp-pay/core",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-pay/core.git",
+                "reference": "e93976ac91b7a9d4cd35e83aee18d1f3a3fc35c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-pay/core/zipball/e93976ac91b7a9d4cd35e83aee18d1f3a3fc35c5",
+                "reference": "e93976ac91b7a9d4cd35e83aee18d1f3a3fc35c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4",
+                "xrstf/composer-php52": "1.*"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "^2.2.3",
+                "satooshi/php-coveralls": "^0.7.1",
+                "squizlabs/php_codesniffer": "^2.2.0",
+                "wp-cli/wp-cli": "^0.21.1",
+                "wp-coding-standards/wpcs": "0.8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Remco Tolsma",
+                    "email": "info@remcotolsma.nl",
+                    "homepage": "http://www.remcotolsma.nl/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Pronamic",
+                    "email": "info@pronamic.eu",
+                    "homepage": "http://www.pronamic.eu/",
+                    "role": "Company"
+                }
+            ],
+            "description": "Core components for the WordPress payment processing library.",
+            "homepage": "https://www.wp-pay.org/",
+            "keywords": [
+                "core",
+                "gateway",
+                "pay",
+                "pronamic",
+                "wordpress",
+                "wp"
+            ],
+            "time": "2016-02-04 08:14:21"
+        },
+        {
+            "name": "wpackagist-plugin/formidable",
+            "version": "2.0.21",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/formidable/",
+                "reference": "tags/2.0.21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/formidable.2.0.21.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/formidable/"
+        },
+        {
+            "name": "xrstf/composer-php52",
+            "version": "v1.0.19",
+            "source": {
+                "type": "hg",
+                "url": "https://bitbucket.org/xrstf/composer-php52",
+                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/xrstf/composer-php52/get/9a4a9c46d0347b39bf9159815301dc66fc25324e.zip",
+                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-default": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "xrstf\\Composer52": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://www.xrstf.de/",
+            "time": "2015-10-01 14:11:58"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "c6851d6e48f63b69357cbfa55bca116448140e0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c6851d6e48f63b69357cbfa55bca116448140e0c",
+                "reference": "c6851d6e48f63b69357cbfa55bca116448140e0c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0",
+                "psr/log": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2015-11-23 00:47:50"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b1e1c0d55f8083c71eda2c28c12a228d708294ea",
+                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "time": "2015-10-15 22:28:00"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2016-01-23 01:23:02"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2015-05-04 20:22:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "satooshi/php-coveralls",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/satooshi/php-coveralls.git",
+                "reference": "50c60bb64054974f8ed7540ae6e75fd7981a5fd3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/satooshi/php-coveralls/zipball/50c60bb64054974f8ed7540ae6e75fd7981a5fd3",
+                "reference": "50c60bb64054974f8ed7540ae6e75fd7981a5fd3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5",
+                "psr/log": "^1.0",
+                "symfony/config": "^2.1|^3.0",
+                "symfony/console": "^2.1|^3.0",
+                "symfony/stopwatch": "^2.0|^3.0",
+                "symfony/yaml": "^2.0|^3.0"
+            },
+            "suggest": {
+                "symfony/http-kernel": "Allows Symfony integration"
+            },
+            "bin": [
+                "bin/coveralls"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Satooshi\\": "src/Satooshi/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kitamura Satoshi",
+                    "email": "with.no.parachute@gmail.com",
+                    "homepage": "https://www.facebook.com/satooshi.jp"
+                }
+            ],
+            "description": "PHP client library for Coveralls API",
+            "homepage": "https://github.com/satooshi/php-coveralls",
+            "keywords": [
+                "ci",
+                "coverage",
+                "github",
+                "test"
+            ],
+            "time": "2016-01-20 17:44:41"
+        },
+        {
+            "name": "symfony/config",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/config.git",
+                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/config/zipball/8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
+                "reference": "8c83ff9a2ffbed1e606bc816db11ddc2385a16ee",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/filesystem": "~2.8|~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Config Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-01-21 09:38:31"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0",
+                "reference": "5a02eaadaa285e2bb727eb6bbdfb8201fcd971b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.8|~3.0",
+                "symfony/process": "~2.8|~3.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-02-02 13:44:19"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f",
+                "reference": "064ac12afd2ceb8a2c1bfb7bed8e931c6dd1997f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-01-27 11:34:55"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2016-01-20 09:13:37"
+        },
+        {
+            "name": "symfony/stopwatch",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/stopwatch.git",
+                "reference": "4a204804952ff267ace88cf499e0b4bb302a475e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/4a204804952ff267ace88cf499e0b4bb302a475e",
+                "reference": "4a204804952ff267ace88cf499e0b4bb302a475e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Stopwatch\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Stopwatch Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-01-03 15:35:16"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/3cf0709d7fe936e97bee9e954382e449003f1d9a",
+                "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-02-02 13:44:19"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "satooshi/php-coveralls": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.2.4"
+    },
+    "platform-dev": []
+}
