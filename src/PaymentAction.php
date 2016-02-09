@@ -26,4 +26,15 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction extends FrmFormAc
 			'limit'     => 99,
 		) );
 	}
+
+	/**
+	 * Form.
+	 *
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L31-L39
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L31-L39
+	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
+	 */
+	public function form( $instance, $args = array() ) {
+		include dirname( __FILE ) . '/../views/payment-settings.php';
+	}
 }
