@@ -35,6 +35,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction extends FrmFormAc
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
 	 */
 	public function form( $instance, $args = array() ) {
-		include dirname( __FILE ) . '/../views/payment-settings.php';
+		include dirname( __FILE__ ) . '/../views/payment-settings.php';
 	}
 }
