@@ -51,5 +51,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 */
 	public function registered_form_actions( $actions ) {
 		$actions['pronamic_pay'] = 'Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction';
+
+		return $actions;
 	}
 }

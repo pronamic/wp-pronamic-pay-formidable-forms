@@ -15,10 +15,11 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction extends FrmFormAc
 	 * Constructs and initializes an Formidable payment action.
 	 *
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L58-L94
+	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 */
 	public function __construct() {
 		parent::__construct( 'pronamic-pay', __( 'Pronamic Pay', 'pronamic_ideal' ), array(
-			'classes'   => 'frm_pronamic_pay_icon frm_icon_font',
+			'classes'   => 'frm_paypal_icon frm_icon_font',
 			'active'    => true,
 			'event'     => array( 'create' ),
 			'priority'  => 9, // trigger before emails are sent so they can be stopped
