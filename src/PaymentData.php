@@ -58,7 +58,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	//////////////////////////////////////////////////
 
 	public function get_title() {
-		return sprintf( __( 'Formidable Forms entry %s', 'pronamic_ideal' ), $this->get_order_id() );
+		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	 * @return string
 	 */
 	public function get_description() {
-		return sprintf( __( 'Formidable Forms entry %s', 'pronamic_ideal' ), $this->get_order_id() );
+		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
 	}
 
 	/**
