@@ -31,6 +31,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( $this, 'source_text' ), 10, 2 );
+
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
 		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
 		add_action( 'frm_registered_form_actions', array( $this, 'registered_form_actions' ) );
@@ -45,6 +47,26 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 */
 	public function init() {
 
+	}
+
+	/**
+	 * Source column
+	 */
+	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
+		$text  = '';
+
+		$text .= __( 'Formidable', 'pronamic_ideal' ) . '<br />';
+		$text .= sprintf(
+			'<a href="%s">%s</a>',
+			add_query_arg( array(
+				'page'       => 'formidable-entries',
+				'frm_action' => 'show',
+				'id'         => $payment->get_source_id(),
+			), admin_url( 'admin.php' ) ),
+			sprintf( __( 'Entry #%s', 'pronamic_ideal' ), $payment->get_source_id() )
+		);
+
+		return $text;
 	}
 
 	/**
