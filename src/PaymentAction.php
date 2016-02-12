@@ -35,6 +35,24 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction extends FrmFormAc
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
 	 */
 	public function form( $instance, $args = array() ) {
+		$form_fields = $this->get_field_options( $args['form']->id );
+
 		include dirname( __FILE__ ) . '/../views/payment-settings.php';
+	}
+
+	/**
+	 * Get field options.
+	 *
+	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
+	 * @param int $form_id
+	 * @return array
+	 */
+	private function get_field_options( $form_id ) {
+		$form_fields = FrmField::getAll( array(
+			'fi.form_id'  => absint( $form_id ),
+			'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
+		), 'field_order' );
+
+		return $form_fields;
 	}
 }

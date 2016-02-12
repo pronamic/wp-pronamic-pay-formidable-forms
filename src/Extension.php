@@ -26,7 +26,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	}
 
 	/**
-	 * Construct and initializes an Charitable extension object.
+	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
@@ -42,6 +42,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
 		add_action( 'frm_trigger_pronamic_pay_create_action', array( $this, 'create_action' ), 10, 3 );
+
+		// Fields
+		$this->fields = new Pronamic_WP_Pay_Extensions_FormidableForms_Fields();
 	}
 
 	/**

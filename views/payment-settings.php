@@ -24,4 +24,40 @@
 			?>
 		</td>
 	</tr>
+	<tr>
+		<th scope="col">
+			<?php esc_html_e( 'Amount', 'pronamic_ideal' ); ?>
+		</th>
+		<td>
+			<?php
+
+			$amount_field = $this->get_field_name( 'amount_field' );
+
+			printf(
+				'<select name="%s">',
+				esc_attr( $this->get_field_name( 'pronamic_pay_amount_field' ) )
+			);
+
+			$options = array(
+				'' => __( '— Select Field —', 'pronamic_ideal' ),
+			);
+
+			foreach ( $form_fields as $field ) {
+				$options[ $field->id ] = FrmAppHelper::truncate( $field->name, 50, 1 );
+			}
+
+			foreach ( $options as $value => $label ) {
+				printf(
+					'<option value="%s" %s>%s</option>',
+					esc_attr( $value ),
+					selected( $current, $value, false ),
+					esc_html( $label )
+				);
+			}
+
+			echo '</select>';
+
+			?>
+		</td>
+	</tr>
 </table>
