@@ -40,7 +40,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 	 * @return $fields
 	 */
 	public function available_fields( $fields ) {
-		$fields[ self::ID ] => __( 'Payment Methods Dropdown', 'pronamic_ideal' );
+		$fields[ self::ID ] = __( 'Payment Methods Dropdown', 'pronamic_ideal' );
 
 		return $fields;
 	}
