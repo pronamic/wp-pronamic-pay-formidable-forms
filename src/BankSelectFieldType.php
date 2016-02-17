@@ -30,6 +30,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
 
+		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
+		add_action( 'frm_display_added_fields', array( $this, 'display_added_fields' ) );
+
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
 	}
@@ -62,6 +65,27 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 		}
 
 		return $field_data;
+	}
+
+	/**
+	 * Display added fields.
+	 *
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
+	 * @param array $field
+	 */
+	public function display_added_fields( $field ) {
+		if ( self::ID === $field['type'] ) {
+			$this->render_admin_field( $field );
+		}
+	}
+
+	/**
+	 * Render admin field.
+	 *
+	 * @param array $field
+	 */
+	private function render_admin_field( $field ) {
+		$this->render_field( $field );
 	}
 
 	/**
