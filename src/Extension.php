@@ -119,7 +119,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	public function create_action( $action, $entry, $form ) {
 		// save config ID in object var for use building redirect url
 		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
-		$this->config_id = $action->post_content['pronamic_pay_config_id'];
+		$this->action = $action;
 
 		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
@@ -132,12 +132,14 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
-		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $this->config_id );
+		$config_id = get_option( 'pronamic_pay_config_id' );
+
+		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
-			$data = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData( $entry_id, $form_id );
+			$data = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData( $entry_id, $form_id, $this->action );
 
-			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data );
+			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, Pronamic_WP_Pay_PaymentMethods::IDEAL );
 
 			$error = $gateway->get_error();
 

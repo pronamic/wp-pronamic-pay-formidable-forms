@@ -17,29 +17,12 @@
 <table class="form-table">
 	<tr>
 		<th scope="col">
-			<?php esc_html_e( 'Configuration', 'pronamic_ideal' ); ?>
-		</th>
-		<td>
-			<?php
-
-			$config_id = $instance->post_content['pronamic_pay_config_id'];
-
-			Pronamic_WP_Pay_Admin::dropdown_configs( array(
-				'name'     => $this->get_field_name( 'pronamic_pay_config_id' ),
-				'selected' => $config_id,
-			) );
-
-			?>
-		</td>
-	</tr>
-	<tr>
-		<th scope="col">
 			<?php esc_html_e( 'Amount', 'pronamic_ideal' ); ?>
 		</th>
 		<td>
 			<?php
 
-			$amount_field = $this->get_field_name( 'amount_field' );
+			$current = $instance->post_content['pronamic_pay_amount_field'];
 
 			printf(
 				'<select name="%s">',

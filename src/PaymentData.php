@@ -25,18 +25,31 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	 */
 	private $form_id;
 
+	/**
+	 * Action
+	 *
+	 * @var WP_Post
+	 */
+	private $action;
+
 	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initializes an Formidable Forms payment data object.
 	 *
-	 * @param mixed $processor
+	 * @param string $entry_id
+	 * @param string $form_id
+	 * @param WP_Post $action
 	 */
-	public function __construct( $entry_id, $form_id ) {
+	public function __construct( $entry_id, $form_id, $action ) {
 		parent::__construct();
 
 		$this->entry_id = $entry_id;
 		$this->form_id  = $form_id;
+		$this->action   = $action;
+
+		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L285
+		$this->entry = FrmEntry::getOne( $this->entry_id, true );
 	}
 
 	//////////////////////////////////////////////////
@@ -96,12 +109,30 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		$item = new Pronamic_IDeal_Item();
 		$item->setNumber( $this->get_order_id() );
 		$item->setDescription( $this->get_description() );
-		$item->setPrice( 50 );
+		$item->setPrice( $this->get_amount_from_field() );
 		$item->setQuantity( 1 );
 
 		$items->addItem( $item );
 
 		return $items;
+	}
+
+	/**
+	 * Get amount
+	 *
+	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L345-L383
+	 * @return float
+	 */
+	private function get_amount_from_field() {
+		$amount = 0;
+
+		$amount_field = $this->action->post_content['pronamic_pay_amount_field'];
+
+		if ( ! empty( $amount_field ) && isset( $this->entry->metas[ $amount_field ] ) ) {
+			$amount = $this->entry->metas[ $amount_field ];
+		}
+
+		return $amount;
 	}
 
 	//////////////////////////////////////////////////
@@ -165,5 +196,31 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 
 	public function get_error_url() {
 		return '';
+	}
+
+	//////////////////////////////////////////////////
+	// Issuer
+	//////////////////////////////////////////////////
+
+	/**
+	 * Get issuer ID.
+	 *
+	 * @see https://github.com/wp-pay-extensions/gravityforms/blob/1.4.2/src/PaymentData.php#L336-L358
+	 * @return string
+	 */
+	public function get_issuer_id() {
+		$bank = null;
+
+		$bank_fields = FrmField::get_all_types_in_form( $this->form_id, 'pronamic_bank_select' );
+
+		$bank_field = reset( $bank_fields );
+
+		if ( $bank_field ) {
+			if ( isset( $this->entry->metas[ $bank_field->id ] ) ) {
+				$bank = $this->entry->metas[ $bank_field->id ];
+			}
+		}
+
+		return $bank;
 	}
 }

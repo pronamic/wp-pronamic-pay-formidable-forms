@@ -29,6 +29,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
+
+		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
 	}
 
 	/**
@@ -59,5 +62,27 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 		}
 
 		return $field_data;
+	}
+
+	/**
+	 * Form fields.
+	 *
+	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+	 * @param array $field
+	 */
+	public function form_fields( $field ) {
+		if ( self::ID === $field['type'] ) {
+			$this->render_field( $field );
+		}
+	}
+
+	/**
+	 * Render field.
+	 *
+	 * @param array $field
+	 */
+	private function render_field( $field ) {
+		esc_html_e( 'Payment Methods', 'pronamic_ideal' );
 	}
 }

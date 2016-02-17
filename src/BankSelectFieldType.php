@@ -29,6 +29,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
+
+		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
 	}
 
 	/**
@@ -59,5 +62,61 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 		}
 
 		return $field_data;
+	}
+
+	/**
+	 * Form fields.
+	 *
+	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+	 * @param array $field
+	 */
+	public function form_fields( $field ) {
+		if ( self::ID === $field['type'] ) {
+			$this->render_field( $field );
+		}
+	}
+
+	/**
+	 * Render field.
+	 *
+	 * @param array $field
+	 */
+	private function render_field( $field ) {
+		$config_id = get_option( 'pronamic_pay_config_id' );
+
+		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+
+		if ( $gateway ) {
+			// Always use iDEAL payment method for issuer field
+			$payment_method = $gateway->get_payment_method();
+
+			$gateway->set_payment_method( Pronamic_WP_Pay_PaymentMethods::IDEAL );
+
+			$issuer_field = $gateway->get_issuer_field();
+
+			$error = $gateway->get_error();
+
+			if ( is_wp_error( $error ) ) {
+				$html_error .= Pronamic_WP_Pay_Plugin::get_default_error_message();
+				$html_error .= '<br /><em>' . $error->get_error_message() . '</em>';
+			} elseif ( $issuer_field ) {
+				$choices = $issuer_field['choices'];
+				$options = Pronamic_WP_HTML_Helper::select_options_grouped( $choices );
+
+				printf(
+					'<select name="%s" id="%s">',
+					esc_attr( sprintf( 'item_meta[%s]', $field['id'] ) ),
+					esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
+				);
+
+				echo $options;
+
+				echo '</select>';
+			}
+
+			// Reset payment method to original value
+			$gateway->set_payment_method( $payment_method );
+		}
 	}
 }
