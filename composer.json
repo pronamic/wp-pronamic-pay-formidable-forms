@@ -24,7 +24,7 @@
 		"source": "https://github.com/wp-pay-extensions/formidable-forms"
 	},
 	"autoload": {
-		"classmap": ["classes/"]
+		"classmap": ["src/"]
 	},
 	"repositories":[
 		{

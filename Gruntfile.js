@@ -53,8 +53,45 @@ module.exports = function( grunt ) {
 		phpunit: {
 			application: {},
 		},
+
+		// Compass
+		compass: {
+			build: {
+				options: {
+					sassDir: 'sass',
+					cssDir: 'css'
+				}
+			}
+		},
+
+		// PostCSS
+		postcss: {
+			options: {
+				map: {
+					inline: false,
+					annotation: false
+				},
+
+				processors: [
+					require( 'autoprefixer' )( { browsers: 'last 2 versions' } )
+				]
+			},
+			dist: {
+				src: 'css/admin.css'
+			}
+		},
+
+		// CSS min
+		cssmin: {
+			assets: {
+				files: {
+					'css/admin.min.css': 'css/admin.css',
+				}
+			}
+		}
 	} );
 
 	// Default task(s).
 	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs' ] );
+	grunt.registerTask( 'assets', [ 'compass', 'postcss', 'cssmin' ] );
 };
