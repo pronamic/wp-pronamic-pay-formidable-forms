@@ -49,21 +49,28 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	}
 
 	/**
-	 * Initialize
+	 * Initialize.
 	 */
 	public function init() {
 
 	}
 
+	/**
+	 * Admin enqueue scripts.
+	 */
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 
-		if ( 'toplevel_page_formidable' === $screen->id ) {
+		if (
+			'toplevel_page_formidable' === $screen->id
+				&&
+			'settings' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING )
+		) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			wp_register_style(
 				'pronamic-pay-formidable',
-				plugins_url( '../css/admin' . $min . '.css', __FILE__ ),
+				plugins_url( 'css/admin' . $min . '.css', dirname( __FILE__ ) ),
 				array(),
 				'1.0.0'
 			);
