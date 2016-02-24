@@ -10,11 +10,11 @@
  * @version 1.0.0
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_FormidableFormsTest {
+class Pronamic_WP_Pay_Extensions_FormidableForms_FormidableFormsTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test.
 	 */
-	public function test() {
+	public function test_class() {
 		$this->assertTrue( class_exists( 'Pronamic_WP_Pay_Extensions_FormidableForms_FormidableForms' ) );
 	}
 }
