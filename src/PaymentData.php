@@ -157,19 +157,19 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		return '';
 	}
 
-	public function getCustomerName() {
+	public function get_customer_name() {
 		return '';
 	}
 
-	public function getOwnerAddress() {
+	public function get_address() {
 		return '';
 	}
 
-	public function getOwnerCity() {
+	public function get_city() {
 		return '';
 	}
 
-	public function getOwnerZip() {
+	public function get_zip() {
 		return '';
 	}
 
