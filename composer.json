@@ -1,7 +1,7 @@
 {
 	"name": "wp-pay-extensions/formidable-forms",
 	"description": "Formidable Forms driver for the WordPress payment processing library.",
-	"keywords": ["wordpress", "wp", "pay", "formidable", "extension", "pronamic"],
+	"keywords": ["wordpress", "wp", "pay", "formidable", "forms", "extension", "pronamic"],
 	"homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
 	"license": "GPL-3.0+",
 	"authors": [
@@ -34,10 +34,27 @@
 	],
 	"require": {
 		"php": ">=5.2.4",
+		"xrstf/composer-php52": "1.*",
 		"wpackagist-plugin/formidable": "2.0.21",
-		"wp-pay/core": "^1.3.3"
+		"wp-pay/core": "^1.3.4"
 	},
 	"require-dev": {
-		"satooshi/php-coveralls": "dev-master"
+		"phpmd/phpmd": "^2.2.3",
+		"satooshi/php-coveralls": "^0.7.1",
+		"squizlabs/php_codesniffer": "^2.2.0",
+		"wp-coding-standards/wpcs": "0.9.0",
+		"wp-cli/wp-cli": "^0.21.1"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-update-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-autoload-dump": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+			"bin/install-wpcs"
+		]
 	}
 }
