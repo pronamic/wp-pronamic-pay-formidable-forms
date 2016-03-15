@@ -51,4 +51,22 @@
 			?>
 		</td>
 	</tr>
+	<tr>
+		<th scope="col">
+			<?php esc_html_e( 'Transaction Description', 'pronamic_ideal' ); ?>
+		</th>
+		<td>
+			<?php
+
+			printf(
+				'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
+				esc_attr( $this->get_field_name( 'pronamic_pay_transaction_description' ) ),
+				esc_attr( $instance->post_content['pronamic_pay_transaction_description'] ),
+				esc_attr__( 'Enter a transactaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' )
+			);
+
+			?>
+			
+		</td>
+	</tr>
 </table>
