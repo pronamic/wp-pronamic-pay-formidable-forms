@@ -81,7 +81,23 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	 * @return string
 	 */
 	public function get_description() {
-		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
+		// Description template
+		$description_template = $this->action->post_content['pronamic_pay_transaction_description'];
+
+		// Find shortcode
+		// @see https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
+		$shortcodes = FrmFieldsHelper::get_shortcodes( $description_template, $this->form_id );
+
+		// Replace shortcodes
+		// @see https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
+		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $this->entry, $shortcodes );
+
+		// Check if there was a replacement to make sure the description has a dynamic part
+		if ( $description_template === $description ) {
+			$description .= $this->entry_id;
+		}
+
+		return $description;
 	}
 
 	/**
