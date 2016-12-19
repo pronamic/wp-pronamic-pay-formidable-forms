@@ -107,11 +107,17 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 * @since unreleased
 	 */
 	public function update_status( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
-		global $wpdb;
-
 		$entry_id = $payment->get_source_id();
+		$entry    = FrmEntry::getOne( $entry_id );
 
-		$entry = FrmEntry::getOne( $entry_id );
+		$status = get_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', true );
+
+		// Return if status has not changed.
+		if ( $status === $payment->status ) {
+			return;
+		}
+
+		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', $payment->status );
 
 		switch ( $payment->status ) {
 			case Pronamic_WP_Pay_Statuses::CANCELLED :
@@ -124,24 +130,18 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-failure', $entry->form_id, $entry->id );
 				break;
 			case Pronamic_WP_Pay_Statuses::SUCCESS :
-				$frm_payment = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'frm_payments WHERE ( item_id=%d AND (receipt_id = %s OR receipt_id = %s) )', $entry_id, $payment->get_id(), '' ) );
+				FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
 
-				if ( $frm_payment && '1' !== $frm_payment->completed ) {
-					FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
+				// Send delayed notifications
+				$form_actions = FrmFormAction::get_action_for_form( $entry->form_id );
 
-					// Mark the payment as `completed`
-					// @see https://github.com/wp-premium/formidable-paypal/blob/3.06/models/FrmPayment.php#L24-L48
-					$wpdb->update( $wpdb->prefix . 'frm_payments', array( 'completed' => 1 ), array( 'id' => $frm_payment->id ) );
+				$action_id = get_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', true );
 
-					// Send delayed notifications
-					$form_actions = FrmFormAction::get_action_for_form( $entry->form_id );
+				if ( isset( $form_actions[ $action_id ] ) ) {
+					$action = $form_actions[ $action_id ];
 
-					if ( isset( $form_actions[ $frm_payment->action_id ] ) ) {
-						$action = $form_actions[ $frm_payment->action_id ];
-
-						if ( isset( $action->post_content['pronamic_pay_delay_notifications'] ) ) {
-							$this->send_email_now( $entry );
-						}
+					if ( isset( $action->post_content['pronamic_pay_delay_notifications'] ) ) {
+						$this->send_email_now( $entry );
 					}
 				}
 
@@ -214,8 +214,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
-		global $wpdb;
-
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
@@ -225,21 +223,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 
 			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, Pronamic_WP_Pay_PaymentMethods::IDEAL );
 
-			// Add new Formidable payment to be able to check `completed` on status update
-			// @see https://github.com/wp-premium/formidable-paypal/blob/3.06/models/FrmPayment.php#L5-L22
-			$frm_payment = array(
-				'receipt_id'  => $payment->get_id(),
-				'item_id'     => $entry_id,
-				'action_id'   => $this->action->ID,
-				'amount'      => (float) $data->get_amount(),
-				'completed'   => 0,
-				'begin_date'  => current_time( 'mysql', true ),
-				'expire_date' => '0000-00-00',
-				'paysys'      => Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction::SLUG,
-				'created_at'  => current_time( 'mysql', 1 ),
-			);
-
-			$wpdb->insert( $wpdb->prefix . 'frm_payments', $frm_payment );
+			// Save form action ID for reference on status update.
+			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
 
 			$error = $gateway->get_error();
 
