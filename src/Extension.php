@@ -269,10 +269,10 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 
 		// Trigger email action
 		if ( is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
-			// 2.0
+			// Formidable Forms >= 2.0
 			FrmFormActionsController::trigger_actions( 'create', $entry->form_id, $entry->id, 'email' );
 		} elseif ( is_callable( 'FrmProNotification::entry_created' ) ) {
-			// < 2.0
+			// Formidable Forms < 2.0
 			FrmProNotification::entry_created( $entry->id, $entry->form_id );
 		}
 
