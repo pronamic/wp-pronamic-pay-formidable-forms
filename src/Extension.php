@@ -42,6 +42,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( $this, 'source_text' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG,   array( $this, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG,   array( $this, 'source_url' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -171,6 +173,28 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		);
 
 		return $text;
+	}
+
+	/**
+	 * Source description.
+	 */
+	public function source_description( $description, Pronamic_Pay_Payment $payment ) {
+		$description = __( 'Formidable Forms Entry', 'pronamic_ideal' );
+
+		return $description;
+	}
+
+	/**
+	 * Source URL.
+	 */
+	public function source_url( $url, Pronamic_Pay_Payment $payment ) {
+		$url = add_query_arg( array(
+			'page'       => 'formidable-entries',
+			'frm_action' => 'show',
+			'id'         => $payment->get_source_id(),
+		), admin_url( 'admin.php' ) ),
+
+		return $url;
 	}
 
 	/**
