@@ -33,11 +33,11 @@
   },
   "homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
   "devDependencies": {
-    "autoprefixer": "^6.5.1",
+    "autoprefixer": "^6.6.0",
     "grunt": "~1.0.1",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-cssmin": "^1.0.2",
-    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "0.0.8",
     "grunt-phpmd": "^0.1.1",
