@@ -192,7 +192,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 			'page'       => 'formidable-entries',
 			'frm_action' => 'show',
 			'id'         => $payment->get_source_id(),
-		), admin_url( 'admin.php' ) ),
+		), admin_url( 'admin.php' ) );
 
 		return $url;
 	}
