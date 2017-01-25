@@ -1,0 +1,45 @@
+Searching 6 files for "2005 - 2016"
+
+/Users/remco/Workspace/formidable/src/BankSelectFieldType.php:
+    4   * Title: Formidable Forms bank select field type
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+/Users/remco/Workspace/formidable/src/Extension.php:
+    4   * Title: Formidable Forms extension
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+/Users/remco/Workspace/formidable/src/FormidableForms.php:
+    4   * Title: WordPress pay Formidable Forms
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+/Users/remco/Workspace/formidable/src/PaymentAction.php:
+    4   * Title: Formidable Forms payment action
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+/Users/remco/Workspace/formidable/src/PaymentData.php:
+    4   * Title: WordPress pay Formidable payment data
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+/Users/remco/Workspace/formidable/src/PaymentMethodSelectFieldType.php:
+    4   * Title: Formidable Forms payment method select field type
+    5   * Description:
+    6:  * Copyright: Copyright (c) 2005 - 2016
+    7   * Company: Pronamic
+    8   *
+
+6 matches across 6 files
