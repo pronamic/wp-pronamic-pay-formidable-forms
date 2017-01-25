@@ -3,7 +3,7 @@
 /**
  * Title: Formidable Forms payment action
  * Description:
- * Copyright: Copyright (c) 2005 - 2016
+ * Copyright: Copyright (c) 2005 - 2017
  * Company: Pronamic
  *
  * @author Remco Tolsma
@@ -12,13 +12,20 @@
  */
 class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction extends FrmFormAction {
 	/**
+	 * Slug
+	 *
+	 * @var string
+	 */
+	const SLUG = 'pronamic_pay';
+
+	/**
 	 * Constructs and initializes an Formidable payment action.
 	 *
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L58-L94
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 */
 	public function __construct() {
-		parent::__construct( 'pronamic_pay', __( 'Pronamic Pay', 'pronamic_ideal' ), array(
+		parent::__construct( self::SLUG, __( 'Pronamic Pay', 'pronamic_ideal' ), array(
 			// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
 			'classes'   => 'pronamic-pay-formidable-icon',
 			'active'    => true,

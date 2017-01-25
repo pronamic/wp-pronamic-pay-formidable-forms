@@ -69,4 +69,22 @@
 			
 		</td>
 	</tr>
+	<tr>
+		<th scope="col">
+			<?php esc_html_e( 'Notifications', 'pronamic_ideal' ); ?>
+		</th>
+		<td>
+			<?php
+
+			printf(
+				'<input type="checkbox" name="%s" title="" %s /> %s',
+				esc_attr( $this->get_field_name( 'pronamic_pay_delay_notifications' ) ),
+				checked( $instance->post_content['pronamic_pay_delay_notifications'], 'on', false ),
+				esc_attr__( 'Hold email notifications until payment is received.', 'pronamic_ideal' )
+			);
+
+			?>
+
+		</td>
+	</tr>
 </table>
