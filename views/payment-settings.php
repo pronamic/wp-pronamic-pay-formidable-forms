@@ -3,7 +3,7 @@
 /**
  * Title: Formidable Forms payment settings
  * Description:
- * Copyright: Copyright (c) 2005 - 2016
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
  * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
