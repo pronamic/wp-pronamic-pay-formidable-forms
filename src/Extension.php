@@ -161,7 +161,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
 		$text  = '';
 
-		$text .= __( 'Formidable', 'pronamic_ideal' ) . '<br />';
+		$text .= __( 'Formidable Forms', 'pronamic_ideal' ) . '<br />';
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
 			add_query_arg( array(
