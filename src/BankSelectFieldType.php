@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Formidable Forms bank select field type
@@ -109,7 +110,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 	private function render_field( $field ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
-		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
 			// Always use iDEAL payment method for issuer field
@@ -122,7 +123,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 			$error = $gateway->get_error();
 
 			if ( is_wp_error( $error ) ) {
-				$html_error .= Pronamic_WP_Pay_Plugin::get_default_error_message();
+				$html_error .= Plugin::get_default_error_message();
 				$html_error .= '<br /><em>' . $error->get_error_message() . '</em>';
 			} elseif ( $issuer_field ) {
 				$choices = $issuer_field['choices'];

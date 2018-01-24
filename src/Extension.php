@@ -1,4 +1,6 @@
 <?php
+use Pronamic\WordPress\Pay\Payments\Payment;
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Formidable Forms extension
@@ -158,7 +160,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	/**
 	 * Source column
 	 */
-	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
+	public static function source_text( $text, Payment $payment ) {
 		$text  = '';
 
 		$text .= __( 'Formidable Forms', 'pronamic_ideal' ) . '<br />';
@@ -240,12 +242,12 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	public function redirect_for_payment( $entry_id, $form_id ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
-		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
 			$data = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData( $entry_id, $form_id, $this->action );
 
-			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, Pronamic_WP_Pay_PaymentMethods::IDEAL );
+			$payment = Plugin::start( $config_id, $gateway, $data, Pronamic_WP_Pay_PaymentMethods::IDEAL );
 
 			// Save form action ID for reference on status update.
 			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
