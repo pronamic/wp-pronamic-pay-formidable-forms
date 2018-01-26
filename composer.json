@@ -3,7 +3,7 @@
 	"description": "Formidable Forms driver for the WordPress payment processing library.",
 	"keywords": ["wordpress", "wp", "pay", "formidable", "forms", "extension", "pronamic"],
 	"homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
-	"license": "GPL-3.0+",
+	"license": "GPL-3.0-or-later",
 	"authors": [
 		{
 			"name": "Pronamic",
