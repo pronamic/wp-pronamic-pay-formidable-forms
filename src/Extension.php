@@ -1,4 +1,6 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Core\Statuses;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use Pronamic\WordPress\Pay\Plugin;
 
@@ -124,16 +126,16 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', $payment->status );
 
 		switch ( $payment->status ) {
-			case Pronamic_WP_Pay_Statuses::CANCELLED :
+			case Statuses::CANCELLED :
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-cancelled', $entry->form_id, $entry->id );
 				break;
-			case Pronamic_WP_Pay_Statuses::EXPIRED :
+			case Statuses::EXPIRED :
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-expired', $entry->form_id, $entry->id );
 				break;
-			case Pronamic_WP_Pay_Statuses::FAILURE :
+			case Statuses::FAILURE :
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-failure', $entry->form_id, $entry->id );
 				break;
-			case Pronamic_WP_Pay_Statuses::SUCCESS :
+			case Statuses::SUCCESS :
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
 
 				// Send delayed notifications
@@ -150,7 +152,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 				}
 
 				break;
-			case Pronamic_WP_Pay_Statuses::OPEN :
+			case Statuses::OPEN :
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-pending', $entry->form_id, $entry->id );
 		}
 	}
@@ -247,7 +249,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		if ( $gateway ) {
 			$data = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData( $entry_id, $form_id, $this->action );
 
-			$payment = Plugin::start( $config_id, $gateway, $data, Pronamic_WP_Pay_PaymentMethods::IDEAL );
+			$payment = Plugin::start( $config_id, $gateway, $data, PaymentMethods::IDEAL );
 
 			// Save form action ID for reference on status update.
 			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
