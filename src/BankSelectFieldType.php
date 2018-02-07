@@ -125,8 +125,11 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 			$error = $gateway->get_error();
 
 			if ( is_wp_error( $error ) ) {
-				$html_error .= Plugin::get_default_error_message();
-				$html_error .= '<br /><em>' . $error->get_error_message() . '</em>';
+				printf(
+					'%s<br /><em>%s</em>',
+					esc_html( Plugin::get_default_error_message() ),
+					esc_html( $error->get_error_message() )
+				);
 			} elseif ( $issuer_field ) {
 				$choices = $issuer_field['choices'];
 				$options = Util::select_options_grouped( $choices );
@@ -137,7 +140,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType {
 					esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
 				);
 
-				echo $options;
+				echo $options; // WPCS: xss ok.
 
 				echo '</select>';
 			}

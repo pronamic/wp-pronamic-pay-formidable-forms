@@ -29,7 +29,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 *
 	 * @since unreleased
 	 */
-	static $send_email_now = false;
+	static private $send_email_now = false;
 
 	/**
 	 * Bootstrap
@@ -45,9 +45,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		add_action( 'init', array( $this, 'init' ) );
 
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( $this, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG,   array( $this, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG,   array( $this, 'source_url' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -163,9 +163,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 * Source column
 	 */
 	public static function source_text( $text, Payment $payment ) {
-		$text  = '';
+		$text = __( 'Formidable Forms', 'pronamic_ideal' ) . '<br />';
 
-		$text .= __( 'Formidable Forms', 'pronamic_ideal' ) . '<br />';
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
 			add_query_arg( array(
