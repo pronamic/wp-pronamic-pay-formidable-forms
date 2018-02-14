@@ -273,20 +273,28 @@ class Extension {
 
 		$gateway = Plugin::get_gateway( $config_id );
 
-		if ( $gateway ) {
-			$data = new PaymentData( $entry_id, $form_id, $this->action );
+		if ( ! $gateway ) {
+			return;
+		}
 
-			$payment = Plugin::start( $config_id, $gateway, $data, PaymentMethods::IDEAL );
+		$data = new PaymentData( $entry_id, $form_id, $this->action );
 
-			// Save form action ID for reference on status update.
-			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
+		$payment_method = $this->get_entry_payment_method( $entry_id, $data->get_issuer_id() );
 
-			$error = $gateway->get_error();
+		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
+			$payment_method = PaymentMethods::IDEAL;
+		}
 
-			if ( ! is_wp_error( $error ) ) {
-				// Redirect
-				$gateway->redirect( $payment );
-			}
+		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+
+		// Save form action ID for reference on status update.
+		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
+
+		$error = $gateway->get_error();
+
+		if ( ! is_wp_error( $error ) ) {
+			// Redirect
+			$gateway->redirect( $payment );
 		}
 	}
 
@@ -392,5 +400,27 @@ class Extension {
 		}
 
 		return $options;
+	}
+
+	private function get_entry_payment_method( $entry_id, $issuer_id = null ) {
+		$payment_method = null;
+
+		$payment_method_field = $this->action->post_content['pronamic_pay_payment_method_field'];
+
+		$entry = FrmEntry::getOne( $entry_id, true );
+
+		if ( ! empty( $payment_method_field ) && isset( $entry->metas[ $payment_method_field ] ) ) {
+			$payment_method = $entry->metas[ $payment_method_field ];
+
+			if ( '0' === $payment_method ) {
+				$payment_method = null;
+			}
+		}
+
+		if ( ! $payment_method  && null !== $issuer_id ) {
+			$payment_method = PaymentMethods::IDEAL;
+		}
+
+		return $payment_method;
 	}
 }
