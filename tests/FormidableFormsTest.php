@@ -15,6 +15,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_FormidableFormsTest extends PHP
 	 * Test.
 	 */
 	public function test_class() {
-		$this->assertTrue( class_exists( 'Pronamic_WP_Pay_Extensions_FormidableForms_FormidableForms' ) );
+		$this->assertTrue( class_exists( 'Pronamic\WordPress\Pay\Extensions\FormidableForms\FormidableForms' ) );
 	}
 }

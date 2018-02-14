@@ -1,7 +1,14 @@
 <?php
-use Pronamic\WordPress\Pay\Payments\PaymentData;
+
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+use FrmEntry;
+use FrmField;
+use FrmFieldsHelper;
+use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
 use Pronamic\WordPress\Pay\Payments\Item;
 use Pronamic\WordPress\Pay\Payments\Items;
+use WP_Post;
 
 /**
  * Title: WordPress pay Formidable payment data
@@ -9,11 +16,11 @@ use Pronamic\WordPress\Pay\Payments\Items;
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.0.0
- * @since 1.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends PaymentData {
+class PaymentData extends Pay_PaymentData {
 	/**
 	 * Entry ID
 	 *
@@ -40,8 +47,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends PaymentData
 	/**
 	 * Constructs and initializes an Formidable Forms payment data object.
 	 *
-	 * @param string $entry_id
-	 * @param string $form_id
+	 * @param string  $entry_id
+	 * @param string  $form_id
 	 * @param WP_Post $action
 	 */
 	public function __construct( $entry_id, $form_id, $action ) {

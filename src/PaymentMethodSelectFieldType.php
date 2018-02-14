@@ -1,16 +1,22 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Plugin;
+use Pronamic\WordPress\Pay\Util as Pay_Util;
+
 /**
  * Title: Formidable Forms payment method select field type
  * Description:
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.0.0
- * @since 1.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
+class PaymentMethodSelectFieldType {
 	/**
 	 * The unique ID of this field type.
 	 *
@@ -37,9 +43,11 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 	/**
 	 * Available fields.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
+	 * @see    https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see    https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
+	 *
 	 * @param array $fields
+	 *
 	 * @return $fields
 	 */
 	public function available_fields( $fields ) {
@@ -53,7 +61,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 	 *
 	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
+	 *
 	 * @param array $field_data
+	 *
 	 * @return array
 	 */
 	public function before_field_created( $field_data ) {
@@ -69,6 +79,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType {
 	 *
 	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+	 *
 	 * @param array $field
 	 */
 	public function form_fields( $field ) {

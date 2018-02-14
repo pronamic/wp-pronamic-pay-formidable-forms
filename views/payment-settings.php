@@ -1,5 +1,7 @@
 <?php
 
+use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldType;
+
 /**
  * Title: Formidable Forms payment settings
  * Description:

@@ -1,4 +1,13 @@
 <?php
+
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+use FrmEntry;
+use FrmFormAction;
+use FrmFormActionsController;
+use FrmProNotification;
+use FrmRegAppController;
+use FrmRegNotification;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Statuses;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -10,11 +19,11 @@ use Pronamic\WordPress\Pay\Plugin;
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.0.2
- * @since 1.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
+class Extension {
 	/**
 	 * Slug
 	 *
@@ -67,8 +76,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		add_filter( 'frm_register_action_options', array( $this, 'add_payment_trigger_to_register_user_action' ) );
 
 		// Field types
-		$this->field_type_bank_select           = new Pronamic_WP_Pay_Extensions_FormidableForms_BankSelectFieldType();
-		$this->field_type_payment_method_select = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentMethodSelectFieldType();
+		$this->field_type_bank_select           = new BankSelectFieldType();
+		$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
 	}
 
 	/**
@@ -107,12 +116,12 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	/**
 	 * Update entry payment status of the specified payment
 	 *
-	 * @param Pronamic_Pay_Payment|string $payment
-	 * @param bool $can_redirect
+	 * @param Payment $payment
+	 * @param bool    $can_redirect
 	 *
 	 * @since unreleased
 	 */
-	public function update_status( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
+	public function update_status( Payment $payment, $can_redirect = false ) {
 		$entry_id = $payment->get_source_id();
 		$entry    = FrmEntry::getOne( $entry_id );
 
@@ -180,17 +189,25 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 
 	/**
 	 * Source description.
+	 *
+	 * @param string  $description
+	 * @param Payment $payment
+	 *
+	 * @return string|void
 	 */
-	public function source_description( $description, Pronamic_Pay_Payment $payment ) {
-		$description = __( 'Formidable Forms Entry', 'pronamic_ideal' );
-
-		return $description;
+	public function source_description( $description, Payment $payment ) {
+		return __( 'Formidable Forms Entry', 'pronamic_ideal' );
 	}
 
 	/**
 	 * Source URL.
+	 *
+	 * @param string  $url
+	 * @param Payment $payment
+	 *
+	 * @return string
 	 */
-	public function source_url( $url, Pronamic_Pay_Payment $payment ) {
+	public function source_url( $url, Payment $payment ) {
 		$url = add_query_arg( array(
 			'page'       => 'formidable-entries',
 			'frm_action' => 'show',
@@ -205,9 +222,13 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 *
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L125-L128
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
+	 *
+	 * @param array $actions
+	 *
+	 * @return array
 	 */
 	public function registered_form_actions( $actions ) {
-		$actions['pronamic_pay'] = 'Pronamic_WP_Pay_Extensions_FormidableForms_PaymentAction';
+		$actions['pronamic_pay'] = __NAMESPACE__ . '\PaymentAction';
 
 		return $actions;
 	}
@@ -217,6 +238,10 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 *
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L186-L193
+	 *
+	 * @param $action
+	 * @param $entry
+	 * @param $form
 	 */
 	public function create_action( $action, $entry, $form ) {
 		// save config ID in object var for use building redirect url
@@ -228,7 +253,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		add_action( 'frm_after_create_entry', array( $this, 'redirect_for_payment' ), 50, 2 );
 
 		// Delay notifications
-		if ( ! self::$send_email_now && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
+		if ( ! self::$send_email_now && isset( $action->post_content['pronamic_pay_delay_notifications'] ) && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
 			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10, 3 );
 			add_filter( 'frm_to_email', '__return_empty_array', 20 );
 			add_filter( 'frm_send_new_user_notification', array( __CLASS__, 'stop_registration_email' ), 10, 3 );
@@ -239,6 +264,9 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	 * Redirect for payment.
 	 *
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
+	 *
+	 * @param $entry_id
+	 * @param $form_id
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );
@@ -246,7 +274,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
-			$data = new Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData( $entry_id, $form_id, $this->action );
+			$data = new PaymentData( $entry_id, $form_id, $this->action );
 
 			$payment = Plugin::start( $config_id, $gateway, $data, PaymentMethods::IDEAL );
 
@@ -314,7 +342,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	/**
 	 * Add payment trigger.
 	 *
-	 * @param $triggers
+	 * @param array $triggers
 	 *
 	 * @return array
 	 *
@@ -333,7 +361,7 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_Extension {
 	/**
 	 * Add trigger to action.
 	 *
-	 * @param $options
+	 * @param array $options
 	 *
 	 * @return array
 	 *
