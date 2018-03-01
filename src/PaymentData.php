@@ -42,8 +42,6 @@ class PaymentData extends Pay_PaymentData {
 	 */
 	private $action;
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initializes an Formidable Forms payment data object.
 	 *
@@ -62,8 +60,6 @@ class PaymentData extends Pay_PaymentData {
 		$this->entry = FrmEntry::getOne( $this->entry_id, true );
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get source indicator
 	 *
@@ -77,8 +73,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_source_id() {
 		return $this->entry_id;
 	}
-
-	//////////////////////////////////////////////////
 
 	public function get_title() {
 		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
@@ -161,10 +155,6 @@ class PaymentData extends Pay_PaymentData {
 		return $amount;
 	}
 
-	//////////////////////////////////////////////////
-	// Currency
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get currency
 	 *
@@ -174,10 +164,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_currency_alphabetic_code() {
 		return 'EUR';
 	}
-
-	//////////////////////////////////////////////////
-	// Customer
-	//////////////////////////////////////////////////
 
 	public function get_email() {
 		return '';
@@ -199,10 +185,6 @@ class PaymentData extends Pay_PaymentData {
 		return '';
 	}
 
-	//////////////////////////////////////////////////
-	// URL's
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get normal return URL.
 	 *
@@ -223,10 +205,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_error_url() {
 		return '';
 	}
-
-	//////////////////////////////////////////////////
-	// Issuer
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get issuer ID.

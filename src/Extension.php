@@ -111,8 +111,6 @@ class Extension {
 		}
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Update entry payment status of the specified payment
 	 *
@@ -165,8 +163,6 @@ class Extension {
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-pending', $entry->form_id, $entry->id );
 		}
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Source column
