@@ -16,5 +16,8 @@
 		<exclude name="Squiz.Commenting" />
 
 		<exclude name="WordPress.XSS.EscapeOutput" />
+
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 	</rule>
 </ruleset>
