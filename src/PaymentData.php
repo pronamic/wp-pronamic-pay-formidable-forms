@@ -75,6 +75,7 @@ class PaymentData extends Pay_PaymentData {
 	}
 
 	public function get_title() {
+		/* translators: %s order id */
 		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
 	}
 

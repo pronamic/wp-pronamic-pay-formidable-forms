@@ -133,19 +133,19 @@ class Extension {
 		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', $payment->status );
 
 		switch ( $payment->status ) {
-			case Statuses::CANCELLED :
+			case Statuses::CANCELLED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-cancelled', $entry->form_id, $entry->id );
 				break;
-			case Statuses::EXPIRED :
+			case Statuses::EXPIRED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-expired', $entry->form_id, $entry->id );
 				break;
-			case Statuses::FAILURE :
+			case Statuses::FAILURE:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-failure', $entry->form_id, $entry->id );
 				break;
-			case Statuses::SUCCESS :
+			case Statuses::SUCCESS:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
 
-				// Send delayed notifications
+				// Send delayed notifications.
 				$form_actions = FrmFormAction::get_action_for_form( $entry->form_id );
 
 				$action_id = get_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', true );
@@ -159,13 +159,18 @@ class Extension {
 				}
 
 				break;
-			case Statuses::OPEN :
+			case Statuses::OPEN:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-pending', $entry->form_id, $entry->id );
 		}
 	}
 
 	/**
-	 * Source column
+	 * Source text.
+	 *
+	 * @param string  $text    Source text.
+	 * @param Payment $payment Payment.
+	 *
+	 * @return string
 	 */
 	public static function source_text( $text, Payment $payment ) {
 		$text = __( 'Formidable Forms', 'pronamic_ideal' ) . '<br />';
@@ -177,6 +182,7 @@ class Extension {
 				'frm_action' => 'show',
 				'id'         => $payment->get_source_id(),
 			), admin_url( 'admin.php' ) ),
+			/* translators: %s: payment source id */
 			sprintf( __( 'Entry #%s', 'pronamic_ideal' ), $payment->get_source_id() )
 		);
 
@@ -186,8 +192,8 @@ class Extension {
 	/**
 	 * Source description.
 	 *
-	 * @param string  $description
-	 * @param Payment $payment
+	 * @param string  $description Source description.
+	 * @param Payment $payment     Payment.
 	 *
 	 * @return string|void
 	 */
@@ -198,8 +204,8 @@ class Extension {
 	/**
 	 * Source URL.
 	 *
-	 * @param string  $url
-	 * @param Payment $payment
+	 * @param string  $url     Source URL.
+	 * @param Payment $payment Payment.
 	 *
 	 * @return string
 	 */
@@ -219,7 +225,7 @@ class Extension {
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L125-L128
 	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 *
-	 * @param array $actions
+	 * @param array $actions Formidable Forms form actions.
 	 *
 	 * @return array
 	 */
@@ -248,7 +254,7 @@ class Extension {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
 		add_action( 'frm_after_create_entry', array( $this, 'redirect_for_payment' ), 50, 2 );
 
-		// Delay notifications
+		// Delay notifications.
 		if ( ! self::$send_email_now && isset( $action->post_content['pronamic_pay_delay_notifications'] ) && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
 			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10, 3 );
 			add_filter( 'frm_to_email', '__return_empty_array', 20 );
@@ -413,7 +419,7 @@ class Extension {
 			}
 		}
 
-		if ( ! $payment_method  && null !== $issuer_id ) {
+		if ( ! $payment_method && null !== $issuer_id ) {
 			$payment_method = PaymentMethods::IDEAL;
 		}
 
