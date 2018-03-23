@@ -28,7 +28,12 @@ class PaymentMethodSelectFieldType {
 	 */
 	const ID = 'pronamic_payment_method_select';
 
-	var $in_field_options = false;
+	/**
+	 * Indicator to track if we're processing from field options.
+	 *
+	 * @var bool
+	 */
+	protected $in_field_options = false;
 
 	/**
 	 * Construct and initializes an Formidable Forms payment method select field type.
