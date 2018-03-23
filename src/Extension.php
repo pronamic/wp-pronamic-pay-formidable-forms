@@ -76,8 +76,11 @@ class Extension {
 		add_filter( 'frm_register_action_options', array( $this, 'add_payment_trigger_to_register_user_action' ) );
 
 		// Field types
-		$this->field_type_bank_select           = new BankSelectFieldType();
-		$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
+		$this->field_type_bank_select = new BankSelectFieldType();
+
+		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
+			$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
+		}
 	}
 
 	/**
@@ -93,22 +96,33 @@ class Extension {
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 
-		if (
-			'toplevel_page_formidable' === $screen->id
-				&&
-			'settings' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING )
-		) {
-			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$in_form_editor = ( 'toplevel_page_formidable' === $screen->id && 'edit' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING ) );
+		$in_settings    = ( 'toplevel_page_formidable' === $screen->id && 'settings' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING ) );
 
-			wp_register_style(
-				'pronamic-pay-formidable',
-				plugins_url( 'css/admin' . $min . '.css', dirname( __FILE__ ) ),
-				array(),
-				'1.0.0'
-			);
-
-			wp_enqueue_style( 'pronamic-pay-formidable' );
+		if ( ! $in_form_editor && ! $in_settings ) {
+			return;
 		}
+
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_register_style(
+			'pronamic-pay-formidable-forms',
+			plugins_url( 'css/admin' . $min . '.css', dirname( __FILE__ ) ),
+			array(),
+			'1.0.0'
+		);
+
+		wp_register_script(
+			'pronamic-pay-formidable-forms',
+			plugins_url( 'js/admin' . $min . '.js', dirname( __FILE__ ) ),
+			array( 'jquery' ),
+			'1.0.0',
+			true
+		);
+
+		wp_enqueue_style( 'pronamic-pay-formidable-forms' );
+
+		wp_enqueue_script( 'pronamic-pay-formidable-forms' );
 	}
 
 	/**
@@ -281,10 +295,19 @@ class Extension {
 
 		$data = new PaymentData( $entry_id, $form_id, $this->action );
 
-		$payment_method = $this->get_entry_payment_method( $entry_id, $data->get_issuer_id() );
+		$payment_method = $data->get_payment_method();
 
-		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
-			$payment_method = PaymentMethods::IDEAL;
+		// Only start payments for known/active payment methods.
+		if ( is_string( $payment_method ) && ! PaymentMethods::is_active( $payment_method ) ) {
+			return;
+		}
+
+		if ( empty( $payment_method ) ) {
+			if ( null !== $data->get_issuer_id() ) {
+				$payment_method = PaymentMethods::IDEAL;
+			} elseif ( $gateway->payment_method_is_required() ) {
+				$payment_method = PaymentMethods::IDEAL;
+			}
 		}
 
 		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
@@ -402,27 +425,5 @@ class Extension {
 		}
 
 		return $options;
-	}
-
-	private function get_entry_payment_method( $entry_id, $issuer_id = null ) {
-		$payment_method = null;
-
-		$payment_method_field = $this->action->post_content['pronamic_pay_payment_method_field'];
-
-		$entry = FrmEntry::getOne( $entry_id, true );
-
-		if ( ! empty( $payment_method_field ) && isset( $entry->metas[ $payment_method_field ] ) ) {
-			$payment_method = $entry->metas[ $payment_method_field ];
-
-			if ( '0' === $payment_method ) {
-				$payment_method = null;
-			}
-		}
-
-		if ( ! $payment_method && null !== $issuer_id ) {
-			$payment_method = PaymentMethods::IDEAL;
-		}
-
-		return $payment_method;
 	}
 }

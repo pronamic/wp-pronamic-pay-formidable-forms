@@ -1,3 +1,4 @@
+/* jshint node:true */
 module.exports = function( grunt ) {
 	require( 'load-grunt-tasks' )( grunt );
 
@@ -8,7 +9,24 @@ module.exports = function( grunt ) {
 
 		// JSHint
 		jshint: {
-			all: [ 'Gruntfile.js', 'composer.json', 'package.json' ]
+			options: grunt.file.readJSON( '.jshintrc' ),
+			grunt: [ 'Gruntfile.js' ],
+			admin: [
+				'js/admin.js'
+			]
+		},
+
+		// Uglify
+		uglify: {
+			options: {
+				sourceMap: true
+			},
+			scripts: {
+				files: {
+					// Admin
+					'js/admin.min.js': 'js/admin.js'
+				}
+			}
 		},
 
 		// PHP Code Sniffer
@@ -56,6 +74,16 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// Sass Lint
+		sasslint: {
+			options: {
+				configFile: '.sass-lint.yml'
+			},
+			target: [
+				'sass/**/*.scss'
+			]
+		},
+
 		// Compass
 		compass: {
 			build: {
@@ -87,7 +115,7 @@ module.exports = function( grunt ) {
 		cssmin: {
 			assets: {
 				files: {
-					'css/admin.min.css': 'css/admin.css',
+					'css/admin.min.css': 'css/admin.css'
 				}
 			}
 		}
@@ -95,5 +123,5 @@ module.exports = function( grunt ) {
 
 	// Default task(s).
 	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs' ] );
-	grunt.registerTask( 'assets', [ 'compass', 'postcss', 'cssmin' ] );
+	grunt.registerTask( 'assets', [ 'sasslint', 'jshint', 'uglify', 'compass', 'postcss', 'cssmin' ] );
 };

@@ -2,9 +2,13 @@
 
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
-use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use FrmAppHelper;
+use FrmField;
+use FrmFieldDefault;
+use FrmFieldFactory;
+use FrmFieldSelect;
+use FrmFieldsHelper;
 use Pronamic\WordPress\Pay\Plugin;
-use Pronamic\WordPress\Pay\Util as Pay_Util;
 
 /**
  * Title: Formidable Forms payment method select field type
@@ -24,6 +28,8 @@ class PaymentMethodSelectFieldType {
 	 */
 	const ID = 'pronamic_payment_method_select';
 
+	var $in_field_options = false;
+
 	/**
 	 * Construct and initializes an Formidable Forms payment method select field type.
 	 *
@@ -36,11 +42,26 @@ class PaymentMethodSelectFieldType {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
 
+		// @see https://formidableforms.com/knowledgebase/add-a-new-field/#kb-save-field-options
+		add_filter( 'frm_update_field_options', array( $this, 'update_field_options' ), 10, 3 );
+
+		// @see https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
+		add_filter( 'frm_setup_edit_fields_vars', array( $this, 'edit_fields_vars' ), 10, 2 );
+
+		add_filter( 'frm_switch_field_types', array( $this, 'switch_field_types' ), 10, 2 );
+
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
 		add_action( 'frm_display_added_fields', array( $this, 'display_added_fields' ) );
 
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
+
+		// @see https://formidableforms.com/knowledgebase/add-a-new-field/#kb-modify-value-displayed-when-viewing-entry
+		add_filter( 'frm_display_' . self::ID . '_value_custom', array( $this, 'display_field_value' ) );
+
+		add_filter( 'frm_bulk_field_choices', array( $this, 'bulk_field_choices' ) );
+
+		add_action( 'wp_ajax_frm_import_options', array( $this, 'import_options' ), 9 );
 	}
 
 	/**
@@ -49,12 +70,20 @@ class PaymentMethodSelectFieldType {
 	 * @see    https://formidablepro.com/knowledgebase/add-a-new-field/
 	 * @see    https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
 	 *
-	 * @param array $fields
+	 * @param array $fields Available fields.
 	 *
 	 * @return $fields
 	 */
 	public function available_fields( $fields ) {
 		$fields[ self::ID ] = __( 'Payment Methods', 'pronamic_ideal' );
+
+		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
+			// Add icon in Formidable Forms 3.0+.
+			$fields[ self::ID ] = array(
+				'name' => __( 'Payment Methods', 'pronamic_ideal' ),
+				'icon' => 'frm_icon_font frm_credit-card-alt_icon',
+			);
+		}
 
 		return $fields;
 	}
@@ -65,16 +94,82 @@ class PaymentMethodSelectFieldType {
 	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 	 *
-	 * @param array $field_data
+	 * @param array $field_data Field data.
 	 *
 	 * @return array
 	 */
 	public function before_field_created( $field_data ) {
 		if ( self::ID === $field_data['type'] ) {
 			$field_data['name'] = __( 'Choose a payment method', 'pronamic_ideal' );
+
+			$defaults = array(
+				'separate_value' => 1,
+			);
+
+			$field_data['field_options'] = array_merge( $field_data['field_options'], $defaults );
 		}
 
 		return $field_data;
+	}
+
+	/**
+	 * Setup field editor variables.
+	 *
+	 * @param array  $field_array Field as array.
+	 * @param object $field       Field as object.
+	 *
+	 * @return array
+	 */
+	public function edit_fields_vars( $field_array, $field ) {
+		if ( self::ID === $field->type ) {
+			$field_array['type'] = 'select';
+		}
+
+		return $field_array;
+	}
+
+	/**
+	 * Filter available field types to switch to in field options.
+	 *
+	 * @param array  $field_types Array of field types that can be switched to.
+	 * @param string $type        Field type to get switch options for.
+	 *
+	 * @return array
+	 */
+	public function switch_field_types( $field_types, $type ) {
+		if ( ! $this->in_field_options ) {
+			return $field_types;
+		}
+
+		$this->in_field_options = false;
+
+		return array(
+			self::ID => array(
+				'name' => __( 'Payment Methods', 'pronamic_ideal' ),
+				'icon' => 'frm_icon_font frm_',
+			),
+		);
+	}
+
+	/**
+	 * Update field options.
+	 *
+	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmForm.php#L256
+	 *
+	 * @param array        $field_options Field options.
+	 * @param FrmFieldType $field         Field object.
+	 * @param array        $values        Field values.
+	 *
+	 * @return array
+	 */
+	public function update_field_options( $field_options, $field, $values ) {
+		if ( self::ID !== $field->type ) {
+			return $field_options;
+		}
+
+		$field_options['separate_value'] = 1;
+
+		return $field_options;
 	}
 
 	/**
@@ -82,21 +177,37 @@ class PaymentMethodSelectFieldType {
 	 *
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	public function display_added_fields( $field ) {
-		if ( self::ID === $field['type'] ) {
-			$this->render_admin_field( $field );
+		if ( self::ID !== $field['original_type'] ) {
+			return;
 		}
-	}
 
-	/**
-	 * Render admin field.
-	 *
-	 * @param array $field
-	 */
-	private function render_admin_field( $field ) {
-		$this->render_field( $field );
+		$this->in_field_options = true;
+
+		$payment_method_select = FrmFieldFactory::get_field_type( self::ID );
+
+		$display = $payment_method_select->display_field_settings();
+
+		$field_name         = sprintf( 'item_meta[%s]', $field['id'] );
+		$html_id            = sprintf( 'field_%s', $field['field_key'] );
+		$field['html_name'] = $field_name;
+		$field['html_id']   = $html_id;
+
+		// Set options.
+		$options = $field['options'];
+
+		if ( empty( $options ) ) {
+			$options = $this->get_payment_methods();
+		}
+
+		$field['options'] = $options;
+
+		// Temporarily change field type.
+		$field['type'] = 'select';
+
+		require \FrmAppHelper::plugin_path() . '/classes/views/frm-fields/back-end/dropdown-field.php';
 	}
 
 	/**
@@ -105,60 +216,161 @@ class PaymentMethodSelectFieldType {
 	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	public function form_fields( $field ) {
-		if ( self::ID === $field['type'] ) {
-			$this->render_field( $field );
+		if ( self::ID !== $field['type'] ) {
+			return;
 		}
+
+		$field_name         = sprintf( 'item_meta[%s]', $field['id'] );
+		$html_id            = sprintf( 'field_%s', $field['field_key'] );
+		$field['html_name'] = $field_name;
+		$field['html_id']   = $html_id;
+
+		require \FrmAppHelper::plugin_path() . '/classes/views/frm-fields/front-end/dropdown-field.php';
 	}
 
 	/**
-	 * Render field.
+	 * Display value for field.
 	 *
-	 * @param array $field
+	 * @param string $value Field value.
+	 *
+	 * @return string
 	 */
-	private function render_field( $field ) {
+	public function display_field_value( $value ) {
+		if ( empty( $value ) ) {
+			return $value;
+		}
+
+		$payment_methods = $this->get_payment_methods();
+
+		foreach ( $payment_methods as $payment_method ) {
+			if ( $value !== $payment_method['value'] ) {
+				continue;
+			}
+
+			$value = $payment_method['label'];
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Bulk field choices.
+	 *
+	 * @param array $choices Bulk editor choices.
+	 *
+	 * @return array
+	 */
+	public function bulk_field_choices( $choices ) {
+		$methods = array();
+
+		$payment_methods = $this->get_payment_methods();
+
+		foreach ( $payment_methods as $payment_method ) {
+			$methods[] = sprintf(
+				'%1$s|%2$s',
+				$payment_method['label'],
+				$payment_method['value']
+			);
+		}
+
+		$choices[ __( 'Payment Methods', 'pronamic_ideal' ) ] = $methods;
+
+		return $choices;
+	}
+
+	/**
+	 * Import options from bulk editor.
+	 */
+	public function import_options() {
+		FrmAppHelper::permission_check( 'frm_edit_forms' );
+
+		check_ajax_referer( 'frm_ajax', 'nonce' );
+
+		if ( ! is_admin() || ! current_user_can( 'frm_edit_forms' ) ) {
+			return;
+		}
+
+		if ( ! filter_has_var( INPUT_POST, 'field_id' ) ) {
+			return;
+		}
+
+		$field_id = filter_input( INPUT_POST, 'field_id', FILTER_SANITIZE_STRING );
+
+		$field = FrmField::getOne( $field_id );
+
+		if ( self::ID !== $field->type ) {
+			return;
+		}
+
+		$field = FrmFieldsHelper::setup_edit_vars( $field );
+
+		$options = FrmAppHelper::get_param( 'opts', '', 'post', 'wp_kses_post' );
+		$options = explode( "\n", rtrim( $options, "\n" ) );
+		$options = array_map( 'trim', $options );
+
+		foreach ( $options as $option_key => $option ) {
+			if ( false === strpos( $option, '|' ) ) {
+				continue;
+			}
+
+			$values = explode( '|', $option );
+
+			$label = trim( $values[0] );
+			$value = trim( $values[1] );
+
+			if ( $label !== $value ) {
+				$options[ $option_key ] = array(
+					'label' => $label,
+					'value' => $value,
+				);
+			}
+		}
+
+		$field['options'] = $options;
+
+		FrmFieldsHelper::show_single_option( $field );
+
+		wp_die();
+	}
+
+	/**
+	 * Get payment method options.
+	 */
+	public function get_payment_methods() {
+		$payment_methods = array();
+
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
 		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( ! $gateway ) {
-			return;
+			return $payment_methods;
 		}
 
-		$payment_method_field = $gateway->get_payment_method_field();
+		$options = $gateway->get_payment_method_field_options();
 
 		$error = $gateway->get_error();
 
-		if ( is_wp_error( $error ) ) {
-			printf(
-				'%s<br /><em>%s</em>',
-				esc_html( Plugin::get_default_error_message() ),
-				esc_html( $error->get_error_message() )
-			);
-		} elseif ( $payment_method_field ) {
-			$choices = $payment_method_field['choices'];
+		if ( is_wp_error( $error ) || ! $options ) {
+			return $payment_methods;
+		}
 
-			foreach ( $choices[0] as &$group ) {
-				foreach ( $group as $payment_method => $choice ) {
-					if ( PaymentMethods::is_direct_debit_method( $payment_method ) ) {
-						unset( $group[ $payment_method ] );
-					}
-				}
+		foreach ( $options as $payment_method => $name ) {
+			$value = 'pronamic_pay';
+
+			if ( ! empty( $payment_method ) ) {
+				$value = sprintf( 'pronamic_pay_%s', $payment_method );
 			}
 
-			$options = Pay_Util::select_options_grouped( $choices );
-
-			printf(
-				'<select name="%s" id="%s">',
-				esc_attr( sprintf( 'item_meta[%s]', $field['id'] ) ),
-				esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
+			$payment_methods[] = array(
+				'label' => $name,
+				'value' => $value,
 			);
-
-			echo $options; // WPCS: xss ok.
-
-			echo '</select>';
 		}
+
+		return $payment_methods;
 	}
 }

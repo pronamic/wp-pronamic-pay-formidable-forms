@@ -208,6 +208,34 @@ class PaymentData extends Pay_PaymentData {
 	}
 
 	/**
+	 * Get payment method.
+	 *
+	 * @return string|null
+	 */
+	public function get_payment_method() {
+		$payment_method = null;
+
+		$payment_method_field = $this->action->post_content['pronamic_pay_payment_method_field'];
+
+		if ( ! empty( $payment_method_field ) && isset( $this->entry->metas[ $payment_method_field ] ) ) {
+			$payment_method = $this->entry->metas[ $payment_method_field ];
+
+			$replacements = array(
+				'pronamic_pay_' => '',
+				'pronamic_pay'  => '',
+			);
+
+			$payment_method = strtr( $payment_method, $replacements );
+
+			if ( empty( $payment_method ) ) {
+				$payment_method = null;
+			}
+		}
+
+		return $payment_method;
+	}
+
+	/**
 	 * Get issuer ID.
 	 *
 	 * @see https://github.com/wp-pay-extensions/gravityforms/blob/1.4.2/src/PaymentData.php#L336-L358
@@ -220,10 +248,8 @@ class PaymentData extends Pay_PaymentData {
 
 		$bank_field = reset( $bank_fields );
 
-		if ( $bank_field ) {
-			if ( isset( $this->entry->metas[ $bank_field->id ] ) ) {
-				$bank = $this->entry->metas[ $bank_field->id ];
-			}
+		if ( $bank_field && isset( $this->entry->metas[ $bank_field->id ] ) ) {
+			$bank = $this->entry->metas[ $bank_field->id ];
 		}
 
 		return $bank;
