@@ -1,16 +1,26 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+use FrmEntry;
+use FrmField;
+use FrmFieldsHelper;
+use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
+use Pronamic\WordPress\Pay\Payments\Item;
+use Pronamic\WordPress\Pay\Payments\Items;
+use WP_Post;
+
 /**
  * Title: WordPress pay Formidable payment data
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.0.0
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP_Pay_PaymentData {
+class PaymentData extends Pay_PaymentData {
 	/**
 	 * Entry ID
 	 *
@@ -32,13 +42,11 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	 */
 	private $action;
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initializes an Formidable Forms payment data object.
 	 *
-	 * @param string $entry_id
-	 * @param string $form_id
+	 * @param string  $entry_id
+	 * @param string  $form_id
 	 * @param WP_Post $action
 	 */
 	public function __construct( $entry_id, $form_id, $action ) {
@@ -51,8 +59,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L285
 		$this->entry = FrmEntry::getOne( $this->entry_id, true );
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get source indicator
@@ -68,9 +74,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		return $this->entry_id;
 	}
 
-	//////////////////////////////////////////////////
-
 	public function get_title() {
+		/* translators: %s order id */
 		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
 	}
 
@@ -114,15 +119,15 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	 * Get items
 	 *
 	 * @see Pronamic_Pay_PaymentDataInterface::get_items()
-	 * @return Pronamic_IDeal_Items
+	 * @return Items
 	 */
 	public function get_items() {
 		// Items
-		$items = new Pronamic_IDeal_Items();
+		$items = new Items();
 
 		// Item
 		// We only add one total item, because iDEAL cant work with negative price items (discount)
-		$item = new Pronamic_IDeal_Item();
+		$item = new Item();
 		$item->setNumber( $this->get_order_id() );
 		$item->setDescription( $this->get_description() );
 		$item->setPrice( $this->get_amount_from_field() );
@@ -151,10 +156,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		return $amount;
 	}
 
-	//////////////////////////////////////////////////
-	// Currency
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get currency
 	 *
@@ -164,10 +165,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	public function get_currency_alphabetic_code() {
 		return 'EUR';
 	}
-
-	//////////////////////////////////////////////////
-	// Customer
-	//////////////////////////////////////////////////
 
 	public function get_email() {
 		return '';
@@ -188,10 +185,6 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 	public function get_zip() {
 		return '';
 	}
-
-	//////////////////////////////////////////////////
-	// URL's
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get normal return URL.
@@ -214,9 +207,33 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 		return '';
 	}
 
-	//////////////////////////////////////////////////
-	// Issuer
-	//////////////////////////////////////////////////
+	/**
+	 * Get payment method.
+	 *
+	 * @return string|null
+	 */
+	public function get_payment_method() {
+		$payment_method = null;
+
+		$payment_method_field = $this->action->post_content['pronamic_pay_payment_method_field'];
+
+		if ( ! empty( $payment_method_field ) && isset( $this->entry->metas[ $payment_method_field ] ) ) {
+			$payment_method = $this->entry->metas[ $payment_method_field ];
+
+			$replacements = array(
+				'pronamic_pay_' => '',
+				'pronamic_pay'  => '',
+			);
+
+			$payment_method = strtr( $payment_method, $replacements );
+
+			if ( empty( $payment_method ) ) {
+				$payment_method = null;
+			}
+		}
+
+		return $payment_method;
+	}
 
 	/**
 	 * Get issuer ID.
@@ -231,10 +248,8 @@ class Pronamic_WP_Pay_Extensions_FormidableForms_PaymentData extends Pronamic_WP
 
 		$bank_field = reset( $bank_fields );
 
-		if ( $bank_field ) {
-			if ( isset( $this->entry->metas[ $bank_field->id ] ) ) {
-				$bank = $this->entry->metas[ $bank_field->id ];
-			}
+		if ( $bank_field && isset( $this->entry->metas[ $bank_field->id ] ) ) {
+			$bank = $this->entry->metas[ $bank_field->id ];
 		}
 
 		return $bank;

@@ -1,9 +1,11 @@
 <?php
 
+use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldType;
+
 /**
  * Title: Formidable Forms payment settings
  * Description:
- * Copyright: Copyright (c) 2005 - 2016
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
  * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
@@ -53,6 +55,46 @@
 	</tr>
 	<tr>
 		<th scope="col">
+			<?php esc_html_e( 'Payment method', 'pronamic_ideal' ); ?>
+		</th>
+		<td>
+			<?php
+
+			$current = $instance->post_content['pronamic_pay_payment_method_field'];
+
+			printf(
+				'<select name="%s">',
+				esc_attr( $this->get_field_name( 'pronamic_pay_payment_method_field' ) )
+			);
+
+			$options = array(
+				'' => __( '— Select Field —', 'pronamic_ideal' ),
+			);
+
+			foreach ( $form_fields as $field ) {
+				if ( PaymentMethodSelectFieldType::ID !== $field->type ) {
+					continue;
+				}
+
+				$options[ $field->id ] = FrmAppHelper::truncate( $field->name, 50, 1 );
+			}
+
+			foreach ( $options as $value => $label ) {
+				printf(
+					'<option value="%s" %s>%s</option>',
+					esc_attr( $value ),
+					selected( $current, $value, false ),
+					esc_html( $label )
+				);
+			}
+
+			echo '</select>';
+
+			?>
+		</td>
+	</tr>
+	<tr>
+		<th scope="col">
 			<?php esc_html_e( 'Transaction Description', 'pronamic_ideal' ); ?>
 		</th>
 		<td>
@@ -66,7 +108,7 @@
 			);
 
 			?>
-			
+
 		</td>
 	</tr>
 	<tr>
