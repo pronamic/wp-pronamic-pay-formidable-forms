@@ -1,5 +1,9 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+use PHPUnit_Framework_TestCase;
+
 /**
  * Title: WordPress pay Formidable Forms test
  * Description:
@@ -10,11 +14,11 @@
  * @version 1.0.0
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Extensions_FormidableForms_FormidableFormsTest extends PHPUnit_Framework_TestCase {
+class FormidableFormsTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test.
 	 */
 	public function test_class() {
-		$this->assertTrue( class_exists( 'Pronamic\WordPress\Pay\Extensions\FormidableForms\FormidableForms' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\FormidableForms' ) );
 	}
 }
