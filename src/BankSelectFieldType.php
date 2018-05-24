@@ -27,7 +27,7 @@ class BankSelectFieldType {
 	/**
 	 * Construct and initializes an Formidable Forms bank select field type.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 */
 	public function __construct() {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
@@ -46,7 +46,7 @@ class BankSelectFieldType {
 	/**
 	 * Available fields.
 	 *
-	 * @see    https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see    https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see    https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
 	 *
 	 * @param array $fields
@@ -62,7 +62,7 @@ class BankSelectFieldType {
 	/**
 	 * Before field created.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 	 *
 	 * @param array $field_data
@@ -102,7 +102,7 @@ class BankSelectFieldType {
 	/**
 	 * Form fields.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 	 *
 	 * @param array $field

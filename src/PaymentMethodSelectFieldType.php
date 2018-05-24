@@ -38,7 +38,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Construct and initializes an Formidable Forms payment method select field type.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 */
 	public function __construct() {
 		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
@@ -72,7 +72,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Available fields.
 	 *
-	 * @see    https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see    https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see    https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
 	 *
 	 * @param array $fields Available fields.
@@ -96,7 +96,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Before field created.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 	 *
 	 * @param array $field_data Field data.
@@ -218,7 +218,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Form fields.
 	 *
-	 * @see https://formidablepro.com/knowledgebase/add-a-new-field/
+	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 	 *
 	 * @param array $field Field.
