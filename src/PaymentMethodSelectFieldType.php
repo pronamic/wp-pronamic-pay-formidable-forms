@@ -38,30 +38,30 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Construct and initializes an Formidable Forms payment method select field type.
 	 *
-	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
+	 * @link https://formidableforms.com/knowledgebase/add-a-new-field/
 	 */
 	public function __construct() {
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
 		add_filter( 'frm_available_fields', array( $this, 'available_fields' ) );
 
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
 
-		// @see https://formidableforms.com/knowledgebase/add-a-new-field/#kb-save-field-options
+		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-save-field-options
 		add_filter( 'frm_update_field_options', array( $this, 'update_field_options' ), 10, 3 );
 
-		// @see https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
+		// @link https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
 		add_filter( 'frm_setup_edit_fields_vars', array( $this, 'edit_fields_vars' ), 10, 2 );
 
 		add_filter( 'frm_switch_field_types', array( $this, 'switch_field_types' ), 10, 2 );
 
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
 		add_action( 'frm_display_added_fields', array( $this, 'display_added_fields' ) );
 
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
 
-		// @see https://formidableforms.com/knowledgebase/add-a-new-field/#kb-modify-value-displayed-when-viewing-entry
+		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-modify-value-displayed-when-viewing-entry
 		add_filter( 'frm_display_' . self::ID . '_value_custom', array( $this, 'display_field_value' ) );
 
 		add_filter( 'frm_bulk_field_choices', array( $this, 'bulk_field_choices' ) );
@@ -96,8 +96,8 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Before field created.
 	 *
-	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
+	 * @link https://formidableforms.com/knowledgebase/add-a-new-field/
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 	 *
 	 * @param array $field_data Field data.
 	 *
@@ -159,7 +159,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Update field options.
 	 *
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmForm.php#L256
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmForm.php#L256
 	 *
 	 * @param array        $field_options Field options.
 	 * @param FrmFieldType $field         Field object.
@@ -180,7 +180,7 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Display added fields.
 	 *
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
 	 *
 	 * @param array $field Field.
 	 */
@@ -218,8 +218,8 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Form fields.
 	 *
-	 * @see https://formidableforms.com/knowledgebase/add-a-new-field/
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
+	 * @link https://formidableforms.com/knowledgebase/add-a-new-field/
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 	 *
 	 * @param array $field Field.
 	 */
