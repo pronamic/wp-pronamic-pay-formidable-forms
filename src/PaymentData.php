@@ -17,7 +17,7 @@ use WP_Post;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.1
  * @since   1.0.0
  */
 class PaymentData extends Pay_PaymentData {
@@ -56,7 +56,7 @@ class PaymentData extends Pay_PaymentData {
 		$this->form_id  = $form_id;
 		$this->action   = $action;
 
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L285
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L285
 		$this->entry = FrmEntry::getOne( $this->entry_id, true );
 	}
 
@@ -90,11 +90,11 @@ class PaymentData extends Pay_PaymentData {
 		$description_template = $this->action->post_content['pronamic_pay_transaction_description'];
 
 		// Find shortcode
-		// @see https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
+		// @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
 		$shortcodes = FrmFieldsHelper::get_shortcodes( $description_template, $this->form_id );
 
 		// Replace shortcodes
-		// @see https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
+		// @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
 		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $this->entry, $shortcodes );
 
 		// Check if there was a replacement to make sure the description has a dynamic part
@@ -128,10 +128,10 @@ class PaymentData extends Pay_PaymentData {
 		// Item
 		// We only add one total item, because iDEAL cant work with negative price items (discount)
 		$item = new Item();
-		$item->setNumber( $this->get_order_id() );
-		$item->setDescription( $this->get_description() );
-		$item->setPrice( $this->get_amount_from_field() );
-		$item->setQuantity( 1 );
+		$item->set_number( $this->get_order_id() );
+		$item->set_description( $this->get_description() );
+		$item->set_price( $this->get_amount_from_field() );
+		$item->set_quantity( 1 );
 
 		$items->addItem( $item );
 
@@ -141,7 +141,7 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Get amount
 	 *
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L345-L383
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L345-L383
 	 * @return float
 	 */
 	private function get_amount_from_field() {
@@ -238,7 +238,7 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Get issuer ID.
 	 *
-	 * @see https://github.com/wp-pay-extensions/gravityforms/blob/1.4.2/src/PaymentData.php#L336-L358
+	 * @link https://github.com/wp-pay-extensions/gravityforms/blob/1.4.2/src/PaymentData.php#L336-L358
 	 * @return string
 	 */
 	public function get_issuer_id() {

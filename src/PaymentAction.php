@@ -26,12 +26,12 @@ class PaymentAction extends FrmFormAction {
 	/**
 	 * Constructs and initializes an Formidable payment action.
 	 *
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L58-L94
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L58-L94
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 */
 	public function __construct() {
 		parent::__construct( self::SLUG, __( 'Pronamic Pay', 'pronamic_ideal' ), array(
-			// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
+			// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
 			'classes'  => 'pronamic-pay-formidable-icon',
 			'active'   => true,
 			'event'    => array( 'create' ),
@@ -43,8 +43,8 @@ class PaymentAction extends FrmFormAction {
 	/**
 	 * Form.
 	 *
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L31-L39
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L31-L39
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
 	 */
 	public function form( $instance, $args = array() ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
@@ -55,7 +55,7 @@ class PaymentAction extends FrmFormAction {
 	/**
 	 * Get field options.
 	 *
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
 	 *
 	 * @param int $form_id
 	 *

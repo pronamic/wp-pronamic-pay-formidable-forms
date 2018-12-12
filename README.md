@@ -10,6 +10,6 @@
 
 ## Links
 
-*	[Formidable Forms](https://formidablepro.com/)
+*	[Formidable Forms](https://formidableforms.com/)
 *	[WordPress.org](https://wordpress.org/plugins/formidable/)
 *	[GitHub](https://github.com/Strategy11/formidable-forms)

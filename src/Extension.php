@@ -60,15 +60,15 @@ class Extension {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
 		add_action( 'frm_registered_form_actions', array( $this, 'registered_form_actions' ) );
 
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
 		add_action( 'frm_trigger_pronamic_pay_create_action', array( $this, 'create_action' ), 10, 3 );
 
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.06/controllers/FrmPaymentSettingsController.php#L15-L19
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.06/controllers/FrmPaymentSettingsController.php#L15-L19
 		add_filter( 'frm_action_triggers', array( $this, 'add_payment_trigger' ) );
 		add_filter( 'frm_email_action_options', array( $this, 'add_trigger_to_action' ) );
 		add_filter( 'frm_twilio_action_options', array( $this, 'add_trigger_to_action' ) );
@@ -236,8 +236,8 @@ class Extension {
 	/**
 	 * Registered form actions.
 	 *
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L125-L128
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L125-L128
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 *
 	 * @param array $actions Formidable Forms form actions.
 	 *
@@ -252,8 +252,8 @@ class Extension {
 	/**
 	 * Create action.
 	 *
-	 * @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L186-L193
+	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L186-L193
 	 *
 	 * @param $action
 	 * @param $entry
@@ -261,11 +261,11 @@ class Extension {
 	 */
 	public function create_action( $action, $entry, $form ) {
 		// save config ID in object var for use building redirect url
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
 		$this->action = $action;
 
-		// @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
-		// @see https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
+		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
+		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
 		add_action( 'frm_after_create_entry', array( $this, 'redirect_for_payment' ), 50, 2 );
 
 		// Delay notifications.
@@ -279,7 +279,7 @@ class Extension {
 	/**
 	 * Redirect for payment.
 	 *
-	 * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
+	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
 	 *
 	 * @param $entry_id
 	 * @param $form_id

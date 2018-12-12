@@ -8,8 +8,8 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @see https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
- * @see https://github.com/wp-pay-extensions/gravityforms/blob/1.4.1/views/html-admin-meta-box-config.php
+ * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
+ * @link https://github.com/wp-pay-extensions/gravityforms/blob/1.4.1/views/html-admin-meta-box-config.php
  * @author Remco Tolsma
  * @version 1.0.0
  * @since 1.0.0
