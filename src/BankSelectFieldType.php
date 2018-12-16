@@ -127,7 +127,7 @@ class BankSelectFieldType {
 			return;
 		}
 
-		// Always use iDEAL payment method for issuer field
+		// Always use iDEAL payment method for issuer field.
 		$payment_method = $gateway->get_payment_method();
 
 		$gateway->set_payment_method( PaymentMethods::IDEAL );
@@ -157,7 +157,7 @@ class BankSelectFieldType {
 			echo '</select>';
 		}
 
-		// Reset payment method to original value
+		// Reset payment method to original value.
 		$gateway->set_payment_method( $payment_method );
 	}
 }

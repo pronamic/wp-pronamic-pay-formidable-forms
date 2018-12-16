@@ -30,14 +30,18 @@ class PaymentAction extends FrmFormAction {
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php
 	 */
 	public function __construct() {
-		parent::__construct( self::SLUG, __( 'Pronamic Pay', 'pronamic_ideal' ), array(
-			// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
-			'classes'  => 'pronamic-pay-formidable-icon',
-			'active'   => true,
-			'event'    => array( 'create' ),
-			'priority' => 9, // trigger before emails are sent so they can be stopped
-			'limit'    => 99,
-		) );
+		parent::__construct(
+			self::SLUG,
+			__( 'Pronamic Pay', 'pronamic_ideal' ),
+			array(
+				// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
+				'classes'  => 'pronamic-pay-formidable-icon',
+				'active'   => true,
+				'event'    => array( 'create' ),
+				'priority' => 9, // trigger before emails are sent so they can be stopped.
+				'limit'    => 99,
+			)
+		);
 	}
 
 	/**
@@ -57,15 +61,18 @@ class PaymentAction extends FrmFormAction {
 	 *
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
 	 *
-	 * @param int $form_id
+	 * @param int $form_id Form ID.
 	 *
 	 * @return array
 	 */
 	private function get_field_options( $form_id ) {
-		$form_fields = FrmField::getAll( array(
-			'fi.form_id'  => absint( $form_id ),
-			'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
-		), 'field_order' );
+		$form_fields = FrmField::getAll(
+			array(
+				'fi.form_id'  => absint( $form_id ),
+				'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
+			),
+			'field_order'
+		);
 
 		return $form_fields;
 	}

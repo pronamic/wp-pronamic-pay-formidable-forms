@@ -45,9 +45,9 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Constructs and initializes an Formidable Forms payment data object.
 	 *
-	 * @param string  $entry_id
-	 * @param string  $form_id
-	 * @param WP_Post $action
+	 * @param string  $entry_id Entry ID.
+	 * @param string  $form_id  Form ID.
+	 * @param WP_Post $action   Form action.
 	 */
 	public function __construct( $entry_id, $form_id, $action ) {
 		parent::__construct();
@@ -70,10 +70,20 @@ class PaymentData extends Pay_PaymentData {
 		return 'formidable-forms';
 	}
 
+	/**
+	 * Get source ID.
+	 *
+	 * @return string
+	 */
 	public function get_source_id() {
 		return $this->entry_id;
 	}
 
+	/**
+	 * Get title.
+	 *
+	 * @return string
+	 */
 	public function get_title() {
 		/* translators: %s order id */
 		return sprintf( __( 'Formidable entry %s', 'pronamic_ideal' ), $this->get_order_id() );
@@ -86,18 +96,24 @@ class PaymentData extends Pay_PaymentData {
 	 * @return string
 	 */
 	public function get_description() {
-		// Description template
+		// Description template.
 		$description_template = $this->action->post_content['pronamic_pay_transaction_description'];
 
-		// Find shortcode
-		// @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
+		/*
+		 * Find shortcode.
+		 *
+		 * @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
+		 */
 		$shortcodes = FrmFieldsHelper::get_shortcodes( $description_template, $this->form_id );
 
-		// Replace shortcodes
-		// @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
+		/*
+		 * Replace shortcodes.
+		 *
+		 * @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
+		 */
 		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $this->entry, $shortcodes );
 
-		// Check if there was a replacement to make sure the description has a dynamic part
+		// Check if there was a replacement to make sure the description has a dynamic part.
 		if ( $description_template === $description ) {
 			$description .= $this->entry_id;
 		}
@@ -122,11 +138,11 @@ class PaymentData extends Pay_PaymentData {
 	 * @return Items
 	 */
 	public function get_items() {
-		// Items
+		// Items.
 		$items = new Items();
 
 		// Item
-		// We only add one total item, because iDEAL cant work with negative price items (discount)
+		// We only add one total item, because iDEAL cant work with negative price items (discount).
 		$item = new Item();
 		$item->set_number( $this->get_order_id() );
 		$item->set_description( $this->get_description() );
@@ -166,22 +182,47 @@ class PaymentData extends Pay_PaymentData {
 		return 'EUR';
 	}
 
+	/**
+	 * Get email.
+	 *
+	 * @return string
+	 */
 	public function get_email() {
 		return '';
 	}
 
+	/**
+	 * Get customer name.
+	 *
+	 * @return string
+	 */
 	public function get_customer_name() {
 		return '';
 	}
 
+	/**
+	 * Get address.
+	 *
+	 * @return null|string
+	 */
 	public function get_address() {
 		return '';
 	}
 
+	/**
+	 * Get city.
+	 *
+	 * @return null|string
+	 */
 	public function get_city() {
 		return '';
 	}
 
+	/**
+	 * Get ZIP.
+	 *
+	 * @return null|string
+	 */
 	public function get_zip() {
 		return '';
 	}
@@ -195,14 +236,29 @@ class PaymentData extends Pay_PaymentData {
 		return '';
 	}
 
+	/**
+	 * Get cancel URL.
+	 *
+	 * @return string
+	 */
 	public function get_cancel_url() {
 		return '';
 	}
 
+	/**
+	 * Get success URL.
+	 *
+	 * @return string
+	 */
 	public function get_success_url() {
 		return '';
 	}
 
+	/**
+	 * Get error URL.
+	 *
+	 * @return string
+	 */
 	public function get_error_url() {
 		return '';
 	}
