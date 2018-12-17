@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
 use FrmEntry;
+use FrmForm;
 use FrmFormAction;
 use FrmFormActionsController;
 use FrmProNotification;
@@ -264,13 +265,16 @@ class Extension {
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L186-L193
 	 *
-	 * @param $action
-	 * @param $entry
-	 * @param $form
+	 * @param FrmFormAction $action Action.
+	 * @param FrmEntry      $entry  Entry.
+	 * @param FrmForm       $form   Form.
 	 */
 	public function create_action( $action, $entry, $form ) {
-		// save config ID in object var for use building redirect url
-		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
+		/*
+		 * Save config ID in object var for use building redirect url.
+		 *
+		 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
+		 */
 		$this->action = $action;
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
@@ -290,8 +294,8 @@ class Extension {
 	 *
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
 	 *
-	 * @param $entry_id
-	 * @param $form_id
+	 * @param int $entry_id Entry ID.
+	 * @param int $form_id  Form ID.
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );
@@ -335,9 +339,9 @@ class Extension {
 	/**
 	 * Stop registration email.
 	 *
-	 * @param $send_it
-	 * @param $form
-	 * @param $entry_id
+	 * @param bool    $send_it  Whether or not to send email.
+	 * @param FrmForm $form     Form.
+	 * @param int     $entry_id Entry ID.
 	 *
 	 * @return bool
 	 *
@@ -356,7 +360,7 @@ class Extension {
 	/**
 	 * Send email now.
 	 *
-	 * @param $entry Entry.
+	 * @param FrmEntry $entry Entry.
 	 *
 	 * @since unreleased
 	 */
@@ -383,7 +387,7 @@ class Extension {
 	/**
 	 * Add payment trigger.
 	 *
-	 * @param array $triggers
+	 * @param array $triggers Triggers.
 	 *
 	 * @return array
 	 *
@@ -402,7 +406,7 @@ class Extension {
 	/**
 	 * Add trigger to action.
 	 *
-	 * @param array $options
+	 * @param array $options Options.
 	 *
 	 * @return array
 	 *

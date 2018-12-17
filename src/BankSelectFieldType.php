@@ -49,7 +49,7 @@ class BankSelectFieldType {
 	 * @see    https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @see    https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
 	 *
-	 * @param array $fields
+	 * @param array $fields Fields.
 	 *
 	 * @return $fields
 	 */
@@ -65,7 +65,7 @@ class BankSelectFieldType {
 	 * @link https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
 	 *
-	 * @param array $field_data
+	 * @param array $field_data Field data.
 	 *
 	 * @return array
 	 */
@@ -82,7 +82,7 @@ class BankSelectFieldType {
 	 *
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	public function display_added_fields( $field ) {
 		if ( self::ID === $field['type'] ) {
@@ -93,7 +93,7 @@ class BankSelectFieldType {
 	/**
 	 * Render admin field.
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	private function render_admin_field( $field ) {
 		$this->render_field( $field );
@@ -105,7 +105,7 @@ class BankSelectFieldType {
 	 * @link https://formidableforms.com/knowledgebase/add-a-new-field/
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	public function form_fields( $field ) {
 		if ( self::ID === $field['type'] ) {
@@ -116,7 +116,7 @@ class BankSelectFieldType {
 	/**
 	 * Render field.
 	 *
-	 * @param array $field
+	 * @param array $field Field.
 	 */
 	private function render_field( $field ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );

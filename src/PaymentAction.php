@@ -49,6 +49,9 @@ class PaymentAction extends FrmFormAction {
 	 *
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmFormAction.php#L31-L39
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/models/FrmPaymentAction.php#L37-L42
+	 *
+	 * @param array $instance Current settings.
+	 * @param array $args     Arguments.
 	 */
 	public function form( $instance, $args = array() ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
