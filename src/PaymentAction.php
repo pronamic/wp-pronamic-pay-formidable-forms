@@ -8,7 +8,7 @@ use FrmFormAction;
 /**
  * Title: Formidable Forms payment action
  * Description:
- * Copyright: Copyright (c) 2005 - 2018
+ * Copyright: 2005-2019 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma

@@ -9,7 +9,7 @@ use Pronamic\WordPress\Pay\Util;
 /**
  * Title: Formidable Forms bank select field type
  * Description:
- * Copyright: Copyright (c) 2005 - 2018
+ * Copyright: 2005-2019 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
