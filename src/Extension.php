@@ -331,6 +331,17 @@ class Extension {
 		$error = $gateway->get_error();
 
 		if ( ! is_wp_error( $error ) ) {
+			if ( wp_doing_ajax() ) {
+				// Do not use `wp_send_json_success()` as Formidable Forms doesn't properly handle the content type.
+				echo wp_json_encode(
+					array(
+						'redirect' => $payment->get_pay_redirect_url(),
+					)
+				);
+
+				exit;
+			}
+
 			// Redirect.
 			$gateway->redirect( $payment );
 		}
