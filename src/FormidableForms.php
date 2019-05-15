@@ -8,7 +8,7 @@ use Pronamic\WordPress\Pay\Core\Util;
 /**
  * Title: WordPress pay Formidable Forms
  * Description:
- * Copyright: Copyright (c) 2005 - 2018
+ * Copyright: 2005-2019 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma

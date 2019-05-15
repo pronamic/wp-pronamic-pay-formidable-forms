@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
 use FrmEntry;
+use FrmForm;
 use FrmFormAction;
 use FrmFormActionsController;
 use FrmProNotification;
@@ -16,7 +17,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms extension
  * Description:
- * Copyright: Copyright (c) 2005 - 2018
+ * Copyright: 2005-2019 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -75,7 +76,7 @@ class Extension {
 		add_filter( 'frm_mailchimp_action_options', array( $this, 'add_trigger_to_action' ) );
 		add_filter( 'frm_register_action_options', array( $this, 'add_payment_trigger_to_register_user_action' ) );
 
-		// Field types
+		// Field types.
 		$this->field_type_bank_select = new BankSelectFieldType();
 
 		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
@@ -128,8 +129,8 @@ class Extension {
 	/**
 	 * Update entry payment status of the specified payment
 	 *
-	 * @param Payment $payment
-	 * @param bool    $can_redirect
+	 * @param Payment $payment      Payment.
+	 * @param bool    $can_redirect Whether or not to redirect.
 	 *
 	 * @since unreleased
 	 */
@@ -191,13 +192,19 @@ class Extension {
 
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
-			add_query_arg( array(
-				'page'       => 'formidable-entries',
-				'frm_action' => 'show',
-				'id'         => $payment->get_source_id(),
-			), admin_url( 'admin.php' ) ),
-			/* translators: %s: payment source id */
-			sprintf( __( 'Entry #%s', 'pronamic_ideal' ), $payment->get_source_id() )
+			add_query_arg(
+				array(
+					'page'       => 'formidable-entries',
+					'frm_action' => 'show',
+					'id'         => $payment->get_source_id(),
+				),
+				admin_url( 'admin.php' )
+			),
+			sprintf(
+				/* translators: %s: payment source id */
+				__( 'Entry #%s', 'pronamic_ideal' ),
+				$payment->get_source_id()
+			)
 		);
 
 		return $text;
@@ -224,11 +231,14 @@ class Extension {
 	 * @return string
 	 */
 	public function source_url( $url, Payment $payment ) {
-		$url = add_query_arg( array(
-			'page'       => 'formidable-entries',
-			'frm_action' => 'show',
-			'id'         => $payment->get_source_id(),
-		), admin_url( 'admin.php' ) );
+		$url = add_query_arg(
+			array(
+				'page'       => 'formidable-entries',
+				'frm_action' => 'show',
+				'id'         => $payment->get_source_id(),
+			),
+			admin_url( 'admin.php' )
+		);
 
 		return $url;
 	}
@@ -255,13 +265,16 @@ class Extension {
 	 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L186-L193
 	 *
-	 * @param $action
-	 * @param $entry
-	 * @param $form
+	 * @param FrmFormAction $action Action.
+	 * @param FrmEntry      $entry  Entry.
+	 * @param FrmForm       $form   Form.
 	 */
 	public function create_action( $action, $entry, $form ) {
-		// save config ID in object var for use building redirect url
-		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
+		/*
+		 * Save config ID in object var for use building redirect url.
+		 *
+		 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L264-L266
+		 */
 		$this->action = $action;
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
@@ -281,8 +294,8 @@ class Extension {
 	 *
 	 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L274-L311
 	 *
-	 * @param $entry_id
-	 * @param $form_id
+	 * @param int $entry_id Entry ID.
+	 * @param int $form_id  Form ID.
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
 		$config_id = get_option( 'pronamic_pay_config_id' );
@@ -318,7 +331,18 @@ class Extension {
 		$error = $gateway->get_error();
 
 		if ( ! is_wp_error( $error ) ) {
-			// Redirect
+			if ( wp_doing_ajax() ) {
+				// Do not use `wp_send_json_success()` as Formidable Forms doesn't properly handle the content type.
+				echo wp_json_encode(
+					array(
+						'redirect' => $payment->get_pay_redirect_url(),
+					)
+				);
+
+				exit;
+			}
+
+			// Redirect.
 			$gateway->redirect( $payment );
 		}
 	}
@@ -326,9 +350,9 @@ class Extension {
 	/**
 	 * Stop registration email.
 	 *
-	 * @param $send_it
-	 * @param $form
-	 * @param $entry_id
+	 * @param bool    $send_it  Whether or not to send email.
+	 * @param FrmForm $form     Form.
+	 * @param int     $entry_id Entry ID.
 	 *
 	 * @return bool
 	 *
@@ -337,8 +361,7 @@ class Extension {
 	public static function stop_registration_email( $send_it, $form, $entry_id ) {
 		if ( ! is_callable( 'FrmRegAppController::send_paid_user_notification' ) ) {
 			// Don't stop the registration email unless the function
-			// from the Formidable Registration Add-On exists to send it later
-
+			// from the Formidable Registration Add-On exists to send it later.
 			return $send_it;
 		}
 
@@ -348,23 +371,23 @@ class Extension {
 	/**
 	 * Send email now.
 	 *
-	 * @param $entry
+	 * @param FrmEntry $entry Entry.
 	 *
 	 * @since unreleased
 	 */
 	public static function send_email_now( $entry ) {
 		self::$send_email_now = true;
 
-		// Trigger email action
+		// Trigger email action.
 		if ( is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
-			// Formidable Forms >= 2.0
+			// Formidable Forms >= 2.0.
 			FrmFormActionsController::trigger_actions( 'create', $entry->form_id, $entry->id, 'email' );
 		} elseif ( is_callable( 'FrmProNotification::entry_created' ) ) {
-			// Formidable Forms < 2.0
+			// Formidable Forms < 2.0.
 			FrmProNotification::entry_created( $entry->id, $entry->form_id );
 		}
 
-		// Trigger registration email
+		// Trigger registration email.
 		if ( is_callable( 'FrmRegNotification::send_paid_user_notification' ) ) {
 			FrmRegNotification::send_paid_user_notification( $entry );
 		} elseif ( is_callable( 'FrmRegAppController::send_paid_user_notification' ) ) {
@@ -375,7 +398,7 @@ class Extension {
 	/**
 	 * Add payment trigger.
 	 *
-	 * @param array $triggers
+	 * @param array $triggers Triggers.
 	 *
 	 * @return array
 	 *
@@ -394,7 +417,7 @@ class Extension {
 	/**
 	 * Add trigger to action.
 	 *
-	 * @param array $options
+	 * @param array $options Options.
 	 *
 	 * @return array
 	 *
@@ -413,7 +436,7 @@ class Extension {
 	/**
 	 * Add payment trigger to registration 2.0+
 	 *
-	 * @param array $options
+	 * @param array $options Options.
 	 *
 	 * @return array
 	 *
