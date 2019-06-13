@@ -130,7 +130,7 @@ class PaymentMethodSelectFieldType {
 	 *
 	 * @return array
 	 */
-	public function edit_fields_vars( $field) {
+	public function edit_fields_vars( $field ) {
 		// Check original field type.
 		if ( self::ID !== $field['original_type'] ) {
 			return $field;
