@@ -1,6 +1,6 @@
 {
   "name": "formidable-forms",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Formidable Forms driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   },
   "homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
   "devDependencies": {
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.6.1",
     "grunt": "^1.0.4",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-cssmin": "^3.0.0",
@@ -45,6 +45,6 @@
     "grunt-phpunit": "^0.3.6",
     "grunt-postcss": "^0.9.0",
     "grunt-sass-lint": "^0.2.4",
-    "load-grunt-tasks": "^5.0.0"
+    "load-grunt-tasks": "^5.1.0"
   }
 }
