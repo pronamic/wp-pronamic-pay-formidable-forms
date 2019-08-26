@@ -283,7 +283,7 @@ class Extension {
 
 		// Delay notifications.
 		if ( ! self::$send_email_now && isset( $action->post_content['pronamic_pay_delay_notifications'] ) && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
-			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10, 3 );
+			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10 );
 			add_filter( 'frm_to_email', '__return_empty_array', 20 );
 			add_filter( 'frm_send_new_user_notification', array( __CLASS__, 'stop_registration_email' ), 10, 3 );
 		}

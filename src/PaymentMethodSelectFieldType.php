@@ -51,7 +51,7 @@ class PaymentMethodSelectFieldType {
 		add_filter( 'frm_update_field_options', array( $this, 'update_field_options' ), 10, 3 );
 
 		// @link https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
-		add_filter( 'frm_setup_edit_fields_vars', array( $this, 'edit_fields_vars' ), 10, 2 );
+		add_filter( 'frm_setup_edit_fields_vars', array( $this, 'edit_fields_vars' ), 10, 1 );
 
 		add_filter( 'frm_switch_field_types', array( $this, 'switch_field_types' ), 10, 2 );
 
@@ -83,10 +83,16 @@ class PaymentMethodSelectFieldType {
 		$fields[ self::ID ] = __( 'Payment Methods', 'pronamic_ideal' );
 
 		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
+			$icon = 'frm_credit-card-alt_icon';
+
+			if ( FormidableForms::version_compare( '4.0.0', '>' ) ) {
+				$icon = 'frm_credit_card_alt_icon';
+			}
+
 			// Add icon in Formidable Forms 3.0+.
 			$fields[ self::ID ] = array(
-				'name' => __( 'Payment Methods', 'pronamic_ideal' ),
-				'icon' => 'frm_icon_font frm_credit-card-alt_icon',
+				'name' => __( 'Payment Method', 'pronamic_ideal' ),
+				'icon' => 'frm_icon_font ' . $icon,
 			);
 		}
 
@@ -120,17 +126,30 @@ class PaymentMethodSelectFieldType {
 	/**
 	 * Setup field editor variables.
 	 *
-	 * @param array  $field_array Field as array.
-	 * @param object $field       Field as object.
+	 * @param array $field Field as array.
 	 *
 	 * @return array
 	 */
-	public function edit_fields_vars( $field_array, $field ) {
-		if ( self::ID === $field->type ) {
-			$field_array['type'] = 'select';
+	public function edit_fields_vars( $field ) {
+		// Check original field type.
+		if ( self::ID !== $field['original_type'] ) {
+			return $field;
 		}
 
-		return $field_array;
+		// Set field type 'select'.
+		$field['type'] = 'select';
+
+		if ( FormidableForms::version_compare( '4.0.0', '>' ) ) {
+			$this->in_field_options = true;
+
+			$field['original_type'] = 'select';
+
+			if ( empty( $field['options'] ) ) {
+				$field['options'] = $this->get_payment_methods();
+			}
+		}
+
+		return $field;
 	}
 
 	/**
@@ -200,14 +219,16 @@ class PaymentMethodSelectFieldType {
 		$field['html_name'] = $field_name;
 		$field['html_id']   = $html_id;
 
-		// Set options.
-		$options = $field['options'];
+		if ( FormidableForms::version_compare( '4.0.0', '<' ) ) {
+			// Set options for field editor.
+			$options = $field['options'];
 
-		if ( empty( $options ) ) {
-			$options = $this->get_payment_methods();
+			if ( empty( $options ) ) {
+				$options = $this->get_payment_methods();
+			}
+
+			$field['options'] = $options;
 		}
-
-		$field['options'] = $options;
 
 		// Temporarily change field type.
 		$field['type'] = 'select';
@@ -232,6 +253,14 @@ class PaymentMethodSelectFieldType {
 		$html_id            = sprintf( 'field_%s', $field['field_key'] );
 		$field['html_name'] = $field_name;
 		$field['html_id']   = $html_id;
+
+		// Set front-end options.
+		if ( empty( $field['options'] ) ) {
+			$field['options'] = $this->get_payment_methods();
+		}
+
+		// Read only.
+		$read_only = isset( $field['read_only'] ) ? $field['read_only'] : false;
 
 		require \FrmAppHelper::plugin_path() . '/classes/views/frm-fields/front-end/dropdown-field.php';
 	}

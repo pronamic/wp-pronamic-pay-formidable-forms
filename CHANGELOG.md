@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [2.0.3] - 2019-08-26
+- Updated packages.
+
 ## [2.0.2] - 2019-05-15
 - Improve support for AJAX enabled forms.
 
