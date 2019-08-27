@@ -39,7 +39,7 @@ class Extension {
 	 *
 	 * @since unreleased
 	 */
-	static private $send_email_now = false;
+	private static $send_email_now = false;
 
 	/**
 	 * Bootstrap

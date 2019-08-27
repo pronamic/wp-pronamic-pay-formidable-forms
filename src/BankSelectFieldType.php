@@ -152,7 +152,8 @@ class BankSelectFieldType {
 				esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
 			);
 
-			echo $options; // WPCS: xss ok.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $options;
 
 			echo '</select>';
 		}
