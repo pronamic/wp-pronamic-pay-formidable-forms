@@ -10,7 +10,7 @@ use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
-use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use Pronamic\WordPress\Pay\Plugin;
 
@@ -148,16 +148,16 @@ class Extension {
 		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', $payment->status );
 
 		switch ( $payment->status ) {
-			case Statuses::CANCELLED:
+			case PaymentStatus::CANCELLED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-cancelled', $entry->form_id, $entry->id );
 				break;
-			case Statuses::EXPIRED:
+			case PaymentStatus::EXPIRED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-expired', $entry->form_id, $entry->id );
 				break;
-			case Statuses::FAILURE:
+			case PaymentStatus::FAILURE:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-failure', $entry->form_id, $entry->id );
 				break;
-			case Statuses::SUCCESS:
+			case PaymentStatus::SUCCESS:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
 
 				// Send delayed notifications.
@@ -174,7 +174,7 @@ class Extension {
 				}
 
 				break;
-			case Statuses::OPEN:
+			case PaymentStatus::OPEN:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-pending', $entry->form_id, $entry->id );
 		}
 	}
