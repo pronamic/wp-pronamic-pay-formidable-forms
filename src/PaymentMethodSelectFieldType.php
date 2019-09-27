@@ -384,11 +384,9 @@ class PaymentMethodSelectFieldType {
 			return $payment_methods;
 		}
 
-		$options = $gateway->get_payment_method_field_options();
-
-		$error = $gateway->get_error();
-
-		if ( is_wp_error( $error ) || ! $options ) {
+		try {
+			$options = $gateway->get_payment_method_field_options();
+		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
 			return $payment_methods;
 		}
 

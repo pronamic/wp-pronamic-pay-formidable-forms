@@ -132,17 +132,9 @@ class BankSelectFieldType {
 
 		$gateway->set_payment_method( PaymentMethods::IDEAL );
 
-		$issuer_field = $gateway->get_issuer_field();
+		try {
+			$issuer_field = $gateway->get_issuer_field();
 
-		$error = $gateway->get_error();
-
-		if ( is_wp_error( $error ) ) {
-			printf(
-				'%s<br /><em>%s</em>',
-				esc_html( Plugin::get_default_error_message() ),
-				esc_html( $error->get_error_message() )
-			);
-		} elseif ( $issuer_field ) {
 			$choices = $issuer_field['choices'];
 			$options = Util::select_options_grouped( $choices );
 
@@ -156,6 +148,12 @@ class BankSelectFieldType {
 			echo $options;
 
 			echo '</select>';
+		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
+			printf(
+				'%s<br /><em>%s</em>',
+				esc_html( Plugin::get_default_error_message() ),
+				esc_html( $e->get_message() )
+			);
 		}
 
 		// Reset payment method to original value.

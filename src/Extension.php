@@ -323,14 +323,12 @@ class Extension {
 			}
 		}
 
-		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+		try {
+			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
 
-		// Save form action ID for reference on status update.
-		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
+			// Save form action ID for reference on status update.
+			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
 
-		$error = $gateway->get_error();
-
-		if ( ! is_wp_error( $error ) ) {
 			if ( wp_doing_ajax() ) {
 				// Do not use `wp_send_json_success()` as Formidable Forms doesn't properly handle the content type.
 				echo wp_json_encode(
@@ -344,6 +342,8 @@ class Extension {
 
 			// Redirect.
 			$gateway->redirect( $payment );
+		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
+			return;
 		}
 	}
 
