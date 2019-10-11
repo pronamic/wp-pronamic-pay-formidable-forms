@@ -149,7 +149,7 @@ class PaymentData extends Pay_PaymentData {
 		$item->set_price( $this->get_amount_from_field() );
 		$item->set_quantity( 1 );
 
-		$items->addItem( $item );
+		$items->add_item( $item );
 
 		return $items;
 	}
