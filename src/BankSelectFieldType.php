@@ -148,11 +148,11 @@ class BankSelectFieldType {
 			echo $options;
 
 			echo '</select>';
-		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
+		} catch ( \Exception $e ) {
 			printf(
 				'%s<br /><em>%s</em>',
 				esc_html( Plugin::get_default_error_message() ),
-				esc_html( $e->get_message() )
+				esc_html( $e->getMessage() )
 			);
 		}
 

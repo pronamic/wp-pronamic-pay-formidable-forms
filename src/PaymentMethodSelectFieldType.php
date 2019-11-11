@@ -386,7 +386,7 @@ class PaymentMethodSelectFieldType {
 
 		try {
 			$options = $gateway->get_payment_method_field_options();
-		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
+		} catch ( \Exception $e ) {
 			return $payment_methods;
 		}
 

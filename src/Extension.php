@@ -342,7 +342,7 @@ class Extension {
 
 			// Redirect.
 			$gateway->redirect( $payment );
-		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
+		} catch ( \Exception $e ) {
 			return;
 		}
 	}
