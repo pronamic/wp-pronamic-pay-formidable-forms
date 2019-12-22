@@ -17,7 +17,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.4
  * @since   1.0.0
  */
 class PaymentMethodSelectFieldType {
@@ -384,11 +384,9 @@ class PaymentMethodSelectFieldType {
 			return $payment_methods;
 		}
 
-		$options = $gateway->get_payment_method_field_options();
-
-		$error = $gateway->get_error();
-
-		if ( is_wp_error( $error ) || ! $options ) {
+		try {
+			$options = $gateway->get_payment_method_field_options();
+		} catch ( \Exception $e ) {
 			return $payment_methods;
 		}
 

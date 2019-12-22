@@ -13,7 +13,7 @@ use Pronamic\WordPress\Pay\Util;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.4
  * @since   1.0.0
  */
 class BankSelectFieldType {
@@ -132,17 +132,9 @@ class BankSelectFieldType {
 
 		$gateway->set_payment_method( PaymentMethods::IDEAL );
 
-		$issuer_field = $gateway->get_issuer_field();
+		try {
+			$issuer_field = $gateway->get_issuer_field();
 
-		$error = $gateway->get_error();
-
-		if ( is_wp_error( $error ) ) {
-			printf(
-				'%s<br /><em>%s</em>',
-				esc_html( Plugin::get_default_error_message() ),
-				esc_html( $error->get_error_message() )
-			);
-		} elseif ( $issuer_field ) {
 			$choices = $issuer_field['choices'];
 			$options = Util::select_options_grouped( $choices );
 
@@ -152,9 +144,16 @@ class BankSelectFieldType {
 				esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
 			);
 
-			echo $options; // WPCS: xss ok.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $options;
 
 			echo '</select>';
+		} catch ( \Exception $e ) {
+			printf(
+				'%s<br /><em>%s</em>',
+				esc_html( Plugin::get_default_error_message() ),
+				esc_html( $e->getMessage() )
+			);
 		}
 
 		// Reset payment method to original value.

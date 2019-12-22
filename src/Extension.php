@@ -10,7 +10,7 @@ use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
-use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use Pronamic\WordPress\Pay\Plugin;
 
@@ -21,7 +21,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.4
  * @since   1.0.0
  */
 class Extension {
@@ -39,7 +39,7 @@ class Extension {
 	 *
 	 * @since unreleased
 	 */
-	static private $send_email_now = false;
+	private static $send_email_now = false;
 
 	/**
 	 * Bootstrap
@@ -148,16 +148,16 @@ class Extension {
 		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_status', $payment->status );
 
 		switch ( $payment->status ) {
-			case Statuses::CANCELLED:
+			case PaymentStatus::CANCELLED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-cancelled', $entry->form_id, $entry->id );
 				break;
-			case Statuses::EXPIRED:
+			case PaymentStatus::EXPIRED:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-expired', $entry->form_id, $entry->id );
 				break;
-			case Statuses::FAILURE:
+			case PaymentStatus::FAILURE:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-failure', $entry->form_id, $entry->id );
 				break;
-			case Statuses::SUCCESS:
+			case PaymentStatus::SUCCESS:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-success', $entry->form_id, $entry->id );
 
 				// Send delayed notifications.
@@ -174,7 +174,7 @@ class Extension {
 				}
 
 				break;
-			case Statuses::OPEN:
+			case PaymentStatus::OPEN:
 				FrmFormActionsController::trigger_actions( 'pronamic-pay-pending', $entry->form_id, $entry->id );
 		}
 	}
@@ -323,14 +323,12 @@ class Extension {
 			}
 		}
 
-		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+		try {
+			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
 
-		// Save form action ID for reference on status update.
-		update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
+			// Save form action ID for reference on status update.
+			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
 
-		$error = $gateway->get_error();
-
-		if ( ! is_wp_error( $error ) ) {
 			if ( wp_doing_ajax() ) {
 				// Do not use `wp_send_json_success()` as Formidable Forms doesn't properly handle the content type.
 				echo wp_json_encode(
@@ -344,6 +342,8 @@ class Extension {
 
 			// Redirect.
 			$gateway->redirect( $payment );
+		} catch ( \Exception $e ) {
+			return;
 		}
 	}
 
