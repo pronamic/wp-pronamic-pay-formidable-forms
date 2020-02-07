@@ -24,7 +24,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * @version 2.0.4
  * @since   1.0.0
  */
-class Extension {
+class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -42,16 +42,11 @@ class Extension {
 	private static $send_email_now = false;
 
 	/**
-	 * Bootstrap
-	 */
-	public static function bootstrap() {
-		new self();
-	}
-
-	/**
 	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
+		parent::__construct();
+
 		add_action( 'init', array( $this, 'init' ) );
 
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
