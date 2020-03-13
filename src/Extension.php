@@ -9,6 +9,7 @@ use FrmFormActionsController;
 use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
+use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -21,10 +22,10 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.4
+ * @version 2.1.0
  * @since   1.0.0
  */
-class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
+class Extension extends AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -47,11 +48,27 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'init', array( $this, 'init' ) );
+		// Dependencies.
+		$dependencies = $this->get_dependencies();
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
+		$dependencies->add( new FormidableFormsDependency() );
+	}
+
+	/**
+	 * Setup plugin integration.
+	 *
+	 * @return void
+	 */
+	public function setup() {
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+
+		// Check if dependencies are met and integration is active.
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -77,13 +94,6 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
 			$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
 		}
-	}
-
-	/**
-	 * Initialize.
-	 */
-	public function init() {
-
 	}
 
 	/**
