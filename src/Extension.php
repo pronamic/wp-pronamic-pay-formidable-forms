@@ -9,6 +9,7 @@ use FrmFormActionsController;
 use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
+use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -17,14 +18,14 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms extension
  * Description:
- * Copyright: 2005-2019 Pronamic
+ * Copyright: 2005-2020 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.4
+ * @version 2.1.0
  * @since   1.0.0
  */
-class Extension {
+class Extension extends AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -42,21 +43,32 @@ class Extension {
 	private static $send_email_now = false;
 
 	/**
-	 * Bootstrap
-	 */
-	public static function bootstrap() {
-		new self();
-	}
-
-	/**
 	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'init' ) );
+		parent::__construct();
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
+		// Dependencies.
+		$dependencies = $this->get_dependencies();
+
+		$dependencies->add( new FormidableFormsDependency() );
+	}
+
+	/**
+	 * Setup plugin integration.
+	 *
+	 * @return void
+	 */
+	public function setup() {
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+
+		// Check if dependencies are met and integration is active.
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -82,13 +94,6 @@ class Extension {
 		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
 			$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
 		}
-	}
-
-	/**
-	 * Initialize.
-	 */
-	public function init() {
-
 	}
 
 	/**
