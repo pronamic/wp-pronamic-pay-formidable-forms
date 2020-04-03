@@ -122,7 +122,7 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
 				'<input type="checkbox" name="%s" title="" %s /> %s',
 				esc_attr( $this->get_field_name( 'pronamic_pay_delay_notifications' ) ),
 				checked( $instance->post_content['pronamic_pay_delay_notifications'], 'on', false ),
-				esc_attr__( 'Hold email notifications until payment is received.', 'pronamic_ideal' )
+				esc_attr__( 'Delay email notifications until payment has been received.', 'pronamic_ideal' )
 			);
 
 			?>
