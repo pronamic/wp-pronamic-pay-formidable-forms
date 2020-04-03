@@ -46,7 +46,11 @@ class Extension extends AbstractPluginIntegration {
 	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
-		parent::__construct();
+		parent::__construct(
+			array(
+				'name' => __( 'Formidable Forms', 'pronamic_ideal' ),
+			)
+		);
 
 		// Dependencies.
 		$dependencies = $this->get_dependencies();
