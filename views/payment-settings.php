@@ -11,7 +11,7 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
  * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
  * @link https://github.com/wp-pay-extensions/gravityforms/blob/1.4.1/views/html-admin-meta-box-config.php
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 2.1.2
  * @since 1.0.0
  */
 
