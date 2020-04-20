@@ -11,7 +11,7 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
  * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
  * @link https://github.com/wp-pay-extensions/gravityforms/blob/1.4.1/views/html-admin-meta-box-config.php
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 2.1.2
  * @since 1.0.0
  */
 
@@ -122,7 +122,7 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
 				'<input type="checkbox" name="%s" title="" %s /> %s',
 				esc_attr( $this->get_field_name( 'pronamic_pay_delay_notifications' ) ),
 				checked( $instance->post_content['pronamic_pay_delay_notifications'], 'on', false ),
-				esc_attr__( 'Hold email notifications until payment is received.', 'pronamic_ideal' )
+				esc_attr__( 'Delay email notifications until payment has been received.', 'pronamic_ideal' )
 			);
 
 			?>
