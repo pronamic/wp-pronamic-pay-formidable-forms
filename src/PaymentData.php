@@ -80,6 +80,24 @@ class PaymentData extends Pay_PaymentData {
 	}
 
 	/**
+	 * Get origin post ID.
+	 *
+	 * @return int|null
+	 */
+	public function get_origin_id() {
+		// Get origin post ID via referrer in entry.
+		if ( \property_exists( $this->entry, 'description' ) && \is_array( $this->entry->description ) && isset( $this->entry->description['referrer'] ) ) {
+			$post_id = \url_to_postid( $this->entry->description['referrer'] );
+
+			if ( $post_id > 0 ) {
+				return $post_id;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get title.
 	 *
 	 * @return string
