@@ -17,7 +17,7 @@ use WP_Post;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.4
+ * @version 2.1.3
  * @since   1.0.0
  */
 class PaymentData extends Pay_PaymentData {
@@ -82,6 +82,7 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Get origin post ID.
 	 *
+	 * @since 2.1.3
 	 * @return int|null
 	 */
 	public function get_origin_id() {
