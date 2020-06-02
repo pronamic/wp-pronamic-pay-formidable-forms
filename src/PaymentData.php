@@ -17,7 +17,7 @@ use WP_Post;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.4
+ * @version 2.1.3
  * @since   1.0.0
  */
 class PaymentData extends Pay_PaymentData {
@@ -77,6 +77,25 @@ class PaymentData extends Pay_PaymentData {
 	 */
 	public function get_source_id() {
 		return $this->entry_id;
+	}
+
+	/**
+	 * Get origin post ID.
+	 *
+	 * @since 2.1.3
+	 * @return int|null
+	 */
+	public function get_origin_id() {
+		// Get origin post ID via referrer in entry.
+		if ( \property_exists( $this->entry, 'description' ) && \is_array( $this->entry->description ) && isset( $this->entry->description['referrer'] ) ) {
+			$post_id = \url_to_postid( $this->entry->description['referrer'] );
+
+			if ( $post_id > 0 ) {
+				return $post_id;
+			}
+		}
+
+		return null;
 	}
 
 	/**
