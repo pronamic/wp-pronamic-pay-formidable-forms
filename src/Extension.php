@@ -210,7 +210,7 @@ class Extension extends AbstractPluginIntegration {
 				admin_url( 'admin.php' )
 			),
 			sprintf(
-				/* translators: %s: payment source id */
+				/* translators: %s: source id */
 				__( 'Entry #%s', 'pronamic_ideal' ),
 				$payment->get_source_id()
 			)
