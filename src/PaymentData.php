@@ -5,6 +5,8 @@ namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 use FrmEntry;
 use FrmField;
 use FrmFieldsHelper;
+use FrmProAppHelper;
+use Pronamic\WordPress\Money\Parser;
 use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
 use Pronamic\WordPress\Pay\Payments\Item;
 use Pronamic\WordPress\Pay\Payments\Items;
@@ -185,7 +187,9 @@ class PaymentData extends Pay_PaymentData {
 		$amount_field = $this->action->post_content['pronamic_pay_amount_field'];
 
 		if ( ! empty( $amount_field ) && isset( $this->entry->metas[ $amount_field ] ) ) {
-			$amount = $this->entry->metas[ $amount_field ];
+			$parser = new Parser();
+
+			$amount = $parser->parse( $this->entry->metas[ $amount_field ] )->get_value();
 		}
 
 		return $amount;
@@ -198,7 +202,21 @@ class PaymentData extends Pay_PaymentData {
 	 * @return string
 	 */
 	public function get_currency_alphabetic_code() {
-		return 'EUR';
+		$currency = null;
+
+		// Try to get currency from Formidable Form settings.
+		if ( \class_exists( '\FrmProAppHelper' ) ) {
+			$settings = FrmProAppHelper::get_settings();
+
+			$currency = trim( $settings->currency );
+		}
+
+		// Check empty currency.
+		if ( empty( $currency ) ) {
+			$currency = 'EUR';
+		}
+
+		return $currency;
 	}
 
 	/**
