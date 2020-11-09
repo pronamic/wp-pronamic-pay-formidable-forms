@@ -6,6 +6,7 @@ use FrmEntry;
 use FrmForm;
 use FrmFormAction;
 use FrmFormActionsController;
+use FrmFormsHelper;
 use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
@@ -210,7 +211,7 @@ class Extension extends AbstractPluginIntegration {
 				admin_url( 'admin.php' )
 			),
 			sprintf(
-				/* translators: %s: payment source id */
+				/* translators: %s: source id */
 				__( 'Entry #%s', 'pronamic_ideal' ),
 				$payment->get_source_id()
 			)
@@ -352,6 +353,26 @@ class Extension extends AbstractPluginIntegration {
 			// Redirect.
 			$gateway->redirect( $payment );
 		} catch ( \Exception $e ) {
+			add_filter(
+				'frm_main_feedback',
+				function ( $message, $form, $entry_id ) use ( $e ) {
+					$atts = array(
+						'class'    => FrmFormsHelper::form_error_class(),
+						'form'     => $form,
+						'entry_id' => $entry_id,
+						'message'  => sprintf(
+							'%s<br>%s',
+							\esc_html( Plugin::get_default_error_message() ),
+							\esc_html( sprintf( '%s: %s', $e->getCode(), $e->getMessage() ) )
+						),
+					);
+
+					return FrmFormsHelper::get_success_message( $atts );
+				},
+				10,
+				3
+			);
+
 			return;
 		}
 	}
