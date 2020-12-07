@@ -190,6 +190,47 @@ class Extension extends AbstractPluginIntegration {
 	}
 
 	/**
+	 * Redirect URL.
+	 *
+	 * @param string  $url     Redirect URL.
+	 * @param Payment $payment Payment.
+	 * @return string
+	 * @since 2.2.0
+	 */
+	public function redirect_url( $url, Payment $payment ) {
+		// Check payment status.
+		if ( PaymentStatus::SUCCESS !== $payment->get_status() ) {
+			return $url;
+		}
+
+		// Get entry and form.
+		$entry_id = $payment->get_source_id();
+
+		$entry = FrmEntry::getOne( $entry_id );
+
+		$form = FrmForm::getOne( $entry->form_id );
+
+		// Check if redirect success URL should be used.
+		if ( 'redirect' === $form->options['success_action'] ) {
+			$success_url = \trim( $form->options['success_url'] );
+
+			$success_url = \apply_filters( 'frm_content', $success_url, $form, $entry_id );
+
+			$success_url = \do_shortcode( $success_url );
+
+			$success_url = \filter_var( $success_url, \FILTER_SANITIZE_URL );
+
+			// Return success URL from settings.
+			if ( ! empty( $success_url ) ) {
+				return $success_url;
+			}
+		}
+
+		// Return default URL.
+		return $url;
+	}
+
+	/**
 	 * Source text.
 	 *
 	 * @param string  $text    Source text.
