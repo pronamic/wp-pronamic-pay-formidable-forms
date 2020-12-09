@@ -56,7 +56,7 @@ class PaymentAction extends FrmFormAction {
 	public function form( $instance, $args = array() ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
 
-		include dirname( __FILE__ ) . '/../views/payment-settings.php';
+		include \dirname( __FILE__ ) . '/../views/payment-settings.php';
 	}
 
 	/**
@@ -71,7 +71,7 @@ class PaymentAction extends FrmFormAction {
 	private function get_field_options( $form_id ) {
 		$form_fields = FrmField::getAll(
 			array(
-				'fi.form_id'  => absint( $form_id ),
+				'fi.form_id'  => \absint( $form_id ),
 				'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
 			),
 			'field_order'

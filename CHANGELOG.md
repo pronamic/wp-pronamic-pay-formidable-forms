@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
+-
+
+## [2.2.0] - unreleased
 - Added support for form settings redirect success URL.
+- Removed payment data class.
 
 ## [2.1.4] - 2020-11-09
 - Improved error handling on payment start.
@@ -49,7 +53,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.4...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.4...2.2.0
 [2.1.4]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.3...2.1.4
 [2.1.3]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.1...2.1.2
