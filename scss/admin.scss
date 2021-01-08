@@ -16,23 +16,21 @@
 }
 
 .frm_email_settings {
-	.widget-title {
-		.frm_form_action_icon {
-			i.pronamic-pay-formidable-icon {
-				width: 24px;
-				height: 24px;
-				filter: invert(100%) saturate(0%) contrast(85%);
+	.frm_single_pronamic_pay_settings {
+		.widget-title {
+			.frm_form_action_icon {
+				.pronamic-pay-formidable-icon {
+					width: 24px;
+					height: 24px;
+					filter: invert(100%) saturate(0%) contrast(85%);
+				}
 			}
 		}
-	}
 
-	.frm_single_pronamic_pay_settings {
 		&:hover {
-			.widget-title {
-				.frm_form_action_icon {
-					i.pronamic-pay-formidable-icon {
-						filter: invert(100%) saturate(0%) contrast(20%);
-					}
+			.frm_form_action_icon {
+				.pronamic-pay-formidable-icon {
+					filter: invert(100%) saturate(0%) contrast(20%);
 				}
 			}
 		}
