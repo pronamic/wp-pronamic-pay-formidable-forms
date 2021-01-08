@@ -35,7 +35,8 @@ class PaymentAction extends FrmFormAction {
 			__( 'Pronamic Pay', 'pronamic_ideal' ),
 			array(
 				// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
-				'classes'  => 'pronamic-pay-formidable-icon',
+				'classes'  => 'pronamic-pay-formidable-icon frm-inverse',
+				'color'    => '#ffb200',
 				'active'   => true,
 				'event'    => array( 'create' ),
 				'priority' => 9, // trigger before emails are sent so they can be stopped.
