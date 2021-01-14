@@ -35,7 +35,8 @@ class PaymentAction extends FrmFormAction {
 			__( 'Pronamic Pay', 'pronamic_ideal' ),
 			array(
 				// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-form-actions/form_action.php#L14
-				'classes'  => 'pronamic-pay-formidable-icon',
+				'classes'  => 'pronamic-pay-formidable-icon frm-inverse',
+				'color'    => '#ffb200',
 				'active'   => true,
 				'event'    => array( 'create' ),
 				'priority' => 9, // trigger before emails are sent so they can be stopped.
@@ -56,7 +57,7 @@ class PaymentAction extends FrmFormAction {
 	public function form( $instance, $args = array() ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
 
-		include dirname( __FILE__ ) . '/../views/payment-settings.php';
+		include \dirname( __FILE__ ) . '/../views/payment-settings.php';
 	}
 
 	/**
@@ -71,7 +72,7 @@ class PaymentAction extends FrmFormAction {
 	private function get_field_options( $form_id ) {
 		$form_fields = FrmField::getAll(
 			array(
-				'fi.form_id'  => absint( $form_id ),
+				'fi.form_id'  => \absint( $form_id ),
 				'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
 			),
 			'field_order'

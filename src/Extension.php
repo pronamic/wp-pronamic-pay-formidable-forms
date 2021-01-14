@@ -10,6 +10,8 @@ use FrmFormsHelper;
 use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
+use Pronamic\WordPress\Money\Currency;
+use Pronamic\WordPress\Money\TaxedMoney;
 use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
@@ -23,7 +25,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.1.0
+ * @version 2.2.0
  * @since   1.0.0
  */
 class Extension extends AbstractPluginIntegration {
@@ -190,6 +192,47 @@ class Extension extends AbstractPluginIntegration {
 	}
 
 	/**
+	 * Redirect URL.
+	 *
+	 * @param string  $url     Redirect URL.
+	 * @param Payment $payment Payment.
+	 * @return string
+	 * @since 2.2.0
+	 */
+	public function redirect_url( $url, Payment $payment ) {
+		// Check payment status.
+		if ( PaymentStatus::SUCCESS !== $payment->get_status() ) {
+			return $url;
+		}
+
+		// Get entry and form.
+		$entry_id = $payment->get_source_id();
+
+		$entry = FrmEntry::getOne( $entry_id );
+
+		$form = FrmForm::getOne( $entry->form_id );
+
+		// Check if redirect success URL should be used.
+		if ( 'redirect' === $form->options['success_action'] ) {
+			$success_url = \trim( $form->options['success_url'] );
+
+			$success_url = \apply_filters( 'frm_content', $success_url, $form, $entry_id );
+
+			$success_url = \do_shortcode( $success_url );
+
+			$success_url = \filter_var( $success_url, \FILTER_SANITIZE_URL );
+
+			// Return success URL from settings.
+			if ( ! empty( $success_url ) ) {
+				return $success_url;
+			}
+		}
+
+		// Return default URL.
+		return $url;
+	}
+
+	/**
 	 * Source text.
 	 *
 	 * @param string  $text    Source text.
@@ -316,25 +359,69 @@ class Extension extends AbstractPluginIntegration {
 			return;
 		}
 
-		$data = new PaymentData( $entry_id, $form_id, $this->action );
+		$entry = \FrmEntry::getOne( $entry_id, true );
+var_dump( $entry );exit;
+		/**
+		 * Build payment.
+		 */
+		$payment = new Payment();
 
-		$payment_method = $data->get_payment_method();
+		$payment->source    = 'formidable-forms';
+		$payment->source_id = $entry_id;
+		$payment->order_id  = $entry_id;
+
+		$payment->description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
+
+		if ( empty( $payment->description ) ) {
+			$payment->description = sprintf(
+				'%s #%s',
+				__( 'Submission', 'pronamic_ideal' ),
+				$payment->source_id
+			);
+		}
+
+		$payment->title = \sprintf(
+			/* translators: %s: payment data title */
+			__( 'Payment for %s', 'pronamic_ideal' ),
+			\sprintf(
+				__( 'Formidable entry %s', 'pronamic_ideal' ),
+				$entry_id
+			)
+		);
+
+		// Currency.
+		$currency = Currency::get_instance( FormidableFormsHelper::get_currency_from_settings() );
+
+		// Amount.
+		$payment->set_total_amount( new TaxedMoney( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
+
+		// Method.
+		$payment->method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
 
 		// Only start payments for known/active payment methods.
-		if ( is_string( $payment_method ) && ! PaymentMethods::is_active( $payment_method ) ) {
+		if ( is_string( $payment->method ) && ! PaymentMethods::is_active( $payment->method ) ) {
 			return;
 		}
 
-		if ( empty( $payment_method ) ) {
+		if ( empty( $payment->method ) ) {
 			if ( null !== $data->get_issuer_id() ) {
-				$payment_method = PaymentMethods::IDEAL;
+				$payment->method = PaymentMethods::IDEAL;
 			} elseif ( $gateway->payment_method_is_required() ) {
-				$payment_method = PaymentMethods::IDEAL;
+				$payment->method = PaymentMethods::IDEAL;
 			}
 		}
 
+		// Issuer.
+		$payment->issuer = FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry );
+
+		// Origin.
+		$payment->set_origin_id( FormidableFormsHelper::get_origin_id_from_entry( $entry ) );
+
+		// Configuration.
+		$payment->config_id = $config_id;
+
 		try {
-			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+			$payment = Plugin::start_payment( $payment );
 
 			// Save form action ID for reference on status update.
 			update_post_meta( $payment->get_id(), '_pronamic_pay_formidable_forms_action_id', $this->action->ID );
