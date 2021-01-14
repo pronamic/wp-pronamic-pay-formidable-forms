@@ -7,7 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
-## [2.2.0] - unreleased
+## [2.2.0] - 2021-01-14
+- Simplified icon hover style.
+- Updated form action icon.
 - Added support for form settings redirect success URL.
 - Removed payment data class.
 
