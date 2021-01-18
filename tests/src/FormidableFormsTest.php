@@ -7,7 +7,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * Title: WordPress pay Formidable Forms test
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author Remco Tolsma
