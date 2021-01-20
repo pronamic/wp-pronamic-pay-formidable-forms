@@ -404,7 +404,7 @@ class Extension extends AbstractPluginIntegration {
 		}
 
 		if ( empty( $payment->method ) ) {
-			if ( null !== $data->get_issuer_id() ) {
+			if ( null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
 				$payment->method = PaymentMethods::IDEAL;
 			} elseif ( $gateway->payment_method_is_required() ) {
 				$payment->method = PaymentMethods::IDEAL;
