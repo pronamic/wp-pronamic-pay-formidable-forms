@@ -360,7 +360,7 @@ class Extension extends AbstractPluginIntegration {
 		}
 
 		$entry = \FrmEntry::getOne( $entry_id, true );
-var_dump( $entry );exit;
+
 		/**
 		 * Build payment.
 		 */
