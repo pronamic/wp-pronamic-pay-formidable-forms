@@ -7,6 +7,10 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [2.2.1] - 2021-01-21
+- Fixed using undefined variable.
+- Removed debug code.
+
 ## [2.2.0] - 2021-01-14
 - Simplified icon hover style.
 - Updated form action icon.
@@ -55,7 +59,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.2.0...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.2.1...HEAD
+[2.2.1]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.4...2.2.0
 [2.1.4]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.3...2.1.4
 [2.1.3]: https://github.com/wp-pay-extensions/formidable-forms/compare/2.1.2...2.1.3
