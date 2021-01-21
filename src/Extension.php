@@ -21,7 +21,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms extension
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -360,7 +360,7 @@ class Extension extends AbstractPluginIntegration {
 		}
 
 		$entry = \FrmEntry::getOne( $entry_id, true );
-var_dump( $entry );exit;
+
 		/**
 		 * Build payment.
 		 */
@@ -404,7 +404,7 @@ var_dump( $entry );exit;
 		}
 
 		if ( empty( $payment->method ) ) {
-			if ( null !== $data->get_issuer_id() ) {
+			if ( null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
 				$payment->method = PaymentMethods::IDEAL;
 			} elseif ( $gateway->payment_method_is_required() ) {
 				$payment->method = PaymentMethods::IDEAL;
