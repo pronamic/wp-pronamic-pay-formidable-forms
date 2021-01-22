@@ -384,6 +384,7 @@ class Extension extends AbstractPluginIntegration {
 			/* translators: %s: payment data title */
 			__( 'Payment for %s', 'pronamic_ideal' ),
 			\sprintf(
+				/* translators: %s: Formidable Forms entry ID */
 				__( 'Formidable entry %s', 'pronamic_ideal' ),
 				$entry_id
 			)
