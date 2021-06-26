@@ -8,6 +8,7 @@ use FrmFieldDefault;
 use FrmFieldFactory;
 use FrmFieldSelect;
 use FrmFieldsHelper;
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 
 /**
@@ -395,6 +396,11 @@ class PaymentMethodSelectFieldType {
 
 			if ( ! empty( $payment_method ) ) {
 				$value = sprintf( 'pronamic_pay_%s', $payment_method );
+			}
+
+			// Ignore unsupported recurring-only payment methods.
+			if ( \in_array( $payment_method, array_keys( PaymentMethods::get_direct_debit_methods() ), true ) ) {
+				continue;
 			}
 
 			$payment_methods[] = array(
