@@ -11,7 +11,7 @@ use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
 use Pronamic\WordPress\Money\Currency;
-use Pronamic\WordPress\Money\TaxedMoney;
+use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
@@ -394,7 +394,7 @@ class Extension extends AbstractPluginIntegration {
 		$currency = Currency::get_instance( FormidableFormsHelper::get_currency_from_settings() );
 
 		// Amount.
-		$payment->set_total_amount( new TaxedMoney( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
+		$payment->set_total_amount( new Money( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
 
 		// Method.
 		$payment->method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
