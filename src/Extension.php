@@ -413,7 +413,7 @@ class Extension extends AbstractPluginIntegration {
 		}
 
 		// Issuer.
-		$payment->issuer = FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry );
+		$payment->set_meta( 'issuer', FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) );
 
 		// Origin.
 		$payment->set_origin_id( FormidableFormsHelper::get_origin_id_from_entry( $entry ) );
