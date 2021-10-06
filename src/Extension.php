@@ -370,15 +370,17 @@ class Extension extends AbstractPluginIntegration {
 		$payment->source_id = $entry_id;
 		$payment->order_id  = $entry_id;
 
-		$payment->description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
+		$description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
 
-		if ( empty( $payment->description ) ) {
-			$payment->description = sprintf(
+		if ( empty( $description ) ) {
+			$description = \sprintf(
 				'%s #%s',
 				__( 'Submission', 'pronamic_ideal' ),
 				$payment->source_id
 			);
 		}
+
+		$payment->set_description( $description );
 
 		$payment->title = \sprintf(
 			/* translators: %s: payment data title */
