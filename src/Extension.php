@@ -398,20 +398,24 @@ class Extension extends AbstractPluginIntegration {
 		// Amount.
 		$payment->set_total_amount( new Money( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
 
-		// Method.
-		$payment->method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
+		// Payment method.
+		$payment_method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
+
+		$payment->set_payment_method( $payment_method );
 
 		// Only start payments for known/active payment methods.
-		if ( is_string( $payment->method ) && ! PaymentMethods::is_active( $payment->method ) ) {
+		if ( null !== $payment_method && ! PaymentMethods::is_active( $payment_method ) ) {
 			return;
 		}
 
-		if ( empty( $payment->method ) ) {
-			if ( null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
-				$payment->method = PaymentMethods::IDEAL;
-			} elseif ( $gateway->payment_method_is_required() ) {
-				$payment->method = PaymentMethods::IDEAL;
-			}
+		// Check issuer in form entry.
+		if ( empty( $payment_method ) && null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
+			$payment->set_payment_method( PaymentMethods::IDEAL );
+		}
+
+		// Check if gateway requires payment method.
+		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
+			$payment->set_payment_method( PaymentMethods::IDEAL );
 		}
 
 		// Issuer.
