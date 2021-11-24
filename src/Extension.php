@@ -392,11 +392,8 @@ class Extension extends AbstractPluginIntegration {
 			)
 		);
 
-		// Currency.
-		$currency = Currency::get_instance( FormidableFormsHelper::get_currency_from_settings() );
-
 		// Amount.
-		$payment->set_total_amount( new Money( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
+		$payment->set_total_amount( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ) );
 
 		// Payment method.
 		$payment_method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
