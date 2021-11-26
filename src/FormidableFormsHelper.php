@@ -74,11 +74,6 @@ class FormidableFormsHelper {
 		 */
 		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $entry, $shortcodes );
 
-		// Check if there was a replacement to make sure the description has a dynamic part.
-		if ( $description_template === $description ) {
-			$description .= $entry_id;
-		}
-
 		return $description;
 	}
 
