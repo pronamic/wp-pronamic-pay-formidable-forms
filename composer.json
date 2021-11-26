@@ -49,6 +49,7 @@
 		"pronamic/wp-coding-standards": "^1.0",
 		"roots/wordpress": "^5.8",
 		"wp-phpunit/wp-phpunit": "^5.8",
+		"wpackagist-plugin/formidable": "^5.0",
 		"yoast/phpunit-polyfills": "^1.0"
 	},
 	"scripts": {
