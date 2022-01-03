@@ -5,7 +5,7 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
 /**
  * Title: Formidable Forms payment settings
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
