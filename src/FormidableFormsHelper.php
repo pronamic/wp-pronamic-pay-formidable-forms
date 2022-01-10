@@ -3,7 +3,7 @@
  * Formidable Forms Helper
  *
  * @author    Pronamic <info@pronamic.eu>
- * @copyright 2005-2021 Pronamic
+ * @copyright 2005-2022 Pronamic
  * @license   GPL-3.0-or-later
  * @package   Pronamic\WordPress\Pay\Extensions\FormidableForms
  */
@@ -13,6 +13,7 @@ namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 use FrmField;
 use FrmFieldsHelper;
 use FrmProAppHelper;
+use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Money\Parser;
 
 /**
@@ -73,11 +74,6 @@ class FormidableFormsHelper {
 		 */
 		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $entry, $shortcodes );
 
-		// Check if there was a replacement to make sure the description has a dynamic part.
-		if ( $description_template === $description ) {
-			$description .= $entry_id;
-		}
-
 		return $description;
 	}
 
@@ -137,17 +133,36 @@ class FormidableFormsHelper {
 	 *
 	 * @param unknowm $action Action.
 	 * @param unknown $entry  Entry.
-	 * @return float
+	 * @return Money
 	 */
 	public static function get_amount_from_field( $action, $entry ) {
-		$amount = 0;
+		$amount = new Money( 0, self::get_currency_from_settings() );
 
+		// Check amount field.
 		$amount_field = $action->post_content['pronamic_pay_amount_field'];
 
-		if ( ! empty( $amount_field ) && isset( $entry->metas[ $amount_field ] ) ) {
-			$parser = new Parser();
+		if ( empty( $amount_field ) || ! isset( $entry->metas[ $amount_field ] ) ) {
+			return $amount;
+		}
 
-			$amount = $parser->parse( $entry->metas[ $amount_field ] )->get_value();
+		// Make sure to use an array (for checkboxes fields).
+		$values = $entry->metas[ $amount_field ];
+
+		if ( ! \is_array( $values ) ) {
+			$values = array( $values );
+		}
+
+		// Add values to amount.
+		$parser = new Parser();
+
+		foreach ( $values as $value ) {
+			try {
+				$money = $parser->parse( $value );
+
+				$amount = $amount->add( $money );
+			} catch ( \Exception $e ) {
+				continue;
+			}
 		}
 
 		return $amount;

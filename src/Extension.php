@@ -21,7 +21,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms extension
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -370,15 +370,17 @@ class Extension extends AbstractPluginIntegration {
 		$payment->source_id = $entry_id;
 		$payment->order_id  = $entry_id;
 
-		$payment->description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
+		$description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
 
-		if ( empty( $payment->description ) ) {
-			$payment->description = sprintf(
+		if ( empty( $description ) ) {
+			$description = \sprintf(
 				'%s #%s',
 				__( 'Submission', 'pronamic_ideal' ),
 				$payment->source_id
 			);
 		}
+
+		$payment->set_description( $description );
 
 		$payment->title = \sprintf(
 			/* translators: %s: payment data title */
@@ -390,30 +392,31 @@ class Extension extends AbstractPluginIntegration {
 			)
 		);
 
-		// Currency.
-		$currency = Currency::get_instance( FormidableFormsHelper::get_currency_from_settings() );
-
 		// Amount.
-		$payment->set_total_amount( new Money( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ), $currency ) );
+		$payment->set_total_amount( FormidableFormsHelper::get_amount_from_field( $this->action, $entry ) );
 
-		// Method.
-		$payment->method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
+		// Payment method.
+		$payment_method = FormidableFormsHelper::get_payment_method_from_action_entry( $this->action, $entry );
+
+		$payment->set_payment_method( $payment_method );
 
 		// Only start payments for known/active payment methods.
-		if ( is_string( $payment->method ) && ! PaymentMethods::is_active( $payment->method ) ) {
+		if ( null !== $payment_method && ! PaymentMethods::is_active( $payment_method ) ) {
 			return;
 		}
 
-		if ( empty( $payment->method ) ) {
-			if ( null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
-				$payment->method = PaymentMethods::IDEAL;
-			} elseif ( $gateway->payment_method_is_required() ) {
-				$payment->method = PaymentMethods::IDEAL;
-			}
+		// Check issuer in form entry.
+		if ( empty( $payment_method ) && null !== FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) ) {
+			$payment->set_payment_method( PaymentMethods::IDEAL );
+		}
+
+		// Check if gateway requires payment method.
+		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
+			$payment->set_payment_method( PaymentMethods::IDEAL );
 		}
 
 		// Issuer.
-		$payment->issuer = FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry );
+		$payment->set_meta( 'issuer', FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) );
 
 		// Origin.
 		$payment->set_origin_id( FormidableFormsHelper::get_origin_id_from_entry( $entry ) );

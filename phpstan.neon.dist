@@ -5,5 +5,7 @@ parameters:
 	level: max
 	bootstrapFiles:
 		- tests/phpstan/bootstrap.php
+	scanDirectories:
+		- wp-content/formidable
 	paths:
 		- src/
