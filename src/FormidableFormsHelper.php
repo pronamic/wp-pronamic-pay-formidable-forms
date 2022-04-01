@@ -12,6 +12,7 @@ namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
 use FrmField;
 use FrmFieldsHelper;
+use FrmFormAction;
 use FrmProAppHelper;
 use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Money\Parser;
@@ -75,6 +76,27 @@ class FormidableFormsHelper {
 		$description = FrmFieldsHelper::replace_content_shortcodes( $description_template, $entry, $shortcodes );
 
 		return $description;
+	}
+
+	/**
+	 * Get gateway configuration.
+	 *
+	 * @param FrmFormAction $action   Action.
+	 * @return int
+	 */
+	public static function get_config_id( $action ) {
+		$config_id = null;
+
+		if ( \array_key_exists( 'pronamic_pay_config_id', $action->post_content ) ) {
+			$config_id = $action->post_content['pronamic_pay_config_id'];
+		}
+
+		// Default gateway.
+		if ( empty( $config_id ) ) {
+			$config_id = \get_option( 'pronamic_pay_config_id' );
+		}
+
+		return (int) $config_id;
 	}
 
 	/**

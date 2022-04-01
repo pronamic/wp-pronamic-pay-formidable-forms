@@ -351,7 +351,7 @@ class Extension extends AbstractPluginIntegration {
 	 * @param int $form_id  Form ID.
 	 */
 	public function redirect_for_payment( $entry_id, $form_id ) {
-		$config_id = get_option( 'pronamic_pay_config_id' );
+		$config_id = FormidableFormsHelper::get_config_id( $this->action );
 
 		$gateway = Plugin::get_gateway( $config_id );
 

@@ -1,6 +1,7 @@
 <?php
 
 use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldType;
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Formidable Forms payment settings
@@ -85,6 +86,36 @@ use Pronamic\WordPress\Pay\Extensions\FormidableForms\PaymentMethodSelectFieldTy
 					esc_attr( $value ),
 					selected( $current, $value, false ),
 					esc_html( $label )
+				);
+			}
+
+			echo '</select>';
+
+			?>
+		</td>
+	</tr>
+	<tr>
+		<th scope="col">
+			<?php \esc_html_e( 'Payment Gateway Configuration', 'pronamic_ideal' ); ?>
+		</th>
+		<td>
+			<?php
+
+			\printf(
+				'<select name="%s">',
+				esc_attr( $this->get_field_name( 'pronamic_pay_config_id' ) )
+			);
+
+			$options = Plugin::get_config_select_options();
+
+			$options[0] = __( '– Default Gateway –', 'pronamic_ideal' );
+
+			foreach ( $options as $value => $label ) {
+				\printf(
+					'<option value="%s" %s>%s</option>',
+					\esc_attr( $value ),
+					\selected( $instance->post_content['pronamic_pay_config_id'], $value, false ),
+					\esc_html( $label )
 				);
 			}
 
