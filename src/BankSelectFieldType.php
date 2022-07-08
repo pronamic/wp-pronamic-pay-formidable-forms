@@ -133,7 +133,15 @@ class BankSelectFieldType {
 		$gateway->set_payment_method( PaymentMethods::IDEAL );
 
 		try {
-			$issuer_field = $gateway->get_issuer_field();
+			/**
+			 * Removed `$gateway->get_issuer_field()` usage.
+			 * 
+			 * @link https://github.com/pronamic/wp-pronamic-pay/issues/154#issuecomment-1178965853
+			 * @todo Implement new payment methods fields.
+			 */
+			$issuer_field = array(
+				'choices' => array(),
+			);
 
 			$choices = $issuer_field['choices'];
 			$options = Util::select_options_grouped( $choices );
