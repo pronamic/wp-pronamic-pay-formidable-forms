@@ -410,11 +410,6 @@ class Extension extends AbstractPluginIntegration {
 			$payment->set_payment_method( PaymentMethods::IDEAL );
 		}
 
-		// Check if gateway requires payment method.
-		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
-			$payment->set_payment_method( PaymentMethods::IDEAL );
-		}
-
 		// Issuer.
 		$payment->set_meta( 'issuer', FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) );
 
