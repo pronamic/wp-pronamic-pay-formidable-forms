@@ -444,6 +444,21 @@ class Extension extends AbstractPluginIntegration {
 			// Redirect.
 			$gateway->redirect( $payment );
 		} catch ( \Exception $e ) {
+			/**
+			 * Set confirmation method to `message` to override page and URL redirect settings,
+			 * so that the error messages will be shown.
+			 *
+			 * @link https://github.com/Strategy11/formidable-forms/blob/v5.4.3/classes/controllers/FrmFormsController.php#L2003
+			 */
+			\add_filter(
+				'frm_success_filter',
+				function( $method, $form ) {
+					return 'message';
+				},
+				10,
+				2
+			);
+
 			add_filter(
 				'frm_main_feedback',
 				function ( $message, $form, $entry_id ) use ( $e ) {
