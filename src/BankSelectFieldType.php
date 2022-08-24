@@ -2,6 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
+use Pronamic\WordPress\Pay\Core\IDealIssuerSelectField;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 use Pronamic\WordPress\Pay\Util;
@@ -127,13 +128,16 @@ class BankSelectFieldType {
 			return;
 		}
 
-		// Always use iDEAL payment method for issuer field.
-		$payment_method = $gateway->get_payment_method();
+		$issuer_field = $gateway->first_payment_method_field( PaymentMethods::IDEAL, IDealIssuerSelectField::class );
 
-		$gateway->set_payment_method( PaymentMethods::IDEAL );
+		if ( null === $issuer_field ) {
+			return;
+		}
 
 		try {
-			$issuer_field = $gateway->get_issuer_field();
+			$issuer_field = array(
+				'choices' => $issuer_field->get_options(),
+			);
 
 			$choices = $issuer_field['choices'];
 			$options = Util::select_options_grouped( $choices );
@@ -155,8 +159,5 @@ class BankSelectFieldType {
 				esc_html( $e->getMessage() )
 			);
 		}
-
-		// Reset payment method to original value.
-		$gateway->set_payment_method( $payment_method );
 	}
 }

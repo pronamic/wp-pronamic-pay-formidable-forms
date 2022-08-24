@@ -375,40 +375,35 @@ class PaymentMethodSelectFieldType {
 	 * Get payment method options.
 	 */
 	public function get_payment_methods() {
-		$payment_methods = array();
-
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
 		$gateway = Plugin::get_gateway( $config_id );
 
-		if ( ! $gateway ) {
-			return $payment_methods;
+		if ( null === $gateway ) {
+			return [];
 		}
 
 		try {
-			$options = $gateway->get_payment_method_field_options();
-		} catch ( \Exception $e ) {
-			return $payment_methods;
-		}
-
-		foreach ( $options as $payment_method => $name ) {
-			$value = 'pronamic_pay';
-
-			if ( ! empty( $payment_method ) ) {
-				$value = sprintf( 'pronamic_pay_%s', $payment_method );
-			}
-
-			// Ignore unsupported recurring-only payment methods.
-			if ( \in_array( $payment_method, array_keys( PaymentMethods::get_direct_debit_methods() ), true ) ) {
-				continue;
-			}
-
-			$payment_methods[] = array(
-				'label' => $name,
-				'value' => $value,
+			$payment_methods = $gateway->gat_payment_methods(
+				[
+					'status' => [ '', 'active' ],
+				]
 			);
-		}
 
-		return $payment_methods;
+			$result = [];
+
+			foreach ( $payment_methods as $payment_method ) {
+				$value = sprintf( 'pronamic_pay_%s', $payment_method->get_id() );
+
+				$result[] = array(
+					'label' => $payment_method->get_name(),
+					'value' => $value,
+				);
+			}
+
+			return $result;
+		} catch ( \Exception $e ) {
+			return [];
+		}
 	}
 }
