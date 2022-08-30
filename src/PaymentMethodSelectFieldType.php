@@ -384,7 +384,7 @@ class PaymentMethodSelectFieldType {
 		}
 
 		try {
-			$payment_methods = $gateway->gat_payment_methods(
+			$payment_methods = $gateway->get_payment_methods(
 				[
 					'status' => [ '', 'active' ],
 				]
