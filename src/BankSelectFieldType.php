@@ -2,8 +2,8 @@
 
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
-use Pronamic\WordPress\Pay\Core\IDealIssuerSelectField;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Fields\IDealIssuerSelectField;
 use Pronamic\WordPress\Pay\Plugin;
 use Pronamic\WordPress\Pay\Util;
 
@@ -135,21 +135,16 @@ class BankSelectFieldType {
 		}
 
 		try {
-			$issuer_field = array(
-				'choices' => $issuer_field->get_options(),
-			);
-
-			$choices = $issuer_field['choices'];
-			$options = Util::select_options_grouped( $choices );
-
 			printf(
 				'<select name="%s" id="%s">',
 				esc_attr( sprintf( 'item_meta[%s]', $field['id'] ) ),
 				esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
 			);
 
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $options;
+			foreach ( $issuer_field->get_options() as $option ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $option->render();
+			}
 
 			echo '</select>';
 		} catch ( \Exception $e ) {
