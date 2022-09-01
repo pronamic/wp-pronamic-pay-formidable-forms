@@ -32,9 +32,9 @@ use Pronamic\WordPress\Pay\Plugin;
 				esc_attr( $this->get_field_name( 'pronamic_pay_amount_field' ) )
 			);
 
-			$options = array(
+			$options = [
 				'' => __( '— Select Field —', 'pronamic_ideal' ),
-			);
+			];
 
 			foreach ( $form_fields as $field ) {
 				$options[ $field->id ] = FrmAppHelper::truncate( $field->name, 50, 1 );
@@ -68,9 +68,9 @@ use Pronamic\WordPress\Pay\Plugin;
 				esc_attr( $this->get_field_name( 'pronamic_pay_payment_method_field' ) )
 			);
 
-			$options = array(
+			$options = [
 				'' => __( '— Select Field —', 'pronamic_ideal' ),
-			);
+			];
 
 			foreach ( $form_fields as $field ) {
 				if ( PaymentMethodSelectFieldType::ID !== $field->type ) {
