@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
 
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Fields\IDealIssuerSelectField;
 use Pronamic\WordPress\Pay\Plugin;
 use Pronamic\WordPress\Pay\Util;
 
@@ -31,16 +32,16 @@ class BankSelectFieldType {
 	 */
 	public function __construct() {
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
-		add_filter( 'frm_available_fields', array( $this, 'available_fields' ) );
+		add_filter( 'frm_available_fields', [ $this, 'available_fields' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
-		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
+		add_filter( 'frm_before_field_created', [ $this, 'before_field_created' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
-		add_action( 'frm_display_added_fields', array( $this, 'display_added_fields' ) );
+		add_action( 'frm_display_added_fields', [ $this, 'display_added_fields' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
-		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
+		add_action( 'frm_form_fields', [ $this, 'form_fields' ] );
 	}
 
 	/**
@@ -127,25 +128,23 @@ class BankSelectFieldType {
 			return;
 		}
 
-		// Always use iDEAL payment method for issuer field.
-		$payment_method = $gateway->get_payment_method();
+		$issuer_field = $gateway->first_payment_method_field( PaymentMethods::IDEAL, IDealIssuerSelectField::class );
 
-		$gateway->set_payment_method( PaymentMethods::IDEAL );
+		if ( null === $issuer_field ) {
+			return;
+		}
 
 		try {
-			$issuer_field = $gateway->get_issuer_field();
-
-			$choices = $issuer_field['choices'];
-			$options = Util::select_options_grouped( $choices );
-
 			printf(
 				'<select name="%s" id="%s">',
 				esc_attr( sprintf( 'item_meta[%s]', $field['id'] ) ),
 				esc_attr( sprintf( 'field_%s', $field['field_key'] ) )
 			);
 
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $options;
+			foreach ( $issuer_field->get_options() as $option ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $option->render();
+			}
 
 			echo '</select>';
 		} catch ( \Exception $e ) {
@@ -155,8 +154,5 @@ class BankSelectFieldType {
 				esc_html( $e->getMessage() )
 			);
 		}
-
-		// Reset payment method to original value.
-		$gateway->set_payment_method( $payment_method );
 	}
 }

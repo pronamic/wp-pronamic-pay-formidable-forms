@@ -114,10 +114,10 @@ class FormidableFormsHelper {
 		if ( ! empty( $payment_method_field ) && isset( $entry->metas[ $payment_method_field ] ) ) {
 			$payment_method = $entry->metas[ $payment_method_field ];
 
-			$replacements = array(
+			$replacements = [
 				'pronamic_pay_' => '',
 				'pronamic_pay'  => '',
-			);
+			];
 
 			$payment_method = strtr( $payment_method, $replacements );
 
@@ -171,7 +171,7 @@ class FormidableFormsHelper {
 		$values = $entry->metas[ $amount_field ];
 
 		if ( ! \is_array( $values ) ) {
-			$values = array( $values );
+			$values = [ $values ];
 		}
 
 		// Add values to amount.

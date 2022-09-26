@@ -1,0 +1,13 @@
+{
+	"core": null,
+	"plugins": [
+		".",
+		"../../../",
+		"https://downloads.wordpress.org/plugin/formidable.5.4.4.zip",
+		"https://downloads.wordpress.org/plugin/query-monitor.zip",
+		"https://downloads.wordpress.org/plugin/one-time-login.zip"
+	],
+	"config": {
+		"PRONAMIC_PAY_DEBUG": true
+	}
+}

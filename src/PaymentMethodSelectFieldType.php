@@ -43,31 +43,31 @@ class PaymentMethodSelectFieldType {
 	 */
 	public function __construct() {
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
-		add_filter( 'frm_available_fields', array( $this, 'available_fields' ) );
+		add_filter( 'frm_available_fields', [ $this, 'available_fields' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
-		add_filter( 'frm_before_field_created', array( $this, 'before_field_created' ) );
+		add_filter( 'frm_before_field_created', [ $this, 'before_field_created' ] );
 
 		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-save-field-options
-		add_filter( 'frm_update_field_options', array( $this, 'update_field_options' ), 10, 3 );
+		add_filter( 'frm_update_field_options', [ $this, 'update_field_options' ], 10, 3 );
 
 		// @link https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
-		add_filter( 'frm_setup_edit_fields_vars', array( $this, 'edit_fields_vars' ), 10, 1 );
+		add_filter( 'frm_setup_edit_fields_vars', [ $this, 'edit_fields_vars' ], 10, 1 );
 
-		add_filter( 'frm_switch_field_types', array( $this, 'switch_field_types' ), 10, 2 );
+		add_filter( 'frm_switch_field_types', [ $this, 'switch_field_types' ], 10, 2 );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
-		add_action( 'frm_display_added_fields', array( $this, 'display_added_fields' ) );
+		add_action( 'frm_display_added_fields', [ $this, 'display_added_fields' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
-		add_action( 'frm_form_fields', array( $this, 'form_fields' ) );
+		add_action( 'frm_form_fields', [ $this, 'form_fields' ] );
 
 		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-modify-value-displayed-when-viewing-entry
-		add_filter( 'frm_display_' . self::ID . '_value_custom', array( $this, 'display_field_value' ) );
+		add_filter( 'frm_display_' . self::ID . '_value_custom', [ $this, 'display_field_value' ] );
 
-		add_filter( 'frm_bulk_field_choices', array( $this, 'bulk_field_choices' ) );
+		add_filter( 'frm_bulk_field_choices', [ $this, 'bulk_field_choices' ] );
 
-		add_action( 'wp_ajax_frm_import_options', array( $this, 'import_options' ), 9 );
+		add_action( 'wp_ajax_frm_import_options', [ $this, 'import_options' ], 9 );
 	}
 
 	/**
@@ -91,10 +91,10 @@ class PaymentMethodSelectFieldType {
 			}
 
 			// Add icon in Formidable Forms 3.0+.
-			$fields[ self::ID ] = array(
+			$fields[ self::ID ] = [
 				'name' => __( 'Payment Method', 'pronamic_ideal' ),
 				'icon' => 'frm_icon_font ' . $icon,
-			);
+			];
 		}
 
 		return $fields;
@@ -114,9 +114,9 @@ class PaymentMethodSelectFieldType {
 		if ( self::ID === $field_data['type'] ) {
 			$field_data['name'] = __( 'Choose a payment method', 'pronamic_ideal' );
 
-			$defaults = array(
+			$defaults = [
 				'separate_value' => 1,
-			);
+			];
 
 			$field_data['field_options'] = array_merge( $field_data['field_options'], $defaults );
 		}
@@ -168,12 +168,12 @@ class PaymentMethodSelectFieldType {
 
 		$this->in_field_options = false;
 
-		return array(
-			self::ID => array(
+		return [
+			self::ID => [
 				'name' => __( 'Payment Methods', 'pronamic_ideal' ),
 				'icon' => 'frm_icon_font frm_',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -299,7 +299,7 @@ class PaymentMethodSelectFieldType {
 	 * @return array
 	 */
 	public function bulk_field_choices( $choices ) {
-		$methods = array();
+		$methods = [];
 
 		$payment_methods = $this->get_payment_methods();
 
@@ -357,10 +357,10 @@ class PaymentMethodSelectFieldType {
 			$value = trim( $values[1] );
 
 			if ( $label !== $value ) {
-				$options[ $option_key ] = array(
+				$options[ $option_key ] = [
 					'label' => $label,
 					'value' => $value,
-				);
+				];
 			}
 		}
 
@@ -375,40 +375,35 @@ class PaymentMethodSelectFieldType {
 	 * Get payment method options.
 	 */
 	public function get_payment_methods() {
-		$payment_methods = array();
-
 		$config_id = get_option( 'pronamic_pay_config_id' );
 
 		$gateway = Plugin::get_gateway( $config_id );
 
-		if ( ! $gateway ) {
-			return $payment_methods;
+		if ( null === $gateway ) {
+			return [];
 		}
 
 		try {
-			$options = $gateway->get_payment_method_field_options();
-		} catch ( \Exception $e ) {
-			return $payment_methods;
-		}
-
-		foreach ( $options as $payment_method => $name ) {
-			$value = 'pronamic_pay';
-
-			if ( ! empty( $payment_method ) ) {
-				$value = sprintf( 'pronamic_pay_%s', $payment_method );
-			}
-
-			// Ignore unsupported recurring-only payment methods.
-			if ( \in_array( $payment_method, array_keys( PaymentMethods::get_direct_debit_methods() ), true ) ) {
-				continue;
-			}
-
-			$payment_methods[] = array(
-				'label' => $name,
-				'value' => $value,
+			$payment_methods = $gateway->get_payment_methods(
+				[
+					'status' => [ '', 'active' ],
+				]
 			);
-		}
 
-		return $payment_methods;
+			$result = [];
+
+			foreach ( $payment_methods as $payment_method ) {
+				$value = sprintf( 'pronamic_pay_%s', $payment_method->get_id() );
+
+				$result[] = [
+					'label' => $payment_method->get_name(),
+					'value' => $value,
+				];
+			}
+
+			return $result;
+		} catch ( \Exception $e ) {
+			return [];
+		}
 	}
 }

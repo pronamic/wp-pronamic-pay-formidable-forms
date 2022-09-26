@@ -50,9 +50,9 @@ class Extension extends AbstractPluginIntegration {
 	 */
 	public function __construct() {
 		parent::__construct(
-			array(
+			[
 				'name' => __( 'Formidable Forms', 'pronamic_ideal' ),
-			)
+			]
 		);
 
 		// Dependencies.
@@ -67,33 +67,33 @@ class Extension extends AbstractPluginIntegration {
 	 * @return void
 	 */
 	public function setup() {
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, [ $this, 'source_text' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, [ $this, 'source_description' ], 10, 2 );
 
 		// Check if dependencies are met and integration is active.
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'update_status' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, [ $this, 'update_status' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, [ $this, 'source_url' ], 10, 2 );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
-		add_action( 'frm_registered_form_actions', array( $this, 'registered_form_actions' ) );
+		add_action( 'frm_registered_form_actions', [ $this, 'registered_form_actions' ] );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
-		add_action( 'frm_trigger_pronamic_pay_create_action', array( $this, 'create_action' ), 10, 3 );
+		add_action( 'frm_trigger_pronamic_pay_create_action', [ $this, 'create_action' ], 10, 3 );
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.06/controllers/FrmPaymentSettingsController.php#L15-L19
-		add_filter( 'frm_action_triggers', array( $this, 'add_payment_trigger' ) );
-		add_filter( 'frm_email_action_options', array( $this, 'add_trigger_to_action' ) );
-		add_filter( 'frm_twilio_action_options', array( $this, 'add_trigger_to_action' ) );
-		add_filter( 'frm_mailchimp_action_options', array( $this, 'add_trigger_to_action' ) );
-		add_filter( 'frm_register_action_options', array( $this, 'add_payment_trigger_to_register_user_action' ) );
+		add_filter( 'frm_action_triggers', [ $this, 'add_payment_trigger' ] );
+		add_filter( 'frm_email_action_options', [ $this, 'add_trigger_to_action' ] );
+		add_filter( 'frm_twilio_action_options', [ $this, 'add_trigger_to_action' ] );
+		add_filter( 'frm_mailchimp_action_options', [ $this, 'add_trigger_to_action' ] );
+		add_filter( 'frm_register_action_options', [ $this, 'add_payment_trigger_to_register_user_action' ] );
 
 		// Field types.
 		$this->field_type_bank_select = new BankSelectFieldType();
@@ -121,14 +121,14 @@ class Extension extends AbstractPluginIntegration {
 		wp_register_style(
 			'pronamic-pay-formidable-forms',
 			plugins_url( 'css/admin' . $min . '.css', dirname( __FILE__ ) ),
-			array(),
+			[],
 			'1.0.0'
 		);
 
 		wp_register_script(
 			'pronamic-pay-formidable-forms',
 			plugins_url( 'js/admin' . $min . '.js', dirname( __FILE__ ) ),
-			array( 'jquery' ),
+			[ 'jquery' ],
 			'1.0.0',
 			true
 		);
@@ -246,11 +246,11 @@ class Extension extends AbstractPluginIntegration {
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
 			add_query_arg(
-				array(
+				[
 					'page'       => 'formidable-entries',
 					'frm_action' => 'show',
 					'id'         => $payment->get_source_id(),
-				),
+				],
 				admin_url( 'admin.php' )
 			),
 			sprintf(
@@ -285,11 +285,11 @@ class Extension extends AbstractPluginIntegration {
 	 */
 	public function source_url( $url, Payment $payment ) {
 		$url = add_query_arg(
-			array(
+			[
 				'page'       => 'formidable-entries',
 				'frm_action' => 'show',
 				'id'         => $payment->get_source_id(),
-			),
+			],
 			admin_url( 'admin.php' )
 		);
 
@@ -332,13 +332,13 @@ class Extension extends AbstractPluginIntegration {
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
-		add_action( 'frm_after_create_entry', array( $this, 'redirect_for_payment' ), 50, 2 );
+		add_action( 'frm_after_create_entry', [ $this, 'redirect_for_payment' ], 50, 2 );
 
 		// Delay notifications.
 		if ( ! self::$send_email_now && isset( $action->post_content['pronamic_pay_delay_notifications'] ) && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
 			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10 );
 			add_filter( 'frm_to_email', '__return_empty_array', 20 );
-			add_filter( 'frm_send_new_user_notification', array( __CLASS__, 'stop_registration_email' ), 10, 3 );
+			add_filter( 'frm_send_new_user_notification', [ __CLASS__, 'stop_registration_email' ], 10, 3 );
 		}
 	}
 
@@ -410,11 +410,6 @@ class Extension extends AbstractPluginIntegration {
 			$payment->set_payment_method( PaymentMethods::IDEAL );
 		}
 
-		// Check if gateway requires payment method.
-		if ( empty( $payment_method ) && $gateway->payment_method_is_required() ) {
-			$payment->set_payment_method( PaymentMethods::IDEAL );
-		}
-
 		// Issuer.
 		$payment->set_meta( 'issuer', FormidableFormsHelper::get_issuer_from_form_entry( $form_id, $entry ) );
 
@@ -433,9 +428,9 @@ class Extension extends AbstractPluginIntegration {
 			if ( wp_doing_ajax() ) {
 				// Do not use `wp_send_json_success()` as Formidable Forms doesn't properly handle the content type.
 				echo wp_json_encode(
-					array(
+					[
 						'redirect' => $payment->get_pay_redirect_url(),
-					)
+					]
 				);
 
 				exit;
@@ -462,7 +457,7 @@ class Extension extends AbstractPluginIntegration {
 			add_filter(
 				'frm_main_feedback',
 				function ( $message, $form, $entry_id ) use ( $e ) {
-					$atts = array(
+					$atts = [
 						'class'    => FrmFormsHelper::form_error_class(),
 						'form'     => $form,
 						'entry_id' => $entry_id,
@@ -471,7 +466,7 @@ class Extension extends AbstractPluginIntegration {
 							\esc_html( Plugin::get_default_error_message() ),
 							\esc_html( sprintf( '%s: %s', $e->getCode(), $e->getMessage() ) )
 						),
-					);
+					];
 
 					return FrmFormsHelper::get_success_message( $atts );
 				},
