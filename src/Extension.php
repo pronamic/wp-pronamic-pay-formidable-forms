@@ -120,14 +120,14 @@ class Extension extends AbstractPluginIntegration {
 
 		wp_register_style(
 			'pronamic-pay-formidable-forms',
-			plugins_url( 'css/admin' . $min . '.css', dirname( __FILE__ ) ),
+			plugins_url( 'css/admin' . $min . '.css', __DIR__ ),
 			[],
 			'1.0.0'
 		);
 
 		wp_register_script(
 			'pronamic-pay-formidable-forms',
-			plugins_url( 'js/admin' . $min . '.js', dirname( __FILE__ ) ),
+			plugins_url( 'js/admin' . $min . '.js', __DIR__ ),
 			[ 'jquery' ],
 			'1.0.0',
 			true
