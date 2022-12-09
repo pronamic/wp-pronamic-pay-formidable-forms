@@ -328,11 +328,11 @@ class PaymentMethodSelectFieldType {
 			return;
 		}
 
-		if ( ! filter_has_var( INPUT_POST, 'field_id' ) ) {
+		if ( ! \array_key_exists( 'field_id', $_POST ) ) {
 			return;
 		}
 
-		$field_id = filter_input( INPUT_POST, 'field_id', FILTER_SANITIZE_STRING );
+		$field_id = \sanitize_text_field( \wp_unslash( $_POST['field_id'] ) );
 
 		$field = FrmField::getOne( $field_id );
 
