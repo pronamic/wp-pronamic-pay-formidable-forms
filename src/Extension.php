@@ -109,8 +109,11 @@ class Extension extends AbstractPluginIntegration {
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 
-		$in_form_editor = ( 'toplevel_page_formidable' === $screen->id && 'edit' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING ) );
-		$in_settings    = ( 'toplevel_page_formidable' === $screen->id && 'settings' === filter_input( INPUT_GET, 'frm_action', FILTER_SANITIZE_STRING ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce is not necessary because this parameter does not trigger an action
+		$action = \array_key_exists( 'frm_action', $_GET ) ? \sanitize_text_field( \wp_unslash( $_GET['frm_action'] ) ) : '';
+
+		$in_form_editor = ( 'toplevel_page_formidable' === $screen->id && 'edit' === $action );
+		$in_settings    = ( 'toplevel_page_formidable' === $screen->id && 'settings' === $action );
 
 		if ( ! $in_form_editor && ! $in_settings ) {
 			return;
