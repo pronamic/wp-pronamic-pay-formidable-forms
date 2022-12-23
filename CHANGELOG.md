@@ -7,6 +7,22 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.0] - 2022-12-23
+
+### Commits
+
+- Added https://github.com/WordPress/wp-plugin-dependencies. ([e35ee01](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/e35ee019d9b6bf821330a7c77930b557caedaa2a))
+- No longer use `filter_` functions and deprecated `FILTER_SANITIZE_STRING`. ([58cb81a](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/58cb81a9d7a881d9a15ee6f361485f114cc6f1c8))
+
+### Composer
+
+- Changed `php` from `>=5.6.20` to `>=8.0`.
+- Changed `wp-pay/core` from `^4.4` to `v4.6.0`.
+	Release notes: https://github.com/pronamic/wp-pay-core/releases/tag/v4.2.1
+Full set of changes: [`4.2.1...4.3.0`][4.3.0]
+
+[4.3.0]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.2.1...v4.3.0
+
 ## [4.2.1] - 2022-09-27
 - Update to `wp-pay/core` version `^4.4`.
 
