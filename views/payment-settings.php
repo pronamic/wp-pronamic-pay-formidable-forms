@@ -6,7 +6,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms payment settings
  * Description:
- * Copyright: 2005-2022 Pronamic
+ * Copyright: 2005-2023 Pronamic
  * Company: Pronamic
  *
  * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
