@@ -16,6 +16,36 @@ use Pronamic\WordPress\Pay\Plugin;
  * @since 1.0.0
  */
 
+$field_amount = '';
+
+if ( \array_key_exists( 'pronamic_pay_amount_field', $instance->post_content ) ) {
+	$field_amount = $instance->post_content['pronamic_pay_amount_field'];
+}
+
+$field_method = '';
+
+if ( \array_key_exists( 'pronamic_pay_payment_method_field', $instance->post_content ) ) {
+	$field_method = $instance->post_content['pronamic_pay_payment_method_field'];
+}
+
+$config_id = 0;
+
+if ( \array_key_exists( 'pronamic_pay_config_id', $instance->post_content ) ) {
+	$config_id = $instance->post_content['pronamic_pay_config_id'];
+}
+
+$transaction_description = '';
+
+if ( \array_key_exists( 'pronamic_pay_transaction_description', $instance->post_content ) ) {
+	$transaction_description = $instance->post_content['pronamic_pay_transaction_description'];
+}
+
+$delay_notifications = '';
+
+if ( \array_key_exists( 'pronamic_pay_delay_notifications', $instance->post_content ) ) {
+	$delay_notifications = $instance->post_content['pronamic_pay_delay_notifications'];
+}
+
 ?>
 <table class="form-table">
 	<tr>
@@ -24,8 +54,6 @@ use Pronamic\WordPress\Pay\Plugin;
 		</th>
 		<td>
 			<?php
-
-			$current = $instance->post_content['pronamic_pay_amount_field'];
 
 			printf(
 				'<select name="%s">',
@@ -44,7 +72,7 @@ use Pronamic\WordPress\Pay\Plugin;
 				printf(
 					'<option value="%s" %s>%s</option>',
 					esc_attr( $value ),
-					selected( $current, $value, false ),
+					selected( $field_amount, $value, false ),
 					esc_html( $label )
 				);
 			}
@@ -60,8 +88,6 @@ use Pronamic\WordPress\Pay\Plugin;
 		</th>
 		<td>
 			<?php
-
-			$current = $instance->post_content['pronamic_pay_payment_method_field'];
 
 			printf(
 				'<select name="%s">',
@@ -84,7 +110,7 @@ use Pronamic\WordPress\Pay\Plugin;
 				printf(
 					'<option value="%s" %s>%s</option>',
 					esc_attr( $value ),
-					selected( $current, $value, false ),
+					selected( $field_method, $value, false ),
 					esc_html( $label )
 				);
 			}
@@ -114,7 +140,7 @@ use Pronamic\WordPress\Pay\Plugin;
 				\printf(
 					'<option value="%s" %s>%s</option>',
 					\esc_attr( $value ),
-					\selected( $instance->post_content['pronamic_pay_config_id'], $value, false ),
+					\selected( $config_id, $value, false ),
 					\esc_html( $label )
 				);
 			}
@@ -134,7 +160,7 @@ use Pronamic\WordPress\Pay\Plugin;
 			printf(
 				'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
 				esc_attr( $this->get_field_name( 'pronamic_pay_transaction_description' ) ),
-				esc_attr( $instance->post_content['pronamic_pay_transaction_description'] ),
+				esc_attr( $transaction_description ),
 				esc_attr__( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' )
 			);
 
@@ -152,7 +178,7 @@ use Pronamic\WordPress\Pay\Plugin;
 			printf(
 				'<input type="checkbox" name="%s" title="" %s /> %s',
 				esc_attr( $this->get_field_name( 'pronamic_pay_delay_notifications' ) ),
-				checked( $instance->post_content['pronamic_pay_delay_notifications'], 'on', false ),
+				checked( $delay_notifications, 'on', false ),
 				esc_attr__( 'Delay email notifications until payment has been received.', 'pronamic_ideal' )
 			);
 
