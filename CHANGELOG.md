@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.1] - 2023-01-18
+
+### Commits
+
+- Fixed "Undefined array key" notices. ([4677a8d](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/4677a8d51a7640c08d9d921a1b01eb1316a8ddc9))
+- Happy 2023. ([69a4bcc](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/69a4bccf474eeb7fb7930f70381cba8b253497ef))
+
+Full set of changes: [`4.3.0...4.3.1`][4.3.1]
+
+[4.3.1]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.3.0...v4.3.1
+
 ## [4.3.0] - 2022-12-23
 
 ### Commits
