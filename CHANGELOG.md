@@ -7,6 +7,18 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.3] - 2023-03-27
+
+### Commits
+
+- Set Composer type to WordPress plugin. ([055a8c2](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/055a8c2cffe9dc420daba731273f97cdf313d450))
+- Updated .gitattributes ([d25a8c0](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/d25a8c09e41d6523a226b1193a17c33a31db1611))
+- Requires PHP: 7.4. ([fd2345b](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/fd2345b57450d97a345825af1af97583d2d55924))
+
+Full set of changes: [`4.3.2...4.3.3`][4.3.3]
+
+[4.3.3]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.3.2...v4.3.3
+
 ## [4.3.2] - 2023-01-31
 ### Composer
 
