@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.4] - 2023-06-01
+
+### Commits
+
+- Switch from `pronamic/wp-deployer` to `pronamic/pronamic-cli`. ([676ce44](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/676ce44595c476b1b4b5b867fd5003f117c2893a))
+- Updated .gitattributes ([213ee43](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/213ee4334ce004dcd535b8eb8b410a64e169941c))
+
+Full set of changes: [`4.3.3...4.3.4`][4.3.4]
+
+[4.3.4]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.3.3...v4.3.4
+
 ## [4.3.3] - 2023-03-27
 
 ### Commits
