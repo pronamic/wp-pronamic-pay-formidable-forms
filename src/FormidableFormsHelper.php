@@ -49,6 +49,47 @@ class FormidableFormsHelper {
 	}
 
 	/**
+	 * Get order ID.
+	 *
+	 * @param unknown $action   Action.
+	 * @param int     $form_id  Form ID.
+	 * @param unknown $entry    Entry.
+	 * @param int     $entry_id Entry ID.
+	 * @return string
+	 */
+	public static function get_order_id( $action, $form_id, $entry, $entry_id ) {
+		if ( ! \array_key_exists( 'pronamic_pay_order_id', $action->post_content ) ) {
+			return $entry_id;
+		}
+
+		// Order ID template.
+		$order_id_template = $action->post_content['pronamic_pay_order_id'];
+
+		/**
+		 * Find shortcode.
+		 *
+		 * @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L684-L696
+		 */
+		$shortcodes = FrmFieldsHelper::get_shortcodes( $order_id_template, $form_id );
+
+		/**
+		 * Replace shortcodes.
+		 *
+		 * @link https://github.com/wp-premium/formidable/blob/2.0.22/classes/helpers/FrmFieldsHelper.php#L715-L821
+		 */
+		$order_id = FrmFieldsHelper::replace_content_shortcodes( $order_id_template, $entry, $shortcodes );
+
+		/**
+		 * Fallback to entry ID.
+		 */
+		if ( '' === $order_id ) {
+			$order_id = (string) $entry_id;
+		}
+
+		return $order_id;
+	}
+
+	/**
 	 * Get description.
 	 *
 	 * @param unknown $action   Action.

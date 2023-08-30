@@ -371,7 +371,7 @@ class Extension extends AbstractPluginIntegration {
 
 		$payment->source    = 'formidable-forms';
 		$payment->source_id = $entry_id;
-		$payment->order_id  = $entry_id;
+		$payment->order_id  = FormidableFormsHelper::get_order_id( $this->action, $form_id, $entry, $entry_id );
 
 		$description = FormidableFormsHelper::get_description( $this->action, $form_id, $entry, $entry_id );
 

@@ -16,6 +16,23 @@ use Pronamic\WordPress\Pay\Plugin;
  * @since 1.0.0
  */
 
+$callback_text_field = function ( $field ) use ( $instance ) {
+	$id = $field['id'];
+
+	$current = '';
+
+	if ( \array_key_exists( $id, $instance->post_content ) ) {
+		$current = $instance->post_content[ $id ];
+	}
+
+	printf(
+		'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
+		esc_attr( $this->get_field_name( $id ) ),
+		esc_attr( $current ),
+		esc_attr( $field['description'] )
+	);
+};
+
 $fields = [
 	[
 		'id'       => 'pronamic_pay_amount_field',
@@ -129,24 +146,16 @@ $fields = [
 		},
 	],
 	[
-		'id'       => 'pronamic_pay_transaction_description',
-		'label'    => __( 'Transaction Description', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance ) {
-			$id = $field['id'];
-
-			$current = '';
-
-			if ( \array_key_exists( $id, $instance->post_content ) ) {
-				$current = $instance->post_content[ $id ];
-			}
-
-			printf(
-				'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
-				esc_attr( $this->get_field_name( $id ) ),
-				esc_attr( $current ),
-				esc_attr__( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' )
-			);
-		},
+		'id'          => 'pronamic_pay_order_id',
+		'label'       => __( 'Order ID', 'pronamic_ideal' ),
+		'description' => __( 'Enter an order ID, you can use Formidable Forms shortcodes.', 'pronamic_ideal' ),
+		'callback'    => $callback_text_field,
+	],
+	[
+		'id'          => 'pronamic_pay_transaction_description',
+		'label'       => __( 'Transaction Description', 'pronamic_ideal' ),
+		'description' => __( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' ),
+		'callback'    => $callback_text_field,
 	],
 	[
 		'id'       => 'pronamic_pay_delay_notifications',
