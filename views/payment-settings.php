@@ -52,7 +52,7 @@ $fields = [
 			}
 
 			echo '</select>';
-		}
+		},
 	],
 	[
 		'id'       => 'pronamic_pay_payment_method_field',
@@ -93,7 +93,7 @@ $fields = [
 			}
 
 			echo '</select>';
-		}
+		},
 	],
 	[
 		'id'       => 'pronamic_pay_config_id',
@@ -126,12 +126,12 @@ $fields = [
 			}
 
 			echo '</select>';
-		}
+		},
 	],
 	[
 		'id'       => 'pronamic_pay_transaction_description',
 		'label'    => __( 'Transaction Description', 'pronamic_ideal' ),
-		'callback' => function ($field ) use ( $instance ) {
+		'callback' => function ( $field ) use ( $instance ) {
 			$id = $field['id'];
 
 			$current = '';
@@ -146,7 +146,7 @@ $fields = [
 				esc_attr( $current ),
 				esc_attr__( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' )
 			);
-		}
+		},
 	],
 	[
 		'id'       => 'pronamic_pay_delay_notifications',
@@ -166,8 +166,8 @@ $fields = [
 				checked( $current, 'on', false ),
 				esc_attr__( 'Delay email notifications until payment has been received.', 'pronamic_ideal' )
 			);
-		}
-	]
+		},
+	],
 ];
 
 ?>
