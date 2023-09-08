@@ -16,11 +16,28 @@ use Pronamic\WordPress\Pay\Plugin;
  * @since 1.0.0
  */
 
+$callback_text_field = function ( $field ) use ( $instance, $payment_action ) {
+	$id = $field['id'];
+
+	$current = '';
+
+	if ( \array_key_exists( $id, $instance->post_content ) ) {
+		$current = $instance->post_content[ $id ];
+	}
+
+	printf(
+		'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
+		esc_attr( $payment_action->get_field_name( $id ) ),
+		esc_attr( $current ),
+		esc_attr( $field['description'] )
+	);
+};
+
 $fields = [
 	[
 		'id'       => 'pronamic_pay_amount_field',
 		'label'    => __( 'Amount', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $form_fields, $instance ) {
+		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ) {
 			$id = $field['id'];
 
 			$current = '';
@@ -31,7 +48,7 @@ $fields = [
 
 			printf(
 				'<select name="%s">',
-				esc_attr( $this->get_field_name( $id ) )
+				esc_attr( $payment_action->get_field_name( $id ) )
 			);
 
 			$options = [
@@ -57,7 +74,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_payment_method_field',
 		'label'    => __( 'Payment method', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $form_fields, $instance ) {
+		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ) {
 			$id = $field['id'];
 
 			$current = '';
@@ -68,7 +85,7 @@ $fields = [
 
 			printf(
 				'<select name="%s">',
-				esc_attr( $this->get_field_name( $id ) )
+				esc_attr( $payment_action->get_field_name( $id ) )
 			);
 
 			$options = [
@@ -98,7 +115,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_config_id',
 		'label'    => __( 'Payment Gateway Configuration', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance ) {
+		'callback' => function ( $field ) use ( $instance, $payment_action ) {
 			$id = $field['id'];
 
 			$current = '';
@@ -109,7 +126,7 @@ $fields = [
 
 			\printf(
 				'<select name="%s">',
-				esc_attr( $this->get_field_name( $id ) )
+				esc_attr( $payment_action->get_field_name( $id ) )
 			);
 
 			$options = Plugin::get_config_select_options();
@@ -129,29 +146,21 @@ $fields = [
 		},
 	],
 	[
-		'id'       => 'pronamic_pay_transaction_description',
-		'label'    => __( 'Transaction Description', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance ) {
-			$id = $field['id'];
-
-			$current = '';
-
-			if ( \array_key_exists( $id, $instance->post_content ) ) {
-				$current = $instance->post_content[ $id ];
-			}
-
-			printf(
-				'<input type="text" name="%s" value="%s" class="large-text frm_help" title="" data-original-title="%s" />',
-				esc_attr( $this->get_field_name( $id ) ),
-				esc_attr( $current ),
-				esc_attr__( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' )
-			);
-		},
+		'id'          => 'pronamic_pay_order_id',
+		'label'       => __( 'Order ID', 'pronamic_ideal' ),
+		'description' => __( 'Enter an order ID, you can use Formidable Forms shortcodes.', 'pronamic_ideal' ),
+		'callback'    => $callback_text_field,
+	],
+	[
+		'id'          => 'pronamic_pay_transaction_description',
+		'label'       => __( 'Transaction Description', 'pronamic_ideal' ),
+		'description' => __( 'Enter a transaction description, you can use Formidable Forms shortcodes.', 'pronamic_ideal' ),
+		'callback'    => $callback_text_field,
 	],
 	[
 		'id'       => 'pronamic_pay_delay_notifications',
 		'label'    => __( 'Notifications', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance ) {
+		'callback' => function ( $field ) use ( $instance, $payment_action ) {
 			$id = $field['id'];
 
 			$current = '';
@@ -162,7 +171,7 @@ $fields = [
 
 			printf(
 				'<input type="checkbox" name="%s" title="" %s /> %s',
-				esc_attr( $this->get_field_name( $id ) ),
+				esc_attr( $payment_action->get_field_name( $id ) ),
 				checked( $current, 'on', false ),
 				esc_attr__( 'Delay email notifications until payment has been received.', 'pronamic_ideal' )
 			);

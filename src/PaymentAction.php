@@ -57,6 +57,8 @@ class PaymentAction extends FrmFormAction {
 	public function form( $instance, $args = [] ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
 
+		$payment_action = $this;
+
 		include __DIR__ . '/../views/payment-settings.php';
 	}
 
