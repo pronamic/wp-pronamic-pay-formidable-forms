@@ -7,6 +7,20 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.4.0] - 2023-09-11
+
+### Commits
+
+- Merge pull request #5 from pronamic/4-add-support-for-order-id-setting ([7222a5c](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/7222a5ce73232a6302977e8fbb73e4e2e3fbabbd))
+- Fixed `Closures / anonymous functions only have access to $this if used within a class or when bound to an object using bindTo()`. ([11690f8](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/11690f8e56a5ae00d360aa237054e1fee13a9b0d))
+- Added setting for order ID template. ([c49948b](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/c49948b90e127b54aa2414a365beded0fa33bd02))
+- phpcbf ([7d250b9](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/7d250b908950012b3dd32b97dd1f2e7f36f2409a))
+- More DRY settings fields. ([91e03d4](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/91e03d4d16736333d8007e236b98d64afa523748))
+
+Full set of changes: [`4.3.4...4.4.0`][4.4.0]
+
+[4.4.0]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.3.4...v4.4.0
+
 ## [4.3.4] - 2023-06-01
 
 ### Commits
