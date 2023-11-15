@@ -143,7 +143,7 @@ class BankSelectFieldType {
 
 			foreach ( $issuer_field->get_options() as $option ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $option->render();
+				echo $option->get_element()->render();
 			}
 
 			echo '</select>';
