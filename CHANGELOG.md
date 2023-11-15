@@ -7,6 +7,16 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.4.1] - 2023-11-15
+
+### Fixed
+
+- Fixed "Fatal error: Uncaught Error: Call to undefined method Pronamic\WordPress\Pay\Fields\SelectFieldOption::render()". ([82f886e](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/82f886e8e7ff1649a5ceb917af810effbc03464c))
+
+Full set of changes: [`4.4.0...4.4.1`][4.4.1]
+
+[4.4.1]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.4.0...v4.4.1
+
 ## [4.4.0] - 2023-09-11
 
 ### Commits
