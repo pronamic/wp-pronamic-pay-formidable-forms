@@ -10,8 +10,6 @@ use FrmFormsHelper;
 use FrmProNotification;
 use FrmRegAppController;
 use FrmRegNotification;
-use Pronamic\WordPress\Money\Currency;
-use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
@@ -96,10 +94,10 @@ class Extension extends AbstractPluginIntegration {
 		add_filter( 'frm_register_action_options', [ $this, 'add_payment_trigger_to_register_user_action' ] );
 
 		// Field types.
-		$this->field_type_bank_select = new BankSelectFieldType();
+		new BankSelectFieldType();
 
 		if ( FormidableForms::version_compare( '3.0.0', '>' ) ) {
-			$this->field_type_payment_method_select = new PaymentMethodSelectFieldType();
+			new PaymentMethodSelectFieldType();
 		}
 	}
 
