@@ -44,6 +44,13 @@ class Extension extends AbstractPluginIntegration {
 	private static $send_email_now = false;
 
 	/**
+	 * Form action.
+	 *
+	 * @var FrmFormAction|null
+	 */
+	private $action;
+
+	/**
 	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
