@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.4.2] - 2023-12-18
+
+### Commits
+
+- Fixed "Deprecated: Creation of dynamic property Pronamic\WordPress\Pay\Extensions\FormidableForms\Extension::$action is deprecated". ([eaa641b](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/eaa641b094d91066924691a0f8abf0905e5de822))
+- Fixed "Deprecated: Creation of dynamic property ... is deprecated". ([3d38755](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/3d38755c88c2c965bbb57d518b4a0b6b3d7a630a))
+
+Full set of changes: [`4.4.1...4.4.2`][4.4.2]
+
+[4.4.2]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.4.1...v4.4.2
+
 ## [4.4.1] - 2023-11-15
 
 ### Fixed
