@@ -14,7 +14,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms payment method select field type
  * Description:
- * Copyright: 2005-2023 Pronamic
+ * Copyright: 2005-2024 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
