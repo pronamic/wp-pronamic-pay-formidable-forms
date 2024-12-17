@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.4.3] - 2024-12-17
+
+### Commits
+
+- Allow automattic/jetpack-autoloader Composer plugin. ([0cb8d3b](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/0cb8d3b22dd43437fdd520e3aa03c559fb0ad8b0))
+- Happy 2024. ([b2bd2c3](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/b2bd2c31eba38b31cb93c5b0499ef3ba142aa8d1))
+
+Full set of changes: [`4.4.2...4.4.3`][4.4.3]
+
+[4.4.3]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.4.2...v4.4.3
+
 ## [4.4.2] - 2023-12-18
 
 ### Commits

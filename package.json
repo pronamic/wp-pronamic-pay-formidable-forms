@@ -1,6 +1,6 @@
 {
   "name": "formidable-forms",
-  "version": "4.4.2",
+  "version": "4.4.3",
   "description": "Formidable Forms driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",
