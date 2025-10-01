@@ -56,7 +56,7 @@ class Extension extends AbstractPluginIntegration {
 	public function __construct() {
 		parent::__construct(
 			[
-				'name' => __( 'Formidable Forms', 'pronamic_ideal' ),
+				'name' => 'Formidable Forms',
 			]
 		);
 
