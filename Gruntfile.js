@@ -85,13 +85,19 @@ module.exports = function( grunt ) {
 			]
 		},
 
-		// Compass
-		compass: {
-			build: {
+		// Sass
+		sass: {
+			dist: {
 				options: {
-					sassDir: 'scss',
-					cssDir: 'css'
-				}
+					implementation: require('sass'),
+					sourceMap: true
+				},
+
+				processors: [
+					require('autoprefixer')({ overrideBrowserslist: ['last 2 versions'] })
+				],
+
+				files: { 'css/admin.css': 'scss/admin.scss' }
 			}
 		},
 
@@ -104,7 +110,7 @@ module.exports = function( grunt ) {
 				},
 
 				processors: [
-					require( 'autoprefixer' )( { browsers: 'last 2 versions' } )
+					require('autoprefixer')({ overrideBrowserslist: ['last 2 versions'] })
 				]
 			},
 			dist: {
@@ -124,5 +130,5 @@ module.exports = function( grunt ) {
 
 	// Default task(s).
 	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs', 'phpunit' ] );
-	grunt.registerTask( 'assets', [ 'sasslint', 'jshint', 'uglify', 'compass', 'postcss', 'cssmin' ] );
+	grunt.registerTask( 'assets', [ 'sasslint', 'jshint', 'uglify', 'sass', 'postcss', 'cssmin' ] );
 };

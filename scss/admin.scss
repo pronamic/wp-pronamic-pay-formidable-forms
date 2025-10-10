@@ -22,7 +22,7 @@
 				.pronamic-pay-formidable-icon {
 					width: 24px;
 					height: 24px;
-					filter: invert(100%) saturate(0%) contrast(85%);
+					filter: invert(100%) saturate(100%) contrast(40%) hue-rotate(150deg) brightness(95%);
 				}
 			}
 		}
@@ -30,7 +30,7 @@
 		&:hover {
 			.frm_form_action_icon {
 				.pronamic-pay-formidable-icon {
-					filter: invert(100%) saturate(0%) contrast(20%);
+					filter: invert(100%) saturate(100%) contrast(40%) hue-rotate(150deg) brightness(70%);
 				}
 			}
 		}
