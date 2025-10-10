@@ -455,7 +455,7 @@ class Extension extends AbstractPluginIntegration {
 			 */
 			\add_filter(
 				'frm_success_filter',
-				function( $method, $form ) {
+				function ( $method, $form ) {
 					return 'message';
 				},
 				10,

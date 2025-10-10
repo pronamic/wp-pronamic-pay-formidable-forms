@@ -8,9 +8,16 @@
 
 	<rule ref="PronamicWP">
 		<exclude name="Generic.CodeAnalysis.UselessOverridingMethod.Found" />
+		<exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed" />
 
 		<exclude name="Squiz.Commenting" />
 
 		<exclude name="WordPressVIPMinimum.Functions.RestrictedFunctions.url_to_postid_url_to_postid" />
+
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="frm_edit_forms" />
+			</property>
+		</properties>
 	</rule>
 </ruleset>
