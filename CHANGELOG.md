@@ -7,6 +7,25 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.4.4] - 2025-11-11
+
+### Commits
+
+- Updated form action icon color. ([05967f6](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/05967f6cb420fcb8cebcdb2843caa3f167e32a26))
+- Coding standards. ([48795ba](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/48795ba57060ac250067cac8712320b46c6978e7))
+- Added this point we shoud not use translation functions. ([d851cc7](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/d851cc7fc13075e4d69bd025ee654c2d0b13e472))
+- Updated wp-env. ([b63deae](https://github.com/pronamic/wp-pronamic-pay-formidable-forms/commit/b63deae125a746e9f183942d713d2b1b0ced4a03))
+
+### Composer
+
+- Changed `php` from `>=7.4` to `>=8.2`.
+- Changed `wp-pay/core` from `^4.6` to `v4.27.1`.
+	Release notes: https://github.com/pronamic/wp-pay-core/releases/tag/v4.27.1
+
+Full set of changes: [`4.4.3...4.4.4`][4.4.4]
+
+[4.4.4]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.4.3...v4.4.4
+
 ## [4.4.3] - 2024-12-17
 
 ### Commits
