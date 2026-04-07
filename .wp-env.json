@@ -4,7 +4,6 @@
 		"PRONAMIC_PAY_DEBUG": true
 	},
 	"plugins": [
-		".",
 		"pronamic/wp-env-quick-login",
 		"pronamic/wp-pronamic-pay-test-helper",
 		"https://downloads.wordpress.org/plugin/formidable.6.24.zip",
@@ -14,5 +13,8 @@
 		"https://downloads.wordpress.org/plugin/query-monitor.zip",
 		"https://downloads.wordpress.org/plugin/wp-plugin-dependencies.zip"
 	],
+	"mappings": {
+		"wp-content/plugins/pronamic-pay-formidable-forms": "."
+	},
 	"testsEnvironment": false
 }
