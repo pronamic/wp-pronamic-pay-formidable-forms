@@ -72,33 +72,33 @@ class Extension extends AbstractPluginIntegration {
 	 * @return void
 	 */
 	public function setup() {
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, $this->source_text( ... ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, $this->source_description( ... ), 10, 2 );
+		\add_filter( 'pronamic_payment_source_text_' . self::SLUG, $this->source_text( ... ), 10, 2 );
+		\add_filter( 'pronamic_payment_source_description_' . self::SLUG, $this->source_description( ... ), 10, 2 );
 
 		// Check if dependencies are met and integration is active.
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, $this->update_status( ... ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, $this->source_url( ... ), 10, 2 );
+		\add_action( 'pronamic_payment_status_update_' . self::SLUG, $this->update_status( ... ), 10, 2 );
+		\add_filter( 'pronamic_payment_source_url_' . self::SLUG, $this->source_url( ... ), 10, 2 );
 
-		add_action( 'admin_enqueue_scripts', $this->admin_enqueue_scripts( ... ) );
+		\add_action( 'admin_enqueue_scripts', $this->admin_enqueue_scripts( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
-		add_action( 'frm_registered_form_actions', $this->registered_form_actions( ... ) );
+		\add_action( 'frm_registered_form_actions', $this->registered_form_actions( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
-		add_action( 'frm_trigger_pronamic_pay_create_action', $this->create_action( ... ), 10, 3 );
+		\add_action( 'frm_trigger_pronamic_pay_create_action', $this->create_action( ... ), 10, 3 );
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.06/controllers/FrmPaymentSettingsController.php#L15-L19
-		add_filter( 'frm_action_triggers', $this->add_payment_trigger( ... ) );
-		add_filter( 'frm_email_action_options', $this->add_trigger_to_action( ... ) );
-		add_filter( 'frm_twilio_action_options', $this->add_trigger_to_action( ... ) );
-		add_filter( 'frm_mailchimp_action_options', $this->add_trigger_to_action( ... ) );
-		add_filter( 'frm_register_action_options', $this->add_payment_trigger_to_register_user_action( ... ) );
+		\add_filter( 'frm_action_triggers', $this->add_payment_trigger( ... ) );
+		\add_filter( 'frm_email_action_options', $this->add_trigger_to_action( ... ) );
+		\add_filter( 'frm_twilio_action_options', $this->add_trigger_to_action( ... ) );
+		\add_filter( 'frm_mailchimp_action_options', $this->add_trigger_to_action( ... ) );
+		\add_filter( 'frm_register_action_options', $this->add_payment_trigger_to_register_user_action( ... ) );
 
 		// Field types.
 		new BankSelectFieldType();
