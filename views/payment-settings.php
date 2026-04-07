@@ -3,7 +3,7 @@
  * Formidable Forms payment settings.
  *
  * @author    Pronamic <info@pronamic.eu>
- * @copyright 2005-2025 Pronamic
+ * @copyright 2005-2026 Pronamic
  * @license   GPL-3.0-or-later
  * @package   Pronamic\WordPress\Pay
  */
@@ -14,7 +14,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Formidable Forms payment settings
  * Description:
- * Copyright: 2005-2024 Pronamic
+ * Copyright: 2005-2026 Pronamic
  * Company: Pronamic
  *
  * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/views/settings/_payment_settings.php
