@@ -524,9 +524,6 @@ class Extension extends AbstractPluginIntegration {
 		if ( is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
 			// Formidable Forms >= 2.0.
 			FrmFormActionsController::trigger_actions( 'create', $entry->form_id, $entry->id, 'email' );
-		} elseif ( is_callable( 'FrmProNotification::entry_created' ) ) {
-			// Formidable Forms < 2.0.
-			FrmProNotification::entry_created( $entry->id, $entry->form_id );
 		}
 
 		// Trigger registration email.
