@@ -1,55 +1,55 @@
 {
-  "name": "formidable-forms",
-  "version": "4.4.4",
-  "description": "Formidable Forms driver for the WordPress payment processing library.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wp-pay-extensions/formidable-forms"
-  },
-  "keywords": [
-    "wordpress",
-    "wp",
-    "pay",
-    "formidable",
-    "forms",
-    "gateway",
-    "pronamic"
-  ],
-  "author": {
-    "name": "Pronamic",
-    "email": "info@pronamic.nl",
-    "url": "http://www.pronamic.nl/"
-  },
-  "contributors": [
-    {
-      "name": "Remco Tolsma",
-      "email": "info@remcotolsma.nl",
-      "url": "http://www.remcotolsma.nl/"
-    }
-  ],
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/wp-pay-extensions/formidable-forms/issues"
-  },
-  "homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
-  "devDependencies": {
-    "@wordpress/env": "^11.3.0",
-    "autoprefixer": "^9.8.8",
-    "grunt": "^1.6.1",
-    "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-jshint": "^3.0.0",
-    "grunt-contrib-uglify": "^5.0.0",
-    "grunt-phpcs": "^0.4.0",
-    "grunt-phplint": "0.1.0",
-    "grunt-phpmd": "^0.1.1",
-    "grunt-phpunit": "^0.3.6",
-    "grunt-postcss": "^0.9.0",
-    "grunt-sass": "^4.0.0",
-    "grunt-sass-lint": "^0.2.4",
-    "load-grunt-tasks": "^5.1.0"
-  },
-  "scripts": {
-    "start": "wp-env start",
-    "login": "wp-env run cli wp user one-time-login admin"
-  }
+	"name": "formidable-forms",
+	"version": "4.4.4",
+	"description": "Formidable Forms driver for the WordPress payment processing library.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wp-pay-extensions/formidable-forms"
+	},
+	"keywords": [
+		"wordpress",
+		"wp",
+		"pay",
+		"formidable",
+		"forms",
+		"gateway",
+		"pronamic"
+	],
+	"author": {
+		"name": "Pronamic",
+		"email": "info@pronamic.nl",
+		"url": "http://www.pronamic.nl/"
+	},
+	"contributors": [
+		{
+			"name": "Remco Tolsma",
+			"email": "info@remcotolsma.nl",
+			"url": "http://www.remcotolsma.nl/"
+		}
+	],
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/wp-pay-extensions/formidable-forms/issues"
+	},
+	"homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
+	"devDependencies": {
+		"@wordpress/env": "^11.3.0",
+		"autoprefixer": "^9.8.8",
+		"grunt": "^1.6.1",
+		"grunt-contrib-cssmin": "^3.0.0",
+		"grunt-contrib-jshint": "^3.0.0",
+		"grunt-contrib-uglify": "^5.0.0",
+		"grunt-phpcs": "^0.4.0",
+		"grunt-phplint": "0.1.0",
+		"grunt-phpmd": "^0.1.1",
+		"grunt-phpunit": "^0.3.6",
+		"grunt-postcss": "^0.9.0",
+		"grunt-sass": "^4.0.0",
+		"grunt-sass-lint": "^0.2.4",
+		"load-grunt-tasks": "^5.1.0"
+	},
+	"scripts": {
+		"start": "wp-env start",
+		"login": "wp-env run cli wp user one-time-login admin"
+	}
 }
