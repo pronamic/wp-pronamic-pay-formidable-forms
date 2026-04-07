@@ -85,9 +85,14 @@ class Extension extends AbstractPluginIntegration {
 
 		\add_action( 'admin_enqueue_scripts', $this->admin_enqueue_scripts( ... ) );
 
-		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
-		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
-		\add_action( 'frm_registered_form_actions', $this->registered_form_actions( ... ) );
+		/**
+		 * Register form action.
+		 *
+		 * @link https://plugins.trac.wordpress.org/browser/formidable/tags/6.24/classes/controllers/FrmFormActionsController.php#L46
+		 * @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
+		 * @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
+		 */
+		\add_filter( 'frm_registered_form_actions', $this->registered_form_actions( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
@@ -314,8 +319,8 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return array
 	 */
-	public function registered_form_actions( $actions ) {
-		$actions['pronamic_pay'] = __NAMESPACE__ . '\PaymentAction';
+	private function registered_form_actions( $actions ) {
+		$actions['pronamic_pay'] = PaymentAction::class;
 
 		return $actions;
 	}
