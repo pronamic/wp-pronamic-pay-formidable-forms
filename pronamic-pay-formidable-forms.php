@@ -27,16 +27,36 @@
  * @package   Pronamic\WordPress\Pay\Extensions\FormidableForms
  */
 
-add_filter(
+declare(strict_types=1);
+
+namespace Pronamic\WordPress\Pay\Extensions\FormidableForms;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Autoload.
+ */
+$autoload_path = __DIR__ . '/vendor/autoload_packages.php';
+
+if ( \file_exists( $autoload_path ) ) {
+	require_once $autoload_path;
+}
+
+/**
+ * Bootstrap.
+ */
+\add_filter(
 	'pronamic_pay_plugin_integrations',
 	function ( $integrations ) {
 		foreach ( $integrations as $integration ) {
-			if ( $integration instanceof \Pronamic\WordPress\Pay\Extensions\FormidableForms\Extension ) {
+			if ( $integration instanceof Extension ) {
 				return $integrations;
 			}
 		}
 
-		$integrations[] = new \Pronamic\WordPress\Pay\Extensions\FormidableForms\Extension();
+		$integrations[] = new Extension();
 
 		return $integrations;
 	}
