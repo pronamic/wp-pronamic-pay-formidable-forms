@@ -58,6 +58,7 @@
 	},
 	"require": {
 		"php": ">=8.2",
+		"automattic/jetpack-autoloader": "^5.0",
 		"wp-pay/core": "^4.32"
 	},
 	"require-dev": {
