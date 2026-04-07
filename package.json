@@ -33,7 +33,7 @@
   },
   "homepage": "http://www.wp-pay.org/extensions/formidable-forms/",
   "devDependencies": {
-    "@wordpress/env": "^10.30.0",
+    "@wordpress/env": "^11.3.0",
     "autoprefixer": "^9.8.8",
     "grunt": "^1.6.1",
     "grunt-contrib-cssmin": "^3.0.0",
