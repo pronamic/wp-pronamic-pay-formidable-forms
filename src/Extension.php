@@ -277,10 +277,10 @@ class Extension extends AbstractPluginIntegration {
 	 * @param string  $description Source description.
 	 * @param Payment $payment     Payment.
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public function source_description( $description, Payment $payment ) {
-		return __( 'Formidable Forms Entry', 'pronamic_ideal' );
+		return \__( 'Formidable Forms Entry', 'pronamic_ideal' );
 	}
 
 	/**
