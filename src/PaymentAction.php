@@ -53,6 +53,7 @@ class PaymentAction extends FrmFormAction {
 	 *
 	 * @param array $instance Current settings.
 	 * @param array $args     Arguments.
+	 * @return string
 	 */
 	public function form( $instance, $args = [] ) {
 		$form_fields = $this->get_field_options( $args['form']->id );
@@ -60,6 +61,13 @@ class PaymentAction extends FrmFormAction {
 		$payment_action = $this;
 
 		include __DIR__ . '/../views/payment-settings.php';
+
+		/**
+		 * This method should return a string, but the view is outputting the form directly. Return an empty string to prevent warnings.
+		 *
+		 * @link https://plugins.trac.wordpress.org/browser/formidable/tags/6.24/classes/models/FrmFormAction.php#L87
+		 */
+		return '';
 	}
 
 	/**
