@@ -24,7 +24,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * @since 1.0.0
  */
 
-$callback_text_field = function ( $field ) use ( $instance, $payment_action ) {
+$callback_text_field = function ( $field ) use ( $instance, $payment_action ): void {
 	$id = $field['id'];
 
 	$current = '';
@@ -45,7 +45,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_amount_field',
 		'label'    => __( 'Amount', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ) {
+		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ): void {
 			$id = $field['id'];
 
 			$current = '';
@@ -82,7 +82,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_payment_method_field',
 		'label'    => __( 'Payment method', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ) {
+		'callback' => function ( $field ) use ( $form_fields, $instance, $payment_action ): void {
 			$id = $field['id'];
 
 			$current = '';
@@ -123,7 +123,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_config_id',
 		'label'    => __( 'Payment Gateway Configuration', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance, $payment_action ) {
+		'callback' => function ( $field ) use ( $instance, $payment_action ): void {
 			$id = $field['id'];
 
 			$current = '';
@@ -168,7 +168,7 @@ $fields = [
 	[
 		'id'       => 'pronamic_pay_delay_notifications',
 		'label'    => __( 'Notifications', 'pronamic_ideal' ),
-		'callback' => function ( $field ) use ( $instance, $payment_action ) {
+		'callback' => function ( $field ) use ( $instance, $payment_action ): void {
 			$id = $field['id'];
 
 			$current = '';
