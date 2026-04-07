@@ -43,31 +43,31 @@ class PaymentMethodSelectFieldType {
 	 */
 	public function __construct() {
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmField.php#L10-L23
-		add_filter( 'frm_available_fields', [ $this, 'available_fields' ] );
+		add_filter( 'frm_available_fields', $this->available_fields( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFieldsController.php#L74
-		add_filter( 'frm_before_field_created', [ $this, 'before_field_created' ] );
+		add_filter( 'frm_before_field_created', $this->before_field_created( ... ) );
 
 		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-save-field-options
-		add_filter( 'frm_update_field_options', [ $this, 'update_field_options' ], 10, 3 );
+		add_filter( 'frm_update_field_options', $this->update_field_options( ... ), 10, 3 );
 
 		// @link https://formidableforms.com/knowledgebase/frm_setup_edit_fields_vars/
-		add_filter( 'frm_setup_edit_fields_vars', [ $this, 'edit_fields_vars' ], 10, 1 );
+		add_filter( 'frm_setup_edit_fields_vars', $this->edit_fields_vars( ... ), 10, 1 );
 
-		add_filter( 'frm_switch_field_types', [ $this, 'switch_field_types' ], 10, 2 );
+		add_filter( 'frm_switch_field_types', $this->switch_field_types( ... ), 10, 2 );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/show-build.php#L64
-		add_action( 'frm_display_added_fields', [ $this, 'display_added_fields' ] );
+		add_action( 'frm_display_added_fields', $this->display_added_fields( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/views/frm-fields/input.php#L171
-		add_action( 'frm_form_fields', [ $this, 'form_fields' ] );
+		add_action( 'frm_form_fields', $this->form_fields( ... ) );
 
 		// @link https://formidableforms.com/knowledgebase/add-a-new-field/#kb-modify-value-displayed-when-viewing-entry
-		add_filter( 'frm_display_' . self::ID . '_value_custom', [ $this, 'display_field_value' ] );
+		add_filter( 'frm_display_' . self::ID . '_value_custom', $this->display_field_value( ... ) );
 
-		add_filter( 'frm_bulk_field_choices', [ $this, 'bulk_field_choices' ] );
+		add_filter( 'frm_bulk_field_choices', $this->bulk_field_choices( ... ) );
 
-		add_action( 'wp_ajax_frm_import_options', [ $this, 'import_options' ], 9 );
+		add_action( 'wp_ajax_frm_import_options', $this->import_options( ... ), 9 );
 	}
 
 	/**
@@ -261,7 +261,7 @@ class PaymentMethodSelectFieldType {
 		}
 
 		// Read only.
-		$read_only = isset( $field['read_only'] ) ? $field['read_only'] : false;
+		$read_only = $field['read_only'] ?? false;
 
 		require \FrmAppHelper::plugin_path() . '/classes/views/frm-fields/front-end/dropdown-field.php';
 	}
@@ -344,10 +344,10 @@ class PaymentMethodSelectFieldType {
 
 		$options = FrmAppHelper::get_param( 'opts', '', 'post', 'wp_kses_post' );
 		$options = explode( "\n", rtrim( $options, "\n" ) );
-		$options = array_map( 'trim', $options );
+		$options = array_map( trim( ... ), $options );
 
 		foreach ( $options as $option_key => $option ) {
-			if ( false === strpos( $option, '|' ) ) {
+			if ( ! str_contains( $option, '|' ) ) {
 				continue;
 			}
 
@@ -402,7 +402,7 @@ class PaymentMethodSelectFieldType {
 			}
 
 			return $result;
-		} catch ( \Exception $e ) {
+		} catch ( \Exception ) {
 			return [];
 		}
 	}

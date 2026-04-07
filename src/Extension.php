@@ -72,33 +72,33 @@ class Extension extends AbstractPluginIntegration {
 	 * @return void
 	 */
 	public function setup() {
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, [ $this, 'source_text' ], 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, [ $this, 'source_description' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, $this->source_text( ... ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, $this->source_description( ... ), 10, 2 );
 
 		// Check if dependencies are met and integration is active.
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, [ $this, 'update_status' ], 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, [ $this, 'source_url' ], 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, $this->update_status( ... ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, $this->source_url( ... ), 10, 2 );
 
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', $this->admin_enqueue_scripts( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L39-L57
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentSettingsController.php#L11
-		add_action( 'frm_registered_form_actions', [ $this, 'registered_form_actions' ] );
+		add_action( 'frm_registered_form_actions', $this->registered_form_actions( ... ) );
 
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/controllers/FrmFormActionsController.php#L299-L308
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L28-L29
-		add_action( 'frm_trigger_pronamic_pay_create_action', [ $this, 'create_action' ], 10, 3 );
+		add_action( 'frm_trigger_pronamic_pay_create_action', $this->create_action( ... ), 10, 3 );
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.06/controllers/FrmPaymentSettingsController.php#L15-L19
-		add_filter( 'frm_action_triggers', [ $this, 'add_payment_trigger' ] );
-		add_filter( 'frm_email_action_options', [ $this, 'add_trigger_to_action' ] );
-		add_filter( 'frm_twilio_action_options', [ $this, 'add_trigger_to_action' ] );
-		add_filter( 'frm_mailchimp_action_options', [ $this, 'add_trigger_to_action' ] );
-		add_filter( 'frm_register_action_options', [ $this, 'add_payment_trigger_to_register_user_action' ] );
+		add_filter( 'frm_action_triggers', $this->add_payment_trigger( ... ) );
+		add_filter( 'frm_email_action_options', $this->add_trigger_to_action( ... ) );
+		add_filter( 'frm_twilio_action_options', $this->add_trigger_to_action( ... ) );
+		add_filter( 'frm_mailchimp_action_options', $this->add_trigger_to_action( ... ) );
+		add_filter( 'frm_register_action_options', $this->add_payment_trigger_to_register_user_action( ... ) );
 
 		// Field types.
 		new BankSelectFieldType();
@@ -189,7 +189,7 @@ class Extension extends AbstractPluginIntegration {
 					$action = $form_actions[ $action_id ];
 
 					if ( isset( $action->post_content['pronamic_pay_delay_notifications'] ) ) {
-						$this->send_email_now( $entry );
+						static::send_email_now( $entry );
 					}
 				}
 
@@ -222,7 +222,7 @@ class Extension extends AbstractPluginIntegration {
 
 		// Check if redirect success URL should be used.
 		if ( 'redirect' === $form->options['success_action'] ) {
-			$success_url = \trim( $form->options['success_url'] );
+			$success_url = \trim( (string) $form->options['success_url'] );
 
 			$success_url = \apply_filters( 'frm_content', $success_url, $form, $entry_id );
 
@@ -340,13 +340,13 @@ class Extension extends AbstractPluginIntegration {
 
 		// @link https://github.com/wp-premium/formidable-paypal/blob/3.02/controllers/FrmPaymentsController.php#L268-L269
 		// @link https://github.com/wp-premium/formidable/blob/2.0.21/classes/models/FrmEntry.php#L698-L711
-		add_action( 'frm_after_create_entry', [ $this, 'redirect_for_payment' ], 50, 2 );
+		add_action( 'frm_after_create_entry', $this->redirect_for_payment( ... ), 50, 2 );
 
 		// Delay notifications.
 		if ( ! self::$send_email_now && isset( $action->post_content['pronamic_pay_delay_notifications'] ) && 'on' === $action->post_content['pronamic_pay_delay_notifications'] ) {
 			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10 );
 			add_filter( 'frm_to_email', '__return_empty_array', 20 );
-			add_filter( 'frm_send_new_user_notification', [ __CLASS__, 'stop_registration_email' ], 10, 3 );
+			add_filter( 'frm_send_new_user_notification', self::stop_registration_email( ... ), 10, 3 );
 		}
 	}
 
@@ -455,9 +455,7 @@ class Extension extends AbstractPluginIntegration {
 			 */
 			\add_filter(
 				'frm_success_filter',
-				function ( $method, $form ) {
-					return 'message';
-				},
+				fn( $method, $form ) => 'message',
 				10,
 				2
 			);
