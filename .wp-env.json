@@ -6,7 +6,7 @@
 	"plugins": [
 		"pronamic/wp-env-quick-login",
 		"pronamic/wp-pronamic-pay-test-helper",
-		"https://downloads.wordpress.org/plugin/formidable.6.24.zip",
+		"https://downloads.wordpress.org/plugin/formidable.6.29.zip",
 		"https://downloads.wordpress.org/plugin/one-time-login.zip",
 		"https://downloads.wordpress.org/plugin/pronamic-client.zip",
 		"https://downloads.wordpress.org/plugin/pronamic-ideal.zip",

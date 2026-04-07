@@ -73,7 +73,7 @@
 		"szepeviktor/phpstan-wordpress": "^2.0",
 		"vimeo/psalm": "^5.26",
 		"wp-phpunit/wp-phpunit": "^6.9",
-		"wpackagist-plugin/formidable": "^6.24",
+		"wpackagist-plugin/formidable": "^6.29",
 		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"scripts": {
