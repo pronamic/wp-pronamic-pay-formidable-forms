@@ -527,9 +527,9 @@ class Extension extends AbstractPluginIntegration {
 		}
 
 		// Trigger registration email.
-		if ( is_callable( 'FrmRegNotification::send_paid_user_notification' ) ) {
+		if ( \class_exists( FrmRegNotification::class ) && \method_exists( FrmRegNotification::class, 'send_paid_user_notification' ) ) {
 			FrmRegNotification::send_paid_user_notification( $entry );
-		} elseif ( is_callable( 'FrmRegAppController::send_paid_user_notification' ) ) {
+		} elseif ( \class_exists( FrmRegAppController::class ) && \method_exists( FrmRegAppController::class, 'send_paid_user_notification' ) ) {
 			FrmRegAppController::send_paid_user_notification( $entry );
 		}
 	}
