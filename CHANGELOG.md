@@ -7,6 +7,35 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.5.0] - 2026-05-13
+
+### Added
+
+- Added namespace declaration and strict types to improve code quality.
+- Added automattic/jetpack-autoloader dependency for better plugin compatibility.
+- Added Rector configuration with PHP sets for automated code modernization.
+- Added void return types to callback functions.
+- Registered form action via filter hook for improved extensibility.
+
+### Changed
+
+- Use `class_exists()` and `method_exists()` for runtime checks instead of direct calls.
+- Updated to use global namespace for WordPress hook functions.
+- Use `::class` constant for class references in form action registration.
+- Bumped wp-pay/core requirement to `^4.32`.
+- Bumped Formidable plugin requirement to `^6.24` (now at 6.29).
+- Bumped copyright years to 2005-2026.
+
+### Fixed
+
+- Removed legacy FrmProNotification call.
+- Fixed PHPStan warnings and lowered analysis level for better development experience.
+- Fixed form() method to return empty string instead of void, silencing warnings.
+
+Full set of changes: [`4.4.4...4.5.0`][4.5.0]
+
+[4.5.0]: https://github.com/pronamic/wp-pronamic-pay-formidable-forms/compare/v4.4.4...v4.5.0
+
 ## [4.4.4] - 2025-11-11
 
 ### Commits
